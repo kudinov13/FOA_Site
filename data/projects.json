@@ -1,0 +1,137 @@
+[
+  {
+    "id": "gossip",
+    "title": "GOSSIP",
+    "category": "Коммерческие интерьеры",
+    "description": "Неоновая роспись для бара GOSSIP. Яркий стрит-арт стал главным украшением интерьера и точкой притяжения для гостей — фотозона, которая работает на заведение каждый вечер.",
+    "cover": "refs_final/07_gossip_neon_mural.jpg",
+    "photos": [
+      "refs_final/07_gossip_neon_mural.jpg",
+      "refs_pdf/p10_x339_819x1010.png",
+      "refs_pdf/p10_x344_815x1010.png",
+      "refs_pdf/p10_x349_814x1010.png",
+      "refs_pdf/p11_x364_819x1010.png",
+      "refs_pdf/p11_x366_817x1010.png"
+    ]
+  },
+  {
+    "id": "pusk",
+    "title": "PUSK",
+    "category": "Роспись пространств",
+    "description": "Авторская роспись для проекта PUSK. Масштабная графика задаёт характер пространства и работает как самостоятельный арт-объект.",
+    "cover": "refs_pdf/p14_x408_737x982.png",
+    "photos": [
+      "refs_pdf/p14_x408_737x982.png",
+      "refs_pdf/p14_x413_737x982.png",
+      "refs_pdf/p14_x418_761x1015.png"
+    ]
+  },
+  {
+    "id": "paragon",
+    "title": "Paragon Arena",
+    "category": "Спортивные объекты",
+    "description": "Монументальная роспись в тёплой охристой гамме для спортивной арены Paragon. Динамичные фигуры поддерживают энергию тренировочного пространства.",
+    "cover": "refs_final/05_paragon_gym_orange.jpg",
+    "photos": [
+      "refs_final/05_paragon_gym_orange.jpg",
+      "refs_pdf/p26_x578_1000x750.png",
+      "refs_pdf/p26_x583_750x1000.png",
+      "refs_pdf/p26_x588_854x1280.png"
+    ]
+  },
+  {
+    "id": "greeneva",
+    "title": "Green Eva",
+    "category": "Фасады и экстерьер",
+    "description": "Роспись для проекта Green Eva. Живая растительная графика соединяет архитектуру и природную тематику бренда.",
+    "cover": "refs_pdf/p41_x750_1280x960.png",
+    "photos": [
+      "refs_pdf/p41_x750_1280x960.png",
+      "refs_pdf/p41_x752_761x1015.png",
+      "refs_pdf/p42_x761_758x1010.png",
+      "refs_pdf/p42_x763_737x982.png"
+    ]
+  },
+  {
+    "id": "minstroy",
+    "title": "Минстрой России",
+    "category": "Фасады и экстерьер",
+    "description": "Монументальный фасад с космонавтом для Минстроя России. Одна из самых заметных работ дуэта — портрет в мозаичной технике на высоте нескольких этажей.",
+    "cover": "refs_final/06_minstroy_astronaut_facade.jpg",
+    "photos": [
+      "refs_final/06_minstroy_astronaut_facade.jpg",
+      "refs_pdf/p44_x781_758x967.png",
+      "refs_pdf/p44_x783_758x1010.png",
+      "refs_pdf/p45_x790_758x1010.png",
+      "refs_pdf/p45_x792_1280x960.png",
+      "refs_pdf/p46_x806_1280x705.png",
+      "refs_pdf/p47_x812_1015x1015.png"
+    ]
+  },
+  {
+    "id": "molodezh",
+    "title": "Молодёжь Москвы",
+    "category": "Арт-объекты",
+    "description": "Серия расписанных статуй для фестиваля «Молодёжь Москвы». Каждый арт-объект получил собственный характер — цветные потёки, графика и фирменный почерк дуэта.",
+    "cover": "refs_final/10_statue_red_artobject.jpg",
+    "photos": [
+      "refs_final/10_statue_red_artobject.jpg",
+      "refs_pdf/p77_x1117_1280x938.png",
+      "refs_pdf/p77_x1122_589x982.png",
+      "refs_pdf/p77_x1124_589x982.png",
+      "refs_pdf/p78_x1133_553x982.png",
+      "refs_pdf/p78_x1135_589x982.png",
+      "refs_pdf/p78_x1142_589x982.png"
+    ]
+  },
+  {
+    "id": "promtehgaz",
+    "title": "ПРОМТЕХГАЗ",
+    "category": "Офисы и производство",
+    "description": "Чёрно-белая монументальная роспись с горным пейзажем для ПРОМТЕХГАЗ. Сдержанная графика поддерживает характер индустриального бренда.",
+    "cover": "refs_final/08_promtehgaz_bw_mountains.jpg",
+    "photos": [
+      "refs_final/08_promtehgaz_bw_mountains.jpg",
+      "refs_pdf/p50_x834_1280x960.png"
+    ]
+  },
+  {
+    "id": "cifrus",
+    "title": "Цифрус",
+    "category": "Коммерческие интерьеры",
+    "description": "Граффити-коридор в кислотных зелёно-фиолетовых тонах для сервисного центра «Цифрус». Персонаж с инструментами — метафора мастеров своего дела.",
+    "cover": "refs_final/cifrus_full.jpg",
+    "photos": [
+      "refs_final/cifrus_full.jpg",
+      "refs_pdf/p19_x488_1567x982.png",
+      "refs_pdf/p19_x493_786x982.png",
+      "refs_pdf/p20_x502_786x982.png",
+      "refs_pdf/p20_x507_1572x983.png"
+    ]
+  },
+  {
+    "id": "pilatius",
+    "title": "PilatiUS",
+    "category": "Спортивные объекты",
+    "description": "Роспись клуба персонального тренинга PilatiUS: гигантская охристая фигура, обнимающая маленьких героев, — символ заботы тренера о каждом клиенте.",
+    "cover": "refs_final/pilatius_wide.png",
+    "photos": [
+      "refs_final/pilatius_wide.png",
+      "refs_final/pilatius_detail.png",
+      "refs_final/pilatius_angle.png",
+      "refs_pdf/p25_x562_737x982.png",
+      "refs_pdf/p25_x567_737x982.png",
+      "refs_pdf/p25_x569_786x982.png"
+    ]
+  },
+  {
+    "id": "epic",
+    "title": "DO EPIC SHIT",
+    "category": "Коммерческие интерьеры",
+    "description": "Характерная надпись-манифест в коридоре коммерческого пространства. Типографика как часть архитектуры — простое сообщение, которое заряжает каждый день.",
+    "cover": "refs_final/09_do_epic_shit_corridor.jpg",
+    "photos": [
+      "refs_final/09_do_epic_shit_corridor.jpg"
+    ]
+  }
+]

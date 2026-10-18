@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOA — Админка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=61">
+<style>
+  .admin { min-height: 70vh; display: flex; align-items: flex-start; }
+  .admin__box { max-width: 460px; margin: 8vh auto; width: 100%; }
+  .admin__title { font-family: var(--anton); font-size: 42px; text-transform: uppercase; margin-bottom: 24px; }
+  .field { display: block; margin-bottom: 14px; }
+  .field span { display: block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-60); margin-bottom: 6px; }
+  .field input, .field textarea {
+    width: 100%; padding: 13px 14px; font: 500 15px var(--grot);
+    background: transparent; border: 2px solid rgba(23,19,14,.55); border-radius: 0; color: var(--ink);
+  }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--orange); }
+  .field textarea { min-height: 90px; resize: vertical; }
+  .admin__error { color: var(--orange); font-weight: 700; font-size: 14px; margin: 10px 0 0; min-height: 18px; }
+  .admin__panel { max-width: 1100px; margin: 0 auto; padding: 40px var(--pad) 80px; }
+  .admin__panel-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 34px; }
+  .admin__form { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; max-width: 900px; }
+  .admin__form .field--full { grid-column: 1 / -1; }
+  .admin__photos { display: flex; flex-wrap: wrap; gap: 14px; margin: 14px 0 22px; }
+  .admin__thumb { position: relative; width: 110px; height: 110px; border: 2px solid rgba(23,19,14,.55); cursor: pointer; overflow: hidden; }
+  .admin__thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .admin__thumb.is-cover { border-color: var(--orange); border-width: 3px; }
+  .admin__thumb.is-cover::after {
+    content: 'ОБЛОЖКА'; position: absolute; left: 0; right: 0; bottom: 0;
+    background: var(--orange); color: var(--ink); font: 700 10px/22px var(--grot);
+    text-align: center; letter-spacing: .08em;
+  }
+  .admin__thumb-x { position: absolute; top: 2px; right: 2px; width: 22px; height: 22px; background: var(--ink); color: var(--paper); border: none; font-size: 14px; cursor: pointer; }
+  .admin__hint { font-size: 13px; color: var(--ink-60); margin-bottom: 8px; }
+  .admin__list { margin-top: 48px; border-top: 2px solid rgba(23,19,14,.45); padding-top: 24px; }
+  .admin__row { display: flex; align-items: center; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--ink-30); }
+  .admin__row img { width: 56px; height: 56px; object-fit: cover; }
+  .admin__row-title { font-weight: 700; }
+  .admin__row-cat { font-size: 13px; color: var(--ink-60); }
+  .admin__row-del { margin-left: auto; background: none; border: 2px solid rgba(23,19,14,.55); padding: 6px 14px; font: 700 12px var(--grot); cursor: pointer; }
+  .admin__row-del:hover { border-color: var(--orange); color: var(--orange); }
+  @media (max-width: 700px) { .admin__form { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header__inner">
+    <a href="index.html" class="logo">FOA</a>
+    <nav class="nav">
+      <a href="index.html">← НА САЙТ</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== LOGIN ===== -->
+<section class="admin" id="loginView">
+  <form class="admin__box" id="loginForm">
+    <h1 class="admin__title">Вход для своих</h1>
+    <label class="field"><span>Логин</span><input type="text" id="loginUser" autocomplete="username" required></label>
+    <label class="field"><span>Пароль</span><input type="password" id="loginPass" autocomplete="current-password" required></label>
+    <button class="btn btn--dark" type="submit" style="width:100%">Войти →</button>
+    <p class="admin__error" id="loginError"></p>
+  </form>
+</section>
+
+<!-- ===== PANEL ===== -->
+<section class="admin__panel" id="panelView" hidden>
+  <div class="admin__panel-head">
+    <h1 class="admin__title" style="margin:0">Проекты</h1>
+    <div style="display:flex;gap:12px">
+      <a href="index.html" class="btn btn--dark" style="font-size:13px">На сайт</a>
+      <button class="btn btn--dark" id="logoutBtn" style="font-size:13px">Выйти</button>
+    </div>
+  </div>
+
+  <form class="admin__form" id="projectForm">
+    <label class="field"><span>Название</span><input type="text" id="pTitle" required placeholder="Например: GOSSIP"></label>
+    <label class="field"><span>Категория</span><input type="text" id="pCat" required placeholder="Например: Коммерческие интерьеры"></label>
+    <label class="field field--full"><span>Описание</span><textarea id="pDesc" required placeholder="Пара предложений о проекте"></textarea></label>
+    <div class="field field--full">
+      <span>Фотографии (можно несколько — первую отметь обложкой кликом)</span>
+      <input type="file" id="pPhotos" accept="image/*" multiple>
+      <p class="admin__hint">Клик по фото = сделать обложкой. На сервере фото автоматически конвертируются в WebP до 1600px.</p>
+      <div class="admin__photos" id="photoList"></div>
+    </div>
+    <div class="field--full">
+      <button class="btn btn--orange" type="submit">Добавить проект →</button>
+      <span class="admin__error" id="formMsg"></span>
+    </div>
+  </form>
+
+  <div class="admin__list">
+    <h2 class="admin__title" style="font-size:26px">Все проекты</h2>
+    <div id="projList"></div>
+  </div>
+</section>
+
+<script src="js/store.js"></script>
+<script>
+(async function () {
+  var loginView = document.getElementById('loginView');
+  var panelView = document.getElementById('panelView');
+
+  function showPanel() { loginView.hidden = true; panelView.hidden = false; renderList(); }
+
+  var me = await fetch('/api/me').then(r => r.json()).catch(() => ({ admin: false }));
+  if (me.admin) showPanel();
+
+  document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var r = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        login: document.getElementById('loginUser').value.trim(),
+        password: document.getElementById('loginPass').value
+      })
+    });
+    if (r.ok) showPanel();
+    else document.getElementById('loginError').textContent = 'Неверный логин или пароль';
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', async function () {
+    await fetch('/api/logout', { method: 'POST' });
+    location.reload();
+  });
+
+  /* ---------- фото: превью + выбор обложки ---------- */
+  var photos = []; // {file, url, isCover}
+  var photoList = document.getElementById('photoList');
+
+  document.getElementById('pPhotos').addEventListener('change', function (e) {
+    Array.from(e.target.files).forEach(function (f) {
+      photos.push({ file: f, url: URL.createObjectURL(f), isCover: photos.length === 0 });
+    });
+    renderPhotos();
+    e.target.value = '';
+  });
+
+  function renderPhotos() {
+    photoList.innerHTML = '';
+    photos.forEach(function (ph, i) {
+      var d = document.createElement('div');
+      d.className = 'admin__thumb' + (ph.isCover ? ' is-cover' : '');
+      d.innerHTML = '<img src="' + ph.url + '"><button type="button" class="admin__thumb-x">×</button>';
+      d.addEventListener('click', function (e) {
+        if (e.target.classList.contains('admin__thumb-x')) {
+          URL.revokeObjectURL(ph.url);
+          photos.splice(i, 1);
+          if (photos.length && !photos.some(p => p.isCover)) photos[0].isCover = true;
+        } else {
+          photos.forEach(p => p.isCover = false);
+          ph.isCover = true;
+        }
+        renderPhotos();
+      });
+      photoList.appendChild(d);
+    });
+  }
+
+  /* ---------- добавление ---------- */
+  document.getElementById('projectForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var msg = document.getElementById('formMsg');
+    if (!photos.length) { msg.textContent = 'Добавь хотя бы одно фото'; return; }
+
+    var fd = new FormData();
+    fd.append('title', document.getElementById('pTitle').value.trim());
+    fd.append('category', document.getElementById('pCat').value.trim());
+    fd.append('description', document.getElementById('pDesc').value.trim());
+    fd.append('cover_index', photos.findIndex(p => p.isCover));
+    photos.forEach(p => fd.append('photos', p.file, p.file.name));
+
+    var r = await fetch('/api/projects', { method: 'POST', body: fd });
+    if (!r.ok) { msg.textContent = 'Ошибка загрузки'; return; }
+
+    photos.forEach(p => URL.revokeObjectURL(p.url));
+    photos = []; renderPhotos();
+    e.target.reset();
+    msg.textContent = 'Добавлено! Фото сконвертированы в WebP.';
+    FOAStore.invalidate();
+    renderList();
+  });
+
+  /* ---------- список ---------- */
+  async function renderList() {
+    var list = document.getElementById('projList');
+    list.innerHTML = '';
+    var projects = await FOAStore.all();
+    projects.forEach(function (p) {
+      var row = document.createElement('div');
+      row.className = 'admin__row';
+      row.innerHTML =
+        '<img src="' + p.cover + '" alt="">' +
+        '<div><div class="admin__row-title">' + p.title + '</div>' +
+        '<div class="admin__row-cat">' + p.category + ' · фото: ' + p.photos.length + '</div></div>' +
+        '<button class="admin__row-del" data-id="' + p.id + '">Удалить</button>';
+      list.appendChild(row);
+    });
+  }
+  document.getElementById('projList').addEventListener('click', async function (e) {
+    var btn = e.target.closest('.admin__row-del');
+    if (btn && confirm('Удалить проект «' + btn.dataset.id + '»?')) {
+      await fetch('/api/projects/' + btn.dataset.id, { method: 'DELETE' });
+      FOAStore.invalidate();
+      renderList();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

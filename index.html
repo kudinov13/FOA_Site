@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOA — Family of Artists</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=61">
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="header">
+  <div class="header__inner">
+    <a href="#" class="logo">FOA</a>
+    <nav class="nav">
+      <a href="#projects">ПРОЕКТЫ</a>
+      <a href="#about">О НАС</a>
+      <a href="#services">УСЛУГИ</a>
+      <a href="#contacts">КОНТАКТЫ</a>
+    </nav>
+    <a href="#cta" class="btn btn--orange">Обсудить проект</a>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero__inner">
+
+    <div class="hero__left">
+      <h1 class="hero__title">
+        ИСКУССТВО,<br>КОТОРОЕ<br><span class="accent">МЕНЯЕТ<br>ПРОСТРАНСТВО</span>
+      </h1>
+      <p class="hero__text">
+        Семейная команда художников и граффити-артистов.
+        Мы создаём крупномасштабные росписи, арт-объекты
+        и превращаем пространства в живые истории.
+      </p>
+      <div class="hero__meta">
+        <span class="hero__city">МОСКВА</span><span class="hero__geo">/ WORLDWIDE</span>
+      </div>
+      <div class="hero__scroll">
+        <svg width="14" height="18" viewBox="0 0 14 18" fill="none"><path d="M7 1v15M1.5 11L7 16.5 12.5 11" stroke="currentColor" stroke-width="2"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__collage">
+    <picture>
+      <source srcset="Photo/HeroMobile.png" media="(max-width: 760px)">
+      <img class="hero__background" src="Photo/Hero2.png" alt="Коллаж работ FOA: роспись стен, мурал, арт-объект">
+    </picture>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section class="projects" id="projects">
+  <div class="section__inner">
+    <div class="section__head">
+      <h2 class="h-giant">ПРОЕКТЫ</h2>
+      <span class="section__head-line"></span>
+      <a href="projects.html" class="link-more">Смотреть все проекты →</a>
+    </div>
+
+    <div class="projects__grid">
+      <a href="project.html?id=pilatius" class="project-card">
+        <div class="project-card__img"><img src="Photo/Hero_PilatiUS.jpeg" alt="Роспись пространств — мурал в клубе PilatiUS"></div>
+        <div class="project-card__meta">
+          <span class="project-card__name">Роспись пространств</span>
+          <span class="project-card__index">01 / 04</span>
+        </div>
+      </a>
+      <a href="project.html?id=cifrus" class="project-card">
+        <div class="project-card__img"><img src="Photo/hero_cifrus.png" alt="Коммерческие интерьеры — мурал Цифрус"></div>
+        <div class="project-card__meta">
+          <span class="project-card__name">Коммерческие интерьеры</span>
+          <span class="project-card__index">02 / 04</span>
+        </div>
+      </a>
+      <a href="project.html?id=molodezh" class="project-card">
+        <div class="project-card__img"><img src="Photo/Hero_Bear.png" alt="Арт-объекты — расписанный арт-объект Мишка"></div>
+        <div class="project-card__meta">
+          <span class="project-card__name">Арт-объекты</span>
+          <span class="project-card__index">03 / 04</span>
+        </div>
+      </a>
+      <a href="projects.html" class="project-card project-card--cta">
+        <span class="project-card--cta__logo">FOA</span>
+        <span class="project-card--cta__title">ПРОЕКТЫ<br>КОТОРЫЕ<br>ВДОХНОВЛЯЮТ</span>
+        <span class="project-card--cta__foot">
+          <span>04 / 04</span>
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M7 27L27 7M27 7H11M27 7v16" stroke="currentColor" stroke-width="3"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="services" id="services">
+  <div class="section__inner">
+    <p class="label">— НАШИ УСЛУГИ</p>
+    <div class="services__row">
+      <div class="services__head">
+        <h2 class="h-giant">ЧТО МЫ<br><span class="accent">ДЕЛАЕМ</span></h2>
+      </div>
+
+      <div class="services__grid">
+      <div class="service">
+        <span class="service__num">01</span>
+        <h3 class="service__title">Роспись стен</h3>
+        <p class="service__text">Интерьеры, фасады, общественные пространства.</p>
+      </div>
+      <div class="service">
+        <span class="service__num">02</span>
+        <h3 class="service__title">Граффити</h3>
+        <p class="service__text">Яркие решения для брендов, пространств и событий.</p>
+      </div>
+      <div class="service">
+        <span class="service__num">03</span>
+        <h3 class="service__title">Арт-объекты</h3>
+        <p class="service__text">Уникальные объекты в разных материалах и техниках.</p>
+      </div>
+      <div class="service">
+        <span class="service__num">04</span>
+        <h3 class="service__title">Оформление пространств</h3>
+        <p class="service__text">Комплексные проекты от идеи до реализации.</p>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="about" id="about">
+  <div class="section__inner about__inner">
+    <div class="about__photo">
+      <img src="refs_final/01_duet_bw.jpg" alt="Алина и Виталий — дуэт Family of Artists">
+    </div>
+    <div class="about__content">
+      <h2 class="h-big">ДВА ХУДОЖНИКА.<br><span class="accent">ОДИН ПОЧЁРК.</span></h2>
+      <p class="about__text">
+        Мы — семья художников. Два взгляда, два характера, одна философия.
+        В каждом проекте — наш опыт, энергия и любовь к тому, что мы делаем.
+      </p>
+      <div class="about__foot">
+        <span class="about__caption">FOA / FAMILY OF ARTISTS</span>
+      </div>
+      <img class="about__scribble" src="Photo/OrangeBlock.png" alt="" aria-hidden="true">
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta" id="cta">
+  <div class="cta__inner">
+   <div class="cta__band">
+    <div class="cta__left">
+      <h2 class="cta__title">СОЗДАДИМ РОСПИСЬ<br>ДЛЯ ВАШЕГО ПРОСТРАНСТВА</h2>
+      <a href="#contacts" class="btn btn--dark">Обсудить проект&nbsp;&nbsp;→</a>
+    </div>
+    <div class="cta__photo">
+      <img src="refs_final/05_paragon_gym_orange.jpg" alt="Художники за работой — мурал Paragon Arena">
+    </div>
+    <p class="cta__note">от концепции<br>до реализации —<br>в любой точке мира</p>
+   </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer" id="contacts">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <span class="footer__logo" data-admin-trigger>FOA</span>
+      <span class="footer__sub">FAMILY OF ARTISTS</span>
+    </div>
+    <div class="footer__links">
+      <a href="#">Instagram</a>
+      <a href="mailto:hello@foa.art">hello@foa.art</a>
+    </div>
+    <div class="footer__geo">
+      <span class="footer__city">Москва <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="2"/></svg></span>
+      <span class="footer__geo-sub">работаем по всему миру</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/store.js"></script>
+<script src="js/site.js"></script>
+
+</body>
+</html>
