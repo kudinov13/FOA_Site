@@ -687,7 +687,7 @@ html, body { overflow-x: clip; }
 }
 .svc__btn { margin-top: clamp(20px, 2.2vw, 32px); align-self: flex-start; }
 .svc__list { margin-top: clamp(20px, 2.5vw, 36px); }
-.services .svc__block:first-of-type { margin-top: clamp(32px, 4vw, 64px); }
+.services .svc__block:first-of-type { border-top: none; padding-top: 0; }
 .svc__block-title {
   font-family: var(--anton);
   font-size: clamp(28px, 3vw, 48px);
