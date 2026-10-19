@@ -673,11 +673,17 @@ html, body { overflow-x: clip; }
 .svc__block--rev .svc__side { order: 2; }
 .svc__block--rev .svc__main { order: 1; }
 .svc__side { display: flex; flex-direction: column; }
+.svc__side .service__num { color: var(--orange); }
 .svc__main { display: flex; flex-direction: column; }
 .svc__photo {
-  border: 2px solid rgba(23,19,14,.55);
   aspect-ratio: 16 / 10;
   overflow: hidden;
+  clip-path: polygon(
+    2% 4%, 8% 1%, 22% 3%, 38% 0%, 55% 2%, 70% 0%, 86% 3%, 97% 1%,
+    99% 12%, 98% 30%, 100% 48%, 97% 66%, 99% 82%, 96% 95%, 82% 98%,
+    65% 96%, 48% 99%, 32% 97%, 16% 100%, 4% 96%, 0% 80%, 1% 60%,
+    0% 40%, 2% 20%
+  );
 }
 .svc__btn { margin-top: clamp(20px, 2.2vw, 32px); align-self: flex-start; }
 .svc__list { margin-top: clamp(20px, 2.5vw, 36px); }
