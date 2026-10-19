@@ -756,7 +756,6 @@ html, body { overflow-x: clip; }
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(20px, 3vw, 48px);
   margin-top: clamp(24px, 3vw, 44px);
-  text-align: center;
 }
 .svc__principle-num {
   display: block;
@@ -769,7 +768,7 @@ html, body { overflow-x: clip; }
   font-size: clamp(14px, 1.15vw, 17px);
   font-weight: 500;
   line-height: 1.5;
-  margin: 0 auto;
+  margin: 0;
   max-width: 300px;
 }
 .svc__principle + .svc__principle {
