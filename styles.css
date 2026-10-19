@@ -692,8 +692,8 @@ html, body { overflow-x: clip; }
 }
 .svc__btn { margin-top: clamp(20px, 2.2vw, 32px); align-self: flex-start; }
 .svc__list { margin-top: clamp(20px, 2.5vw, 36px); }
-.services .svc__block:first-of-type { border-top: none; padding-top: 0; }
-.services .svc__block:first-of-type .svc__main {
+.svc__block--first { border-top: none; padding-top: 0; }
+.svc__block--first .svc__main {
   margin-top: clamp(90px, 9vw, 150px);
   margin-bottom: calc(-1 * clamp(60px, 7vw, 110px));
   position: relative;
