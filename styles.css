@@ -821,7 +821,7 @@ html, body { overflow-x: clip; }
   .svc__block--rev .svc__side { order: 1; }
   .svc__block--rev .svc__main { order: 2; }
   .svc__main, .svc__block--first .svc__main { margin-top: 0; margin-bottom: 0; }
-  .svc__block--rev .svc__main { margin-top: -22px; }
+  .svc__block--rev .svc__main { margin-top: -52px; }
   .svc__block--rev .svc__list, .svc__block--first .svc__list { margin-top: 16px; }
   .svc__block--rev .svc__list { margin-top: -14px; }
 
