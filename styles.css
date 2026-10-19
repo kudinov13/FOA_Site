@@ -677,6 +677,7 @@ html, body { overflow-x: clip; }
 }
 .svc__btn { margin-top: 8px; }
 .svc__list li:has(.svc__btn) { border-bottom: none; padding-top: 24px; }
+.services .svc__block:first-of-type { margin-top: clamp(32px, 4vw, 64px); }
 .svc__block-title {
   font-family: var(--anton);
   font-size: clamp(28px, 3vw, 48px);
