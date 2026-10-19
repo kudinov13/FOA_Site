@@ -823,7 +823,7 @@ html, body { overflow-x: clip; }
   .svc__main, .svc__block--first .svc__main { margin-top: 0; margin-bottom: 0; }
   .svc__block--rev .svc__main { margin-top: -52px; }
   .svc__block--rev .svc__list, .svc__block--first .svc__list { margin-top: 16px; }
-  .svc__block--rev .svc__list { margin-top: -14px; }
+  .svc__block--rev .svc__list { margin-top: -42px; }
 
   .svc__principles-grid { grid-template-columns: 1fr; }
   .svc__principle + .svc__principle { border-left: none; padding-left: 0; }
