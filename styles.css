@@ -694,8 +694,8 @@ html, body { overflow-x: clip; }
 .svc__list { margin-top: clamp(20px, 2.5vw, 36px); }
 .services .svc__block:first-of-type { border-top: none; padding-top: 0; }
 .services .svc__block:first-of-type .svc__main {
-  margin-top: clamp(48px, 5vw, 80px);
-  margin-bottom: calc(-1 * clamp(28px, 3.5vw, 52px));
+  margin-top: clamp(90px, 9vw, 150px);
+  margin-bottom: calc(-1 * clamp(60px, 7vw, 110px));
   position: relative;
   z-index: 2;
 }
