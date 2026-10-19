@@ -786,6 +786,7 @@ html, body { overflow-x: clip; }
   text-transform: uppercase;
   letter-spacing: .06em;
 }
+.svc__more-dim { color: rgba(23,19,14,.38); }
 .svc__more {
   font-family: var(--anton);
   font-size: clamp(24px, 2.8vw, 44px);
