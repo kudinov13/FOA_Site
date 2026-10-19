@@ -19,6 +19,24 @@
     lb.classList.add('is-open');
   };
 
+  /* ---------- бургер-меню ---------- */
+  const burger = document.querySelector('.burger');
+  const nav = document.querySelector('.nav');
+  if (burger && nav) {
+    const closeNav = () => {
+      nav.classList.remove('is-open');
+      burger.classList.remove('is-open');
+      burger.setAttribute('aria-expanded', 'false');
+    };
+    burger.addEventListener('click', () => {
+      const open = nav.classList.toggle('is-open');
+      burger.classList.toggle('is-open', open);
+      burger.setAttribute('aria-expanded', String(open));
+    });
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
+  }
+
   /* ---------- скрытый вход в админку: 3 быстрых клика ---------- */
   document.querySelectorAll('[data-admin-trigger]').forEach(el => {
     let n = 0, t = null;
