@@ -583,8 +583,17 @@ html, body { overflow-x: clip; }
   .project-card--cta__title { font-size: 11px; margin-top: 8px; }
   .project-card--cta__foot { font-size: 11px; }
   .services__grid { grid-template-columns: 1fr; gap: 24px; }
-  .footer__inner { flex-direction: column; align-items: flex-start; }
-  .footer__geo { text-align: left; }
+  .footer__inner { flex-direction: column; align-items: stretch; gap: 28px; }
+  .footer__links { flex-direction: column; gap: 0; }
+  .footer__links a {
+    display: block;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(23,19,14,.25);
+    white-space: nowrap;
+    font-size: 16px;
+  }
+  .footer__links a:first-child { border-top: 1px solid rgba(23,19,14,.25); }
+  .footer__geo { text-align: left; display: flex; flex-direction: column; gap: 2px; }
   .about__content .h-big { white-space: normal; font-size: clamp(30px, 9vw, 44px); }
   .cta__title { white-space: normal; }
 }
