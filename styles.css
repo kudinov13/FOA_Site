@@ -804,7 +804,7 @@ html, body { overflow-x: clip; }
   pointer-events: none;
 }
 @media (max-width: 760px) {
-  .svc__brush { width: 110px; top: auto; bottom: -30px; right: 4px; }
+  .svc__brush { width: 110px; top: auto; bottom: -70px; right: 4px; }
 }
 .svc__more {
   font-family: var(--anton);
