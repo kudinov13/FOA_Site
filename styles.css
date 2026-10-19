@@ -843,13 +843,7 @@ html, body { overflow-x: clip; }
   text-transform: uppercase;
   letter-spacing: .06em;
 }
-.svc__more-dim {
-  color: rgba(23,19,14,.58);
-  text-decoration: underline;
-  text-decoration-color: rgba(23,19,14,.35);
-  text-decoration-thickness: 3px;
-  text-underline-offset: 6px;
-}
+.svc__more-dim { color: rgba(23,19,14,.72); }
 .svc__more-wrap { position: relative; }
 .svc__brush {
   position: absolute;
