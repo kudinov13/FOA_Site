@@ -663,13 +663,13 @@ html, body { overflow-x: clip; }
 }
 .svc__block {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
+  grid-template-columns: 0.8fr 1.2fr;
   gap: clamp(24px, 4vw, 72px);
   padding: clamp(28px, 3.5vw, 52px) 0;
   border-top: 2px solid rgba(23,19,14,.45);
   align-items: start;
 }
-.svc__block--rev { grid-template-columns: 1.1fr 0.9fr; }
+.svc__block--rev { grid-template-columns: 1.2fr 0.8fr; }
 .svc__block--rev .svc__side { order: 2; }
 .svc__block--rev .svc__main { order: 1; }
 .svc__side { display: flex; flex-direction: column; }
@@ -679,7 +679,8 @@ html, body { overflow-x: clip; }
   overflow: hidden;
 }
 .svc__photo img {
-  width: 100%;
+  width: 110%;
+  margin-left: -5%;
   height: auto;
   object-fit: contain;
   display: block;
