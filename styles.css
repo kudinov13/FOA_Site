@@ -669,6 +669,14 @@ html, body { overflow-x: clip; }
   border-top: 2px solid rgba(23,19,14,.45);
 }
 .svc__block-head { display: flex; flex-direction: column; }
+.svc__photo {
+  border: 2px solid rgba(23,19,14,.55);
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  margin-top: clamp(20px, 2.5vw, 36px);
+}
+.svc__btn { margin-top: 8px; }
+.svc__list li:has(.svc__btn) { border-bottom: none; padding-top: 24px; }
 .svc__block-title {
   font-family: var(--anton);
   font-size: clamp(28px, 3vw, 48px);
