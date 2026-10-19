@@ -446,7 +446,15 @@ html, body { overflow-x: clip; }
   margin-top: clamp(20px, 2.4vw, 36px);
   flex-wrap: wrap;
 }
-.about__artist { display: flex; flex-direction: column; gap: 4px; }
+.about__artist {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 2px solid rgba(23,19,14,.6);
+  padding: 14px 22px 16px;
+  min-width: 200px;
+}
+.about__artist:nth-child(2) { transform: translateY(6px); }
 .about__artist-name {
   font-family: var(--anton);
   font-size: clamp(20px, 1.8vw, 28px);
