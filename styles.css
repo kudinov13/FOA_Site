@@ -795,7 +795,7 @@ html, body { overflow-x: clip; }
 .svc__brush {
   position: absolute;
   right: clamp(20px, 8vw, 160px);
-  top: -20%;
+  top: -6%;
   width: clamp(130px, 15vw, 250px);
   height: auto;
   transform: rotate(34deg);
