@@ -798,7 +798,7 @@ html, body { overflow-x: clip; }
   top: -20%;
   width: clamp(130px, 15vw, 250px);
   height: auto;
-  transform: rotate(-10deg);
+  transform: rotate(6deg);
   opacity: .9;
   mix-blend-mode: multiply;
   pointer-events: none;
