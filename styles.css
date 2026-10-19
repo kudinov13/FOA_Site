@@ -820,6 +820,9 @@ html, body { overflow-x: clip; }
   .svc__block, .svc__block--rev { grid-template-columns: 1fr; gap: 20px; }
   .svc__block--rev .svc__side { order: 1; }
   .svc__block--rev .svc__main { order: 2; }
+  .svc__main, .svc__block--first .svc__main { margin-top: 0; margin-bottom: 0; }
+  .svc__block--rev .svc__list, .svc__block--first .svc__list { margin-top: 16px; }
+  .svc__photo img { width: 100%; margin-left: 0; }
   .svc__principles-grid { grid-template-columns: 1fr; }
   .svc__principle + .svc__principle { border-left: none; padding-left: 0; }
 }
