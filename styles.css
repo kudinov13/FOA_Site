@@ -771,6 +771,10 @@ html, body { overflow-x: clip; }
   margin: 0;
   max-width: 300px;
 }
+.svc__principle + .svc__principle {
+  border-left: 2px solid rgba(23,19,14,.45);
+  padding-left: clamp(24px, 3vw, 56px);
+}
 
 .svc__tags {
   display: flex;
@@ -802,6 +806,7 @@ html, body { overflow-x: clip; }
   .svc__block--rev .svc__side { order: 1; }
   .svc__block--rev .svc__main { order: 2; }
   .svc__principles-grid { grid-template-columns: 1fr; }
+  .svc__principle + .svc__principle { border-left: none; padding-left: 0; }
 }
 
 /* ============ lightbox ============ */
