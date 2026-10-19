@@ -692,7 +692,7 @@ html, body { overflow-x: clip; }
 }
 .svc__btn { margin-top: clamp(20px, 2.2vw, 32px); align-self: flex-start; }
 .svc__list { margin-top: clamp(20px, 2.5vw, 36px); }
-.services .section__head-line { transform: translateY(34px); }
+.services .section__head-line { transform: translateY(52px); }
 .svc__block--first { border-top: none; padding-top: 0; }
 .svc__block--first .svc__list { margin-top: calc(-1 * clamp(18px, 2vw, 32px)); position: relative; z-index: 3; }
 .svc__block--first .svc__main {
