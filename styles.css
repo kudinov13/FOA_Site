@@ -791,6 +791,31 @@ html, body { overflow-x: clip; }
   letter-spacing: .06em;
 }
 .svc__more-dim { color: rgba(23,19,14,.38); }
+.svc__more-wrap { position: relative; }
+.svc__brush {
+  position: absolute;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  height: auto;
+}
+.svc__brush--1 {
+  right: clamp(40px, 12vw, 220px);
+  top: -30%;
+  width: clamp(120px, 14vw, 240px);
+  transform: rotate(-8deg);
+  opacity: .9;
+}
+.svc__brush--2 {
+  right: 0;
+  bottom: -40%;
+  width: clamp(90px, 10vw, 180px);
+  transform: rotate(6deg);
+  opacity: .85;
+}
+@media (max-width: 760px) {
+  .svc__brush--1 { width: 110px; top: -20%; right: 8px; }
+  .svc__brush--2 { display: none; }
+}
 .svc__more {
   font-family: var(--anton);
   font-size: clamp(24px, 2.8vw, 44px);
