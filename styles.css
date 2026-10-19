@@ -711,10 +711,9 @@ html, body { overflow-x: clip; }
   flex-direction: column;
 }
 .svc__list li {
-  padding: 16px 0 16px 26px;
-  font-size: clamp(16px, 1.4vw, 20px);
+  padding: 8px 0 8px 20px;
+  font-size: clamp(14px, 1.15vw, 17px);
   font-weight: 700;
-  border-bottom: 2px solid rgba(23,19,14,.45);
   position: relative;
 }
 .svc__list li::before {
@@ -722,12 +721,11 @@ html, body { overflow-x: clip; }
   position: absolute;
   left: 0;
   top: 50%;
-  width: 14px;
-  height: 3px;
+  width: 3px;
+  height: 62%;
   background: var(--orange);
   transform: translateY(-50%);
 }
-.svc__list li:first-child { border-top: 2px solid rgba(23,19,14,.45); }
 .svc__principles {
   border-top: 2px solid rgba(23,19,14,.45);
   padding: clamp(28px, 3.5vw, 52px) 0;
