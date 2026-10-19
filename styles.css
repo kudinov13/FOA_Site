@@ -759,17 +759,19 @@ html, body { overflow-x: clip; }
 }
 .svc__principle-num {
   display: block;
-  font-family: var(--anton);
-  font-size: 20px;
+  font-size: 14px;
+  font-weight: 700;
   color: var(--orange);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .svc__principle-text {
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.45;
+  font-size: clamp(14px, 1.15vw, 17px);
+  font-weight: 500;
+  line-height: 1.5;
   margin: 0;
+  max-width: 300px;
 }
+
 .svc__tags {
   display: flex;
   flex-wrap: wrap;
