@@ -6,95 +6,62 @@
 <title>FOA — Family of Artists</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=130">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=202">
 </head>
 <body>
 
 <!-- ================= HEADER ================= -->
 <header class="header">
   <div class="header__inner">
-    <a href="#" class="logo">FOA</a>
+    <a href="index.html" class="logo"><img src="refs_tilda/logo_foa.svg" alt="FOA — Family of Artists"></a>
     <nav class="nav">
-      <a href="#projects">ПРОЕКТЫ</a>
       <a href="#about">О НАС</a>
       <a href="#services">УСЛУГИ</a>
+      <a href="#projects">ПРОЕКТЫ</a>
       <a href="#contacts">КОНТАКТЫ</a>
-      <a href="#cta" class="nav__cta">Обсудить проект →</a>
+      <a href="#contacts" class="nav__cta">Начать проект →</a>
     </nav>
-    <a href="#cta" class="btn btn--orange">Обсудить проект</a>
+    <a href="#contacts" class="btn btn--orange">Начать проект</a>
     <button class="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </header>
 
 <!-- ================= HERO ================= -->
 <section class="hero">
-  <canvas class="shader-bg" data-shader aria-hidden="true"></canvas>
-  <div class="hero__inner">
-
-    <div class="hero__left">
-      <h1 class="hero__title">
-        ПРЕВРАЩАЕМ<br>СТЕНЫ В<br><span class="accent">ИСКУССТВО,</span><br>СОХРАНЯЯ<br>АУТЕНТИЧНОСТЬ
-      </h1>
-      <p class="hero__text">
-        Рисуем там, где другие видят просто стену: на фасадах, в интерьерах,
-        в коммерческих и социальных пространствах, а также в жилых помещениях.
-      </p>
-      <div class="hero__meta">
-        <span class="hero__city">МОСКВА</span><span class="hero__geo">/ WORLDWIDE</span>
-      </div>
-      <div class="hero__scroll">
-        <svg width="14" height="18" viewBox="0 0 14 18" fill="none"><path d="M7 1v15M1.5 11L7 16.5 12.5 11" stroke="currentColor" stroke-width="2"/></svg>
-      </div>
-    </div>
+  <canvas class="shader-bg" data-shader data-theme="dark" aria-hidden="true"></canvas>
+  <div class="hero__photo">
+    <img src="refs_tilda/tild6438-3430-4437-b939-616534323733_snapedit_17609536588.jpeg" alt="Алина и Виталий — дуэт художников FOA">
   </div>
-
-  <div class="hero__collage">
-    <picture>
-      <source srcset="Photo/HeroMobile.png" media="(max-width: 760px)">
-      <img class="hero__background" src="Photo/Hero2.png" alt="Коллаж работ FOA: роспись стен, мурал, арт-объект">
-    </picture>
+  <div class="hero__inner">
+    <h1 class="hero__title">Превращаем стены в искусство, сохраняя аутентичность</h1>
   </div>
 </section>
 
 <!-- ================= PROJECTS ================= -->
 <section class="projects" id="projects">
   <div class="section__inner">
-    <div class="section__head">
-      <h2 class="h-giant">ПРОЕКТЫ</h2>
-      <span class="section__head-line"></span>
-      <a href="projects.html" class="link-more">Смотреть все проекты →</a>
-    </div>
-
     <div class="projects__grid">
-      <a href="project.html?id=pilatius" class="project-card">
-        <div class="project-card__img"><img src="Photo/Hero_PilatiUS.jpeg" alt="Роспись пространств — мурал в клубе PilatiUS"></div>
+      <a href="project.html?id=paragon" class="project-card">
+        <div class="project-card__img"><img src="refs_tilda/tild6563-3237-4865-a133-376133633464_photo_2025-10-12_17-.jpg" alt="Paragon Arena — роспись стены"></div>
         <div class="project-card__meta">
-          <span class="project-card__name">Роспись пространств</span>
-          <span class="project-card__index">01 / 04</span>
+          <span class="project-card__name">Paragon Arena</span>
+          <span class="project-card__index">Роспись стенки</span>
         </div>
       </a>
-      <a href="project.html?id=cifrus" class="project-card">
-        <div class="project-card__img"><img src="Photo/hero_cifrus.png" alt="Коммерческие интерьеры — мурал Цифрус"></div>
+      <a href="project.html?id=greeneva" class="project-card">
+        <div class="project-card__img"><img src="refs_tilda/tild3230-6537-4263-b539-396637323134_noroot.png" alt="GREEN EVA — роспись стены"></div>
         <div class="project-card__meta">
-          <span class="project-card__name">Коммерческие интерьеры</span>
-          <span class="project-card__index">02 / 04</span>
+          <span class="project-card__name">GREEN EVA</span>
+          <span class="project-card__index">Роспись стенки</span>
         </div>
       </a>
-      <a href="project.html?id=molodezh" class="project-card">
-        <div class="project-card__img"><img src="Photo/Hero_Bear.png" alt="Арт-объекты — расписанный арт-объект Мишка"></div>
+      <a href="project.html?id=pusk" class="project-card">
+        <div class="project-card__img"><img src="refs_tilda/tild3937-6535-4438-b065-626238373964_2021-03-17_14-03-25.JPG" alt="IT Компания PUSK — надписи в корпоративном стиле"></div>
         <div class="project-card__meta">
-          <span class="project-card__name">Арт-объекты</span>
-          <span class="project-card__index">03 / 04</span>
+          <span class="project-card__name">IT Компания PUSK</span>
+          <span class="project-card__index">Надписи в корпоративном стиле</span>
         </div>
-      </a>
-      <a href="projects.html" class="project-card project-card--cta">
-        <span class="project-card--cta__logo">FOA</span>
-        <span class="project-card--cta__title">ПРОЕКТЫ<br>КОТОРЫЕ<br>ВДОХНОВЛЯЮТ</span>
-        <span class="project-card--cta__foot">
-          <span>04 / 04</span>
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M7 27L27 7M27 7H11M27 7v16" stroke="currentColor" stroke-width="3"/></svg>
-        </span>
       </a>
     </div>
   </div>
@@ -102,66 +69,108 @@
 
 <!-- ================= ABOUT ================= -->
 <section class="about" id="about">
-  <div class="section__inner about__inner">
-    <div class="about__photos">
-      <div class="about__photo about__photo--a">
-        <img src="refs_tilda/tild3065-6233-4661-b130-633862363839_noroot.png" alt="Алина — художник-монументалист, FOA">
-      </div>
-      <div class="about__photo about__photo--v">
-        <img src="refs_tilda/tild3065-6233-4566-a464-653265303738_noroot.png" alt="Виталий — паблик-арт-художник, FOA">
-      </div>
-    </div>
-    <div class="about__content">
-      <h2 class="h-big">ДВА ХУДОЖНИКА.<br><span class="accent">ОДИН ПОЧЁРК.</span></h2>
-      <p class="about__text">
-        Мы — дуэт художников с разными подходами, но общим правилом:
-        если работа не цепляет нас самих, мы её не сдаём.
-      </p>
-      <div class="about__artists">
-        <div class="about__artist">
-          <span class="about__artist-label">имя:</span>
-          <span class="about__artist-name">АЛИНА</span>
-          <span class="about__artist-role">художник-монументалист</span>
-        </div>
-        <div class="about__artist">
-          <span class="about__artist-label">специальность:</span>
-          <span class="about__artist-name">ВИТАЛИЙ</span>
-          <span class="about__artist-role">паблик-арт-художник</span>
+  <div class="about__inner">
+    <img class="about__mark" src="refs_tilda/group_icon.svg" alt="" aria-hidden="true">
+    <p class="about__lead">Мы&nbsp;дуэт художников с&nbsp;разными подходами, но&nbsp;общим правилом: если работа не&nbsp;цепляет нас самих, мы&nbsp;её&nbsp;не&nbsp;сдаём.</p>
+    <p class="about__lead">Рисуем там, где другие видят просто стену: на&nbsp;фасадах, в&nbsp;интерьерах, в&nbsp;коммерческих и&nbsp;социальных пространствах, а&nbsp;также в&nbsp;жилых помещениях. Не&nbsp;штампуем шаблоны&nbsp;— создаём искусство, которое работает на&nbsp;ваш бренд или создает уют в&nbsp;доме.</p>
+
+    <div class="about__cards">
+      <div class="artist-card">
+        <div class="artist-card__photo"><img src="refs_tilda/tild3065-6233-4661-b130-633862363839_noroot.png" alt="Алина — художник-монументалист"></div>
+        <div class="artist-card__info">
+          <span class="artist-card__name">АЛИНА</span>
+          <span class="artist-card__line"></span>
+          <span class="artist-card__label">имя:</span>
+          <span class="artist-card__role">художник — монументалист</span>
+          <span class="artist-card__line"></span>
+          <span class="artist-card__label">специальность:</span>
         </div>
       </div>
-      <div class="about__foot">
-        <span class="about__caption">FOA / FAMILY OF ARTISTS</span>
+      <div class="artist-card">
+        <div class="artist-card__photo"><img src="refs_tilda/tild3065-6233-4566-a464-653265303738_noroot.png" alt="Виталий — паблик-арт-художник"></div>
+        <div class="artist-card__info">
+          <span class="artist-card__name">ВИТАЛИЙ</span>
+          <span class="artist-card__line"></span>
+          <span class="artist-card__label">имя:</span>
+          <span class="artist-card__role">паблик-арт-художник</span>
+          <span class="artist-card__line"></span>
+          <span class="artist-card__label">специальность:</span>
+        </div>
       </div>
-      <img class="about__scribble" src="Photo/OrangeBlock.png" alt="" aria-hidden="true">
     </div>
+    <a href="https://t.me/blue_vlvt" target="_blank" rel="noopener" class="bar-btn about__bar">Написать нам</a>
   </div>
 </section>
+
+<!-- ================= MARQUEE ================= -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <img src="refs_tilda/tild3631-6630-4166-b730-313061323132_2025-11-22_155715.jpg" alt="">
+    <img src="refs_tilda/tild3937-3263-4364-b061-323366306538_2025-11-22_155919.jpg" alt="">
+    <img src="refs_tilda/tild3764-3364-4334-b230-643463303864_2025-11-22_155915.jpg" alt="">
+    <img src="refs_tilda/tild3830-6561-4139-b335-373435306161_2025-11-22_155826.jpg" alt="">
+    <img src="refs_tilda/tild3532-6338-4166-b036-393535343565_2025-11-22_155926.jpg" alt="">
+    <img src="refs_tilda/tild3364-6365-4335-b830-323130393661_2025-11-22_155932.jpg" alt="">
+    <img src="refs_tilda/tild3538-3336-4634-a435-313936626163_2025-11-22_155935.jpg" alt="">
+    <img src="refs_tilda/tild3733-3736-4730-a434-626161383332_2025-11-22_155950.jpg" alt="">
+    <img src="refs_tilda/tild3131-6165-4632-b033-353531656564_2025-11-22_155954.jpg" alt="">
+    <img src="refs_tilda/tild3737-6365-4266-b438-373665303764_2025-11-22_160013.jpg" alt="">
+    <img src="refs_tilda/tild3832-6137-4330-b766-353234316364_2025-11-22_160016.jpg" alt="">
+    <img src="refs_tilda/tild3136-6337-4335-a133-393362656363_2025-11-22_160027.jpg" alt="">
+    <img src="refs_tilda/tild3630-3538-4638-b434-363532386262_2025-11-22_160006.jpg" alt="">
+    <img src="refs_tilda/tild6364-3865-4165-b362-323133636336_2025-11-22_155958.jpg" alt="">
+    <img src="refs_tilda/tild6638-3839-4635-a234-653264303336_2025-11-22_160009.jpg" alt="">
+    <img src="refs_tilda/tild3134-3766-4262-b433-306536646630_2025-11-22_160029.jpg" alt="">
+    <img src="refs_tilda/tild3865-3539-4939-b431-353034396135_2025-11-22_160056.jpg" alt="">
+    <img src="refs_tilda/tild3562-3937-4332-b866-623234663832_2025-11-22_160046.jpg" alt="">
+    <img src="refs_tilda/tild3431-3037-4666-b265-353130316464_2025-11-22_160034.jpg" alt="">
+    <img src="refs_tilda/tild6632-6533-4866-a263-373661386630_2025-11-22_160038.jpg" alt="">
+    <img src="refs_tilda/tild3134-3865-4338-b237-633635653339_2025-11-22_160052.jpg" alt="">
+    <img src="refs_tilda/tild6662-6438-4135-a432-363365373838_2025-11-22_160100.jpg" alt="">
+    <img src="refs_tilda/tild3631-6630-4166-b730-313061323132_2025-11-22_155715.jpg" alt="">
+    <img src="refs_tilda/tild3937-3263-4364-b061-323366306538_2025-11-22_155919.jpg" alt="">
+    <img src="refs_tilda/tild3764-3364-4334-b230-643463303864_2025-11-22_155915.jpg" alt="">
+    <img src="refs_tilda/tild3830-6561-4139-b335-373435306161_2025-11-22_155826.jpg" alt="">
+    <img src="refs_tilda/tild3532-6338-4166-b036-393535343565_2025-11-22_155926.jpg" alt="">
+    <img src="refs_tilda/tild3364-6365-4335-b830-323130393661_2025-11-22_155932.jpg" alt="">
+    <img src="refs_tilda/tild3538-3336-4634-a435-313936626163_2025-11-22_155935.jpg" alt="">
+    <img src="refs_tilda/tild3733-3736-4730-a434-626161383332_2025-11-22_155950.jpg" alt="">
+    <img src="refs_tilda/tild3131-6165-4632-b033-353531656564_2025-11-22_155954.jpg" alt="">
+    <img src="refs_tilda/tild3737-6365-4266-b438-373665303764_2025-11-22_160013.jpg" alt="">
+    <img src="refs_tilda/tild3832-6137-4330-b766-353234316364_2025-11-22_160016.jpg" alt="">
+    <img src="refs_tilda/tild3136-6337-4335-a133-393362656363_2025-11-22_160027.jpg" alt="">
+    <img src="refs_tilda/tild3630-3538-4638-b434-363532386262_2025-11-22_160006.jpg" alt="">
+    <img src="refs_tilda/tild6364-3865-4165-b362-323133636336_2025-11-22_155958.jpg" alt="">
+    <img src="refs_tilda/tild6638-3839-4635-a234-653264303336_2025-11-22_160009.jpg" alt="">
+    <img src="refs_tilda/tild3134-3766-4262-b433-306536646630_2025-11-22_160029.jpg" alt="">
+    <img src="refs_tilda/tild3865-3539-4939-b431-353034396135_2025-11-22_160056.jpg" alt="">
+    <img src="refs_tilda/tild3562-3937-4332-b866-623234663832_2025-11-22_160046.jpg" alt="">
+    <img src="refs_tilda/tild3431-3037-4666-b265-353130316464_2025-11-22_160034.jpg" alt="">
+    <img src="refs_tilda/tild6632-6533-4866-a263-373661386630_2025-11-22_160038.jpg" alt="">
+    <img src="refs_tilda/tild3134-3865-4338-b237-633635653339_2025-11-22_160052.jpg" alt="">
+    <img src="refs_tilda/tild6662-6438-4135-a432-363365373838_2025-11-22_160100.jpg" alt="">
+  </div>
+</div>
 
 <!-- ================= PRINCIPLES ================= -->
 <section class="principles" id="principles">
   <div class="section__inner">
-    <div class="section__head">
-      <h2 class="h-giant">НЕ РАБОТАЕМ<br><span class="accent">ПО ШАБЛОНУ</span></h2>
-      <span class="section__head-line"></span>
+    <img class="principles__blob" src="refs_tilda/blob_.svg" alt="" aria-hidden="true">
+    <h2 class="h-giant">не работаем по шаблону. Мы:</h2>
+    <div class="principle-row" style="margin-top: clamp(28px,3.5vw,50px)">
+      <span class="principle-row__num">01</span>
+      <span class="principle-row__text">Работаем как семья</span>
+      <p class="principle-row__sub">Говорим как профессионалы</p>
     </div>
-    <div class="svc__principles-grid">
-      <div class="svc__principle">
-        <span class="svc__principle-num">01</span>
-        <p class="svc__principle-text">Каждый проект — это идея, а не просто картинки</p>
-      </div>
-      <div class="svc__principle">
-        <span class="svc__principle-num">02</span>
-        <p class="svc__principle-text">Ваш бренд достоин уникального стиля, а не реплик</p>
-      </div>
-      <div class="svc__principle">
-        <span class="svc__principle-num">03</span>
-        <p class="svc__principle-text">По-итальянски: с огнём, уважением и без компромиссов</p>
-      </div>
+    <div class="principle-row">
+      <span class="principle-row__num">02</span>
+      <span class="principle-row__text">Каждый проект — это идея, а не просто картинки</span>
+      <p class="principle-row__sub">Не копируем</p>
     </div>
-    <div class="svc__tags">
-      <span>Не копируем</span>
-      <span>Говорим как профессионалы</span>
-      <span>Работаем как семья</span>
+    <div class="principle-row">
+      <span class="principle-row__num">03</span>
+      <span class="principle-row__text">А создаем, ваш бренд достоин уникального стиля, а не реплик</span>
+      <p class="principle-row__sub">По-итальянски: с огнём, уважением и без компромиссов</p>
     </div>
   </div>
 </section>
@@ -169,69 +178,66 @@
 <!-- ================= SERVICES ================= -->
 <section class="services" id="services">
   <div class="section__inner">
-    <p class="label">— НАШИ УСЛУГИ</p>
-    <div class="section__head">
-      <h2 class="h-giant">ЧТО МЫ<br><span class="accent">ДЕЛАЕМ</span></h2>
-      <span class="section__head-line"></span>
-    </div>
-
-    <!-- Подробные категории -->
-    <div class="svc__block svc__block--first">
-      <div class="svc__side">
-        <span class="service__num">01</span>
-        <h3 class="svc__block-title">Монументально-декоративная живопись</h3>
-        <p class="svc__block-sub">Создаём масштабные росписи, которые становятся частью архитектуры и формируют уникальную атмосферу пространства.</p>
-        <a href="#cta" class="btn btn--orange svc__btn">Начать проект&nbsp;&nbsp;→</a>
-      </div>
-      <div class="svc__main">
-        <div class="svc__photo">
-          <img src="Photo/BlockOne_NoPhone.png" alt="Роспись фасада — монументальная живопись">
-        </div>
-        <ul class="svc__list">
+    <h2 class="h-giant">наши услуги:</h2>
+    <div class="services__cards">
+      <div class="svc-card">
+        <h3 class="svc-card__title">Монументально — декоративная живопись:</h3>
+        <ul class="svc-card__list">
+          <li>Крупные объекты, здания и конструкции</li>
+          <li>Граффити оформление</li>
           <li>Роспись стен, потолков, полов</li>
           <li>Роспись фасадов</li>
-          <li>Граффити-оформление</li>
           <li>Аэрография</li>
-          <li>Крупные объекты, здания и конструкции</li>
         </ul>
+        <a href="#contacts" class="svc-card__btn">Начать проект</a>
       </div>
-    </div>
-
-    <div class="svc__block svc__block--rev">
-      <div class="svc__side">
-        <span class="service__num">02</span>
-        <h3 class="svc__block-title">Станковая живопись</h3>
-        <p class="svc__block-sub">Классические картины, создаваемые на мольберте, как самостоятельные произведения искусства.</p>
-        <a href="#cta" class="btn btn--orange svc__btn">Начать проект&nbsp;&nbsp;→</a>
-      </div>
-      <div class="svc__main">
-        <div class="svc__photo">
-          <img src="Photo/Blocktwo_NoPhone.png" alt="Станковая живопись — неоновый мурал GOSSIP">
-        </div>
-        <ul class="svc__list">
+      <div class="svc-card">
+        <h3 class="svc-card__title">Станковая живопись:</h3>
+        <p class="svc-card__desc">Классические картины, создаваемые на мольберте, как самостоятельные произведения искусства</p>
+        <ul class="svc-card__list">
           <li>Портреты, натюрморты</li>
-          <li>Пейзажи</li>
           <li>Копии картин великих мастеров</li>
+          <li>Пейзажи</li>
         </ul>
+        <a href="#contacts" class="svc-card__btn">Начать проект</a>
       </div>
-    </div>
-
-    <div class="svc__more-wrap">
-      <p class="svc__more">На этом наши возможности не заканчиваются. <span class="svc__more-dim">Пришлите</span> нам ваши идеи — и мы предложим решение.</p>
-      <a href="#cta" class="btn btn--dark svc__more-btn">Оставить заявку&nbsp;&nbsp;→</a>
-      <img class="svc__brush" src="Photo/Orange_Line1.png" alt="" aria-hidden="true">
     </div>
   </div>
 </section>
 
-<!-- ================= WORKS STATEMENT ================= -->
+<!-- ================= STATEMENT ================= -->
+<section class="statement">
+  <div class="section__inner">
+    <img class="statement__blob" src="refs_tilda/blob_.svg" alt="" aria-hidden="true">
+    <p class="statement__text">На этом наши возможности не заканчиваются. <span class="accent">Пришлите нам ваши идеи</span> и мы предложим решение</p>
+    <a href="#contacts" class="bar-btn statement__bar">Оставить заявку</a>
+  </div>
+</section>
+
+<!-- ================= WORKS ================= -->
 <section class="works">
-  <div class="section__inner works__inner">
-    <div class="works__line">
-      <h2 class="h-big">НАШИ РАБОТЫ —<br><span class="accent">ЭТО НАШИ СЛОВА</span></h2>
-      <a href="projects.html" class="link-more">Смотреть все проекты →</a>
+  <div class="section__inner">
+    <div class="works__head">
+      <div>
+        <h2 class="h-giant">Наши работы — это наши слова</h2>
+        <p class="works__sub">Делаем искусство, которое заметят</p>
+      </div>
+      <a href="projects.html" class="link-more works__more">Смотреть все проекты</a>
     </div>
-    <p class="works__sub">Делаем искусство, которое заметят</p>
+    <div class="works__list">
+      <a href="project.html?id=paragon" class="work-panel">
+        <img src="refs_tilda/tild3730-3235-4632-b966-333739666364_2021-04-18_16-38-01.jpg" alt="Paragon Arena — мурал в зале">
+        <span class="work-panel__name">Paragon Arena</span>
+      </a>
+      <a href="project.html?id=gossip" class="work-panel">
+        <img src="refs_tilda/tild6665-6466-4435-b266-643162633964_IMG_0208.jpg" alt="GOSSIP — неоновый мурал">
+        <span class="work-panel__name">Gossip</span>
+      </a>
+      <a href="project.html?id=molodezh" class="work-panel">
+        <img src="refs_tilda/tild3738-3365-4331-b139-633431656135_noroot.png" alt="Арт-объект — мишка">
+        <span class="work-panel__name">Арт-объекты</span>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -239,45 +245,49 @@
 <section class="cta" id="cta">
   <canvas class="shader-bg" data-shader data-theme="dark" aria-hidden="true"></canvas>
   <div class="cta__inner">
-   <div class="cta__band">
-    <div class="cta__left">
-      <h2 class="cta__title">ЕСЛИ ВАМ НУЖНО<br>«КАК У ВСЕХ» —<br><span class="cta__dim">МЫ НЕ ПОДХОДИМ.</span></h2>
-      <p class="cta__quote">Если хотите, чтобы прохожие останавливались и фотографировали — это к нам.</p>
-      <a href="#contacts" class="btn btn--dark">Начать проект&nbsp;&nbsp;→</a>
-    </div>
-    <div class="cta__photo">
-      <img src="refs_final/05_paragon_gym_orange.jpg" alt="Художники за работой — мурал Paragon Arena">
-    </div>
-    <p class="cta__note">от концепции<br>до реализации —<br>в любой точке мира</p>
-   </div>
+    <p class="cta__text">Если вам нужно <span class="accent">«как у всех»</span> — мы не подходим. Если хотите, чтобы прохожие останавливались и фотографировали — <span class="accent">это к нам</span></p>
+    <a href="#contacts" class="bar-btn cta__bar">Начать проект</a>
   </div>
 </section>
 
 <!-- ================= FOOTER ================= -->
 <footer class="footer" id="contacts">
   <div class="footer__inner">
-    <div class="footer__brand">
-      <span class="footer__logo" data-admin-trigger>FOA</span>
-      <span class="footer__sub">FAMILY OF ARTISTS</span>
+    <div class="footer__cols">
+      <div>
+        <h3 class="footer__col-title">Контакты:</h3>
+        <a class="footer__link" href="mailto:familyofart@gmail.com">familyofart@gmail.com</a>
+        <div class="footer__artist">
+          <span class="footer__artist-name" data-admin-trigger>Алина</span>
+          <div class="footer__artist-info">
+            <a class="footer__artist-tel" href="tel:+79965115890">+7 (996) 511-58-90</a>
+            <a class="footer__artist-tg" href="https://t.me/blue_vlvt" target="_blank" rel="noopener">написать в тг</a>
+          </div>
+        </div>
+        <div class="footer__artist">
+          <span class="footer__artist-name">Виталий</span>
+          <div class="footer__artist-info">
+            <a class="footer__artist-tel" href="tel:+79965115890">+7 (996) 511-58-90</a>
+            <a class="footer__artist-tg" href="https://t.me/ramcy_graffiti" target="_blank" rel="noopener">написать в тг</a>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="footer__col-title">медиа</h3>
+        <a class="footer__link" href="https://taplink.cc/graffitipro" target="_blank" rel="noopener">Taplink</a>
+      </div>
     </div>
-    <div class="footer__links">
-      <a href="tel:+79965115890">+7 (996) 511-58-90</a>
-      <a href="mailto:familyofart@gmail.com">familyofart@gmail.com</a>
-      <a href="https://t.me/blue_vlvt" target="_blank" rel="noopener">TG — Алина</a>
-      <a href="https://t.me/ramcy_graffiti" target="_blank" rel="noopener">TG — Виталий</a>
-      <a href="https://taplink.cc/graffitipro" target="_blank" rel="noopener">Taplink</a>
-    </div>
-    <div class="footer__geo">
-      <span class="footer__city">Москва <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="2"/></svg></span>
-      <span class="footer__geo-sub">работаем по всему миру</span>
-      <span class="footer__copy">© family of artists, 2026</span>
+    <div class="footer__strip"><img src="refs_tilda/fphoto1.svg" alt="FOA — Family of Artists"></div>
+    <div class="footer__legal">
+      <a href="#">Политика обработки персональных данных</a>
+      <span>©family of artist, 2025</span>
     </div>
   </div>
 </footer>
 
-<script src="js/shader.js"></script>
-<script src="js/store.js"></script>
-<script src="js/site.js"></script>
+<script src="js/shader.js?v=202"></script>
+<script src="js/store.js?v=202"></script>
+<script src="js/site.js?v=202"></script>
 
 </body>
 </html>
