@@ -121,6 +121,16 @@ html, body { overflow-x: clip; }
 .burger.is-open span:nth-child(2) { opacity: 0; }
 .burger.is-open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
+/* ============ shader canvas ============ */
+.shader-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
 /* ============ hero ============ */
 .hero {
   position: relative;
@@ -147,7 +157,7 @@ html, body { overflow-x: clip; }
 }
 .hero__title {
   font-family: var(--anton);
-  font-size: clamp(52px, 6.3vw, 106px);
+  font-size: clamp(38px, 4.6vw, 78px);
   line-height: .95;
   letter-spacing: -.01em;
   -webkit-text-stroke: .3px currentColor;
@@ -407,11 +417,25 @@ html, body { overflow-x: clip; }
   gap: clamp(40px, 5vw, 90px);
   align-items: start;
 }
+.about__photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(14px, 1.6vw, 26px);
+  align-items: end;
+}
 .about__photo {
   border: 2px solid rgba(23,19,14,.55);
-  aspect-ratio: 1.62;
+  aspect-ratio: 1.05;
+  overflow: hidden;
 }
-.about__photo img { filter: grayscale(1); }
+.about__photo--v { transform: translateY(clamp(14px, 1.8vw, 30px)); }
+.about__photo img {
+  filter: grayscale(1);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .about__content {
   position: relative;
   padding-right: clamp(130px, 12vw, 200px);
@@ -447,6 +471,12 @@ html, body { overflow-x: clip; }
   flex-wrap: wrap;
 }
 .about__artist { display: flex; flex-direction: column; gap: 4px; }
+.about__artist-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(23,19,14,.5);
+  letter-spacing: .04em;
+}
 .about__artist-name {
   font-family: var(--anton);
   font-size: clamp(20px, 1.8vw, 28px);
@@ -468,11 +498,15 @@ html, body { overflow-x: clip; }
 
 /* ============ cta ============ */
 .cta {
-  background: var(--paper);
+  position: relative;
+  background: var(--ink);
   color: var(--ink);
   border-bottom: 2px solid rgba(23,19,14,.45);
+  overflow: hidden;
 }
 .cta__inner {
+  position: relative;
+  z-index: 1;
   max-width: 1720px;
   margin: 0 auto;
   padding: clamp(40px, 5vw, 80px) var(--pad);
@@ -498,6 +532,13 @@ html, body { overflow-x: clip; }
   line-height: .98;
   text-transform: uppercase;
   white-space: nowrap;
+}
+.cta__dim { color: var(--paper); -webkit-text-stroke: 0; }
+.cta__quote {
+  font-size: clamp(14px, 1.2vw, 18px);
+  font-weight: 500;
+  line-height: 1.5;
+  max-width: 420px;
 }
 .cta__note {
   font-size: 13px;
@@ -555,6 +596,13 @@ html, body { overflow-x: clip; }
   font-size: 13px;
   color: var(--ink-60);
   margin-top: 4px;
+}
+.footer__copy {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-60);
+  margin-top: 10px;
+  letter-spacing: .04em;
 }
 
 /* ============ responsive ============ */
@@ -639,7 +687,9 @@ html, body { overflow-x: clip; }
   .footer__links a:first-child { border-top: 1px solid rgba(23,19,14,.25); }
   .footer__geo { text-align: left; display: flex; flex-direction: column; gap: 2px; }
   .about__content .h-big { white-space: normal; font-size: clamp(30px, 9vw, 44px); }
+  .about__photos { grid-template-columns: 1fr 1fr; }
   .cta__title { white-space: normal; }
+  .works__line .h-big { white-space: normal; font-size: clamp(28px, 8vw, 40px); }
 }
 
 /* ============ projects page ============ */
@@ -797,6 +847,35 @@ html, body { overflow-x: clip; }
   border-top: 2px solid rgba(23,19,14,.45);
   padding: clamp(28px, 3.5vw, 52px) 0;
 }
+/* ============ principles (отдельная секция как на Тильде) ============ */
+.principles {
+  border-bottom: 2px solid rgba(23,19,14,.45);
+}
+.principles .section__inner {
+  padding-top: clamp(28px, 3.5vw, 52px);
+  padding-bottom: clamp(28px, 3.5vw, 52px);
+}
+
+/* ============ works statement ============ */
+.works { border-bottom: 2px solid rgba(23,19,14,.45); }
+.works__inner {
+  padding-top: clamp(32px, 4vw, 64px);
+  padding-bottom: clamp(32px, 4vw, 64px);
+}
+.works__line {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.works__line .h-big { font-size: clamp(34px, 4.4vw, 72px); white-space: nowrap; }
+.works__sub {
+  margin-top: 14px;
+  font-size: clamp(14px, 1.15vw, 18px);
+  font-weight: 500;
+  color: rgba(23,19,14,.6);
+}
 .svc__principles-title {
   font-family: var(--anton);
   font-size: clamp(30px, 3.6vw, 58px);
@@ -869,6 +948,7 @@ html, body { overflow-x: clip; }
   padding-top: clamp(28px, 3.5vw, 52px);
   margin: 0;
 }
+.svc__more-btn { margin-top: clamp(20px, 2.4vw, 34px); }
 @media (max-width: 760px) {
   .svc__block, .svc__block--rev { grid-template-columns: 1fr; gap: 20px; }
   .svc__block--rev .svc__side { order: 1; }

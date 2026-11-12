@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=122">
+<link rel="stylesheet" href="styles.css?v=130">
 </head>
 <body>
 
@@ -29,15 +29,16 @@
 
 <!-- ================= HERO ================= -->
 <section class="hero">
+  <canvas class="shader-bg" data-shader aria-hidden="true"></canvas>
   <div class="hero__inner">
 
     <div class="hero__left">
       <h1 class="hero__title">
-        ИСКУССТВО,<br>КОТОРОЕ<br><span class="accent">МЕНЯЕТ<br>ПРОСТРАНСТВО</span>
+        ПРЕВРАЩАЕМ<br>СТЕНЫ В<br><span class="accent">ИСКУССТВО,</span><br>СОХРАНЯЯ<br>АУТЕНТИЧНОСТЬ
       </h1>
       <p class="hero__text">
-        Рисуем там, где другие видят просто стену: на фасадах,
-        в интерьерах, в коммерческих и жилых пространствах.
+        Рисуем там, где другие видят просто стену: на фасадах, в интерьерах,
+        в коммерческих и социальных пространствах, а также в жилых помещениях.
       </p>
       <div class="hero__meta">
         <span class="hero__city">МОСКВА</span><span class="hero__geo">/ WORLDWIDE</span>
@@ -99,6 +100,72 @@
   </div>
 </section>
 
+<!-- ================= ABOUT ================= -->
+<section class="about" id="about">
+  <div class="section__inner about__inner">
+    <div class="about__photos">
+      <div class="about__photo about__photo--a">
+        <img src="refs_tilda/tild3065-6233-4661-b130-633862363839_noroot.png" alt="Алина — художник-монументалист, FOA">
+      </div>
+      <div class="about__photo about__photo--v">
+        <img src="refs_tilda/tild3065-6233-4566-a464-653265303738_noroot.png" alt="Виталий — паблик-арт-художник, FOA">
+      </div>
+    </div>
+    <div class="about__content">
+      <h2 class="h-big">ДВА ХУДОЖНИКА.<br><span class="accent">ОДИН ПОЧЁРК.</span></h2>
+      <p class="about__text">
+        Мы — дуэт художников с разными подходами, но общим правилом:
+        если работа не цепляет нас самих, мы её не сдаём.
+      </p>
+      <div class="about__artists">
+        <div class="about__artist">
+          <span class="about__artist-label">имя:</span>
+          <span class="about__artist-name">АЛИНА</span>
+          <span class="about__artist-role">художник-монументалист</span>
+        </div>
+        <div class="about__artist">
+          <span class="about__artist-label">специальность:</span>
+          <span class="about__artist-name">ВИТАЛИЙ</span>
+          <span class="about__artist-role">паблик-арт-художник</span>
+        </div>
+      </div>
+      <div class="about__foot">
+        <span class="about__caption">FOA / FAMILY OF ARTISTS</span>
+      </div>
+      <img class="about__scribble" src="Photo/OrangeBlock.png" alt="" aria-hidden="true">
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRINCIPLES ================= -->
+<section class="principles" id="principles">
+  <div class="section__inner">
+    <div class="section__head">
+      <h2 class="h-giant">НЕ РАБОТАЕМ<br><span class="accent">ПО ШАБЛОНУ</span></h2>
+      <span class="section__head-line"></span>
+    </div>
+    <div class="svc__principles-grid">
+      <div class="svc__principle">
+        <span class="svc__principle-num">01</span>
+        <p class="svc__principle-text">Каждый проект — это идея, а не просто картинки</p>
+      </div>
+      <div class="svc__principle">
+        <span class="svc__principle-num">02</span>
+        <p class="svc__principle-text">Ваш бренд достоин уникального стиля, а не реплик</p>
+      </div>
+      <div class="svc__principle">
+        <span class="svc__principle-num">03</span>
+        <p class="svc__principle-text">По-итальянски: с огнём, уважением и без компромиссов</p>
+      </div>
+    </div>
+    <div class="svc__tags">
+      <span>Не копируем</span>
+      <span>Говорим как профессионалы</span>
+      <span>Работаем как семья</span>
+    </div>
+  </div>
+</section>
+
 <!-- ================= SERVICES ================= -->
 <section class="services" id="services">
   <div class="section__inner">
@@ -125,6 +192,7 @@
           <li>Роспись фасадов</li>
           <li>Граффити-оформление</li>
           <li>Аэрография</li>
+          <li>Крупные объекты, здания и конструкции</li>
         </ul>
       </div>
     </div>
@@ -148,74 +216,34 @@
       </div>
     </div>
 
-    <!-- Принципы -->
-    <div class="svc__principles">
-      <h3 class="svc__principles-title">НЕ РАБОТАЕМ<br><span class="accent">ПО ШАБЛОНУ</span></h3>
-      <div class="svc__principles-grid">
-        <div class="svc__principle">
-          <span class="svc__principle-num">01</span>
-          <p class="svc__principle-text">Каждый проект — это идея, а не просто картинки</p>
-        </div>
-        <div class="svc__principle">
-          <span class="svc__principle-num">02</span>
-          <p class="svc__principle-text">Ваш бренд достоин уникального стиля, а не реплик</p>
-        </div>
-        <div class="svc__principle">
-          <span class="svc__principle-num">03</span>
-          <p class="svc__principle-text">По-итальянски: с огнём, уважением и без компромиссов</p>
-        </div>
-      </div>
-      <div class="svc__tags">
-        <span>Не копируем</span>
-        <span>Говорим как профессионалы</span>
-        <span>Работаем как семья</span>
-      </div>
-    </div>
-
     <div class="svc__more-wrap">
       <p class="svc__more">На этом наши возможности не заканчиваются. <span class="svc__more-dim">Пришлите</span> нам ваши идеи — и мы предложим решение.</p>
+      <a href="#cta" class="btn btn--dark svc__more-btn">Оставить заявку&nbsp;&nbsp;→</a>
       <img class="svc__brush" src="Photo/Orange_Line1.png" alt="" aria-hidden="true">
     </div>
   </div>
 </section>
 
-<!-- ================= ABOUT ================= -->
-<section class="about" id="about">
-  <div class="section__inner about__inner">
-    <div class="about__photo">
-      <img src="refs_final/01_duet_bw.jpg" alt="Алина и Виталий — дуэт Family of Artists">
+<!-- ================= WORKS STATEMENT ================= -->
+<section class="works">
+  <div class="section__inner works__inner">
+    <div class="works__line">
+      <h2 class="h-big">НАШИ РАБОТЫ —<br><span class="accent">ЭТО НАШИ СЛОВА</span></h2>
+      <a href="projects.html" class="link-more">Смотреть все проекты →</a>
     </div>
-    <div class="about__content">
-      <h2 class="h-big">ДВА ХУДОЖНИКА.<br><span class="accent">ОДИН ПОЧЁРК.</span></h2>
-      <p class="about__text">
-        Мы — дуэт художников с разными подходами, но общим правилом:
-        если работа не цепляет нас самих, мы её не сдаём.
-      </p>
-      <div class="about__artists">
-        <div class="about__artist">
-          <span class="about__artist-name">АЛИНА</span>
-          <span class="about__artist-role">художник-монументалист</span>
-        </div>
-        <div class="about__artist">
-          <span class="about__artist-name">ВИТАЛИЙ</span>
-          <span class="about__artist-role">паблик-арт-художник</span>
-        </div>
-      </div>
-      <div class="about__foot">
-        <span class="about__caption">FOA / FAMILY OF ARTISTS</span>
-      </div>
-      <img class="about__scribble" src="Photo/OrangeBlock.png" alt="" aria-hidden="true">
-    </div>
+    <p class="works__sub">Делаем искусство, которое заметят</p>
   </div>
 </section>
 
 <!-- ================= CTA ================= -->
 <section class="cta" id="cta">
+  <canvas class="shader-bg" data-shader data-theme="dark" aria-hidden="true"></canvas>
   <div class="cta__inner">
    <div class="cta__band">
     <div class="cta__left">
-      <h2 class="cta__title">СОЗДАДИМ РОСПИСЬ<br>ДЛЯ ВАШЕГО ПРОСТРАНСТВА</h2>
-      <a href="#contacts" class="btn btn--dark">Обсудить проект&nbsp;&nbsp;→</a>
+      <h2 class="cta__title">ЕСЛИ ВАМ НУЖНО<br>«КАК У ВСЕХ» —<br><span class="cta__dim">МЫ НЕ ПОДХОДИМ.</span></h2>
+      <p class="cta__quote">Если хотите, чтобы прохожие останавливались и фотографировали — это к нам.</p>
+      <a href="#contacts" class="btn btn--dark">Начать проект&nbsp;&nbsp;→</a>
     </div>
     <div class="cta__photo">
       <img src="refs_final/05_paragon_gym_orange.jpg" alt="Художники за работой — мурал Paragon Arena">
@@ -242,10 +270,12 @@
     <div class="footer__geo">
       <span class="footer__city">Москва <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="2"/></svg></span>
       <span class="footer__geo-sub">работаем по всему миру</span>
+      <span class="footer__copy">© family of artists, 2026</span>
     </div>
   </div>
 </footer>
 
+<script src="js/shader.js"></script>
 <script src="js/store.js"></script>
 <script src="js/site.js"></script>
 
