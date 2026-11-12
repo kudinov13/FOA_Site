@@ -5,3 +5,7 @@ WARNING: This is a development server. Do not use it in a production deployment.
  * Running on http://127.0.0.1:8765
  * Running on http://192.168.0.15:8765
 Press CTRL+C to quit
+127.0.0.1 - - [12/Nov/2026 17:04:48] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [12/Nov/2026 17:04:48] "GET /js/shader.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Nov/2026 17:04:49] "GET /refs_tilda/tild3065-6233-4661-b130-633862363839_noroot.png HTTP/1.1" 200 -
+127.0.0.1 - - [12/Nov/2026 17:17:30] "GET /tilda_view.html HTTP/1.1" 200 -
