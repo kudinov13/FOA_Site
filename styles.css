@@ -76,6 +76,7 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: center;
   height: 64px;
+  background: var(--paper);
   border: 2px solid var(--ink);
   color: var(--ink);
   font-size: 15px;
@@ -183,12 +184,14 @@ a { color: inherit; text-decoration: none; }
   object-fit: cover;
   object-position: center 18%;
 }
-.hero__photo::before {          /* «рваный» край бумаги поверх фото */
+.hero__photo::before {          /* мягкий переход фото в бумагу */
   content: "";
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(90deg, var(--paper) 0%, rgba(241,236,227,0) 18%);
+  background:
+    linear-gradient(90deg, var(--paper) 0%, rgba(241,236,227,.85) 14%, rgba(241,236,227,0) 42%),
+    linear-gradient(180deg, rgba(241,236,227,.35) 0%, rgba(241,236,227,0) 12%);
 }
 .hero__photo::after {           /* лёгкое затемнение низа под заголовок на мобиле */
   content: "";

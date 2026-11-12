@@ -30,7 +30,7 @@
 
     void main() {
       vec2 uv = gl_FragCoord.xy / u_res;
-      vec2 p = uv * vec2(u_res.x / u_res.y, 1.0) * 2.2;
+      vec2 p = uv * vec2(u_res.x / u_res.y, 1.0) * 2.6;
 
       float t = u_time * 0.05;
       /* domain warp — «краска растекается» */
@@ -52,10 +52,10 @@
       if (u_dark < 0.5) {
         /* светлый режим: бумага, редкие мазки оранжевого и графита */
         col = mix(paper, paper2, smoothstep(0.25, 0.75, f));
-        float blob = smoothstep(0.62, 0.78, f) * smoothstep(0.92, 0.72, f);
-        col = mix(col, orange, blob * 0.85);
-        float vein = smoothstep(0.46, 0.50, f) * smoothstep(0.55, 0.50, f);
-        col = mix(col, ink, vein * 0.55);
+        float blob = smoothstep(0.66, 0.80, f) * smoothstep(0.90, 0.74, f);
+        col = mix(col, orange, blob * 0.5);
+        float vein = smoothstep(0.465, 0.50, f) * smoothstep(0.545, 0.50, f);
+        col = mix(col, ink, vein * 0.28);
       } else {
         /* тёмный режим: графитовое поле, разводы оранжевого и бумаги */
         col = mix(ink * 0.9, ink * 1.5, smoothstep(0.2, 0.8, f));
