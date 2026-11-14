@@ -423,6 +423,18 @@ a { color: inherit; text-decoration: none; }
 /* ============ principles ============ */
 .principles { border-bottom: 2px solid var(--line); position: relative; }
 .principles .section__inner { position: relative; }
+.principles__sign {             /* оранжевая «подпись» справа, вертикальная */
+  position: absolute;
+  top: 50%;
+  right: clamp(0px, 3vw, 60px);
+  height: 88%;
+  max-height: 520px;
+  width: auto;
+  transform: translateY(-50%) rotate(-4deg);
+  object-fit: contain;
+  pointer-events: none;
+  opacity: .92;
+}
 .principles__blob {
   position: absolute;
   top: clamp(56px, 6.5vw, 100px);
@@ -556,6 +568,18 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
   mix-blend-mode: multiply;
   opacity: .85;
+}
+.statement__brush {             /* оранжевые мазки справа от фразы */
+  position: absolute;
+  right: clamp(-30px, 3vw, 80px);
+  top: 44%;
+  width: clamp(200px, 22vw, 360px);
+  height: auto;
+  transform: translateY(-50%) rotate(38deg);
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  opacity: .9;
 }
 .statement__text {
   position: relative;
@@ -902,6 +926,8 @@ a { color: inherit; text-decoration: none; }
   .burger { display: flex; }
   .about__mark { position: static; margin-bottom: 20px; }
   .principles__blob { display: none; }
+  .principles__sign { height: 60%; opacity: .5; right: -40px; }
+  .statement__brush { width: 130px; opacity: .6; right: -24px; }
   .artist-card { flex-direction: column; }
   .artist-card__photo { flex: none; max-width: none; aspect-ratio: 1; }
   .svc__block, .svc__block--rev { grid-template-columns: 1fr; gap: 20px; }
