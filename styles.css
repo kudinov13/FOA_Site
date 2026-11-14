@@ -169,12 +169,11 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
   border-bottom: 2px solid var(--line);
 }
-.hero .shader-bg { opacity: .55; z-index: 0; }
 .hero__photo {
   position: absolute;
   top: 0;
   right: 0;
-  width: 58%;
+  width: 60%;
   height: 100%;
   z-index: 1;
 }
@@ -186,11 +185,6 @@ a { color: inherit; text-decoration: none; }
   object-fit: cover;
   object-position: right center;
 }
-.hero__photo .hero__paint {
-  width: 128%;                  /* мазки выходят за правый край и под людей */
-  right: -14%;
-  left: auto;
-}
 .hero__photo .hero__people { z-index: 1; }
 .hero__photo::before {          /* мягкий переход в бумагу слева */
   content: "";
@@ -198,7 +192,7 @@ a { color: inherit; text-decoration: none; }
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: linear-gradient(90deg, var(--paper) 0%, rgba(241,236,227,.85) 12%, rgba(241,236,227,0) 34%);
+  background: linear-gradient(90deg, var(--paper) 0%, rgba(241,236,227,.8) 10%, rgba(241,236,227,0) 28%);
 }
 .hero__inner {
   position: relative;
@@ -221,12 +215,12 @@ a { color: inherit; text-decoration: none; }
 }
 .hero__title {
   font-family: var(--anton);
-  font-size: clamp(44px, 6.4vw, 96px);
+  font-size: clamp(38px, 5vw, 72px);
   line-height: .94;
   letter-spacing: .01em;
   text-transform: uppercase;
   color: var(--ink);
-  max-width: 640px;
+  max-width: 480px;
 }
 .hero__text {
   margin-top: clamp(18px, 2vw, 28px);
@@ -850,7 +844,6 @@ a { color: inherit; text-decoration: none; }
   .hero__inner { min-height: 0; padding-top: clamp(40px, 12vw, 64px); padding-bottom: 0; }
   .hero__photo { position: relative; width: calc(100% + 40px); margin: 24px -20px 0; height: auto; aspect-ratio: 1672/941; }
   .hero__photo img { object-fit: contain; }
-  .hero__photo .hero__paint { width: 118%; right: -12%; }
   .hero__title { font-size: clamp(38px, 11vw, 56px); }
   .hero__foot { flex-wrap: wrap; }
   .projects__grid { grid-template-columns: 1fr; gap: 20px; }
