@@ -169,6 +169,11 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
   border-bottom: 2px solid var(--line);
 }
+.shader-bg--text {              /* серые прожилки только под текстом слева */
+  left: 0;
+  right: auto;
+  width: 48%;
+}
 .hero__photo {
   position: absolute;
   top: 0;

@@ -49,7 +49,12 @@
       vec3 ink    = vec3(0.090, 0.075, 0.055);   /* Mars Black */
 
       vec3 col;
-      if (u_dark < 0.5) {
+      if (u_dark > 1.5) {
+        /* серый режим: бумага + едва заметные графитовые прожилки */
+        col = mix(paper, paper2, smoothstep(0.25, 0.75, f));
+        float vein = smoothstep(0.465, 0.50, f) * smoothstep(0.54, 0.50, f);
+        col = mix(col, ink, vein * 0.16);
+      } else if (u_dark < 0.5) {
         /* светлый режим: бумага, редкие мазки оранжевого и графита */
         col = mix(paper, paper2, smoothstep(0.25, 0.75, f));
         float blob = smoothstep(0.66, 0.80, f) * smoothstep(0.90, 0.74, f);
@@ -96,7 +101,7 @@
     const uTime = gl.getUniformLocation(prog, 'u_time');
     const uDark = gl.getUniformLocation(prog, 'u_dark');
     const uMouse = gl.getUniformLocation(prog, 'u_mouse');
-    gl.uniform1f(uDark, canvas.dataset.theme === 'dark' ? 1 : 0);
+    gl.uniform1f(uDark, canvas.dataset.theme === 'dark' ? 1 : (canvas.dataset.theme === 'gray' ? 2 : 0));
 
     let mx = 0.5, my = 0.5, tmx = 0.5, tmy = 0.5;
     canvas.parentElement.addEventListener('pointermove', e => {
