@@ -536,6 +536,17 @@ a { color: inherit; text-decoration: none; }
 
 /* ============ statement («пришлите») ============ */
 .statement { position: relative; overflow: hidden; border-bottom: 2px solid var(--line); }
+.statement__scribble {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 130%;
+  width: auto;
+  transform: translateY(-50%);
+  object-fit: contain;
+  pointer-events: none;
+  opacity: .85;
+}
 .statement__blob {
   position: absolute;
   width: clamp(300px, 34vw, 520px);
