@@ -206,7 +206,21 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column;
   justify-content: center;
 }
-.hero__inner::before { display: none; }
+.hero__inner::before {          /* мягкая бумажная вуаль под текстом — буквы не сливаются */
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -6%;
+  bottom: -6%;
+  left: -8%;
+  width: min(560px, 42vw);
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    rgba(241,236,227,.92) 0%,
+    rgba(241,236,227,.82) 55%,
+    rgba(241,236,227,.45) 80%,
+    rgba(241,236,227,0) 100%);
+}
 .hero__eyebrow {
   font-size: 14px;
   font-weight: 700;
