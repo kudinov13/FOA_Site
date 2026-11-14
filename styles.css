@@ -169,20 +169,22 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
   border-bottom: 2px solid var(--line);
 }
-.shader-bg--text {              /* серые прожилки только под текстом слева */
+.shader-bg--text {              /* серые прожилки: под текстом + растворяются под фото */
   left: 0;
   right: auto;
-  width: 62%;
-  -webkit-mask-image: linear-gradient(90deg, #000 55%, transparent 100%);
-  mask-image: linear-gradient(90deg, #000 55%, transparent 100%);
+  width: 100%;
+  -webkit-mask-image: linear-gradient(90deg, #000 58%, transparent 80%);
+  mask-image: linear-gradient(90deg, #000 58%, transparent 80%);
 }
 .hero__photo {
   position: absolute;
   top: 0;
   right: 0;
-  width: 60%;
+  width: 72%;
   height: 100%;
   z-index: 1;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 26%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 26%);
 }
 .hero__photo img {
   position: absolute;
@@ -193,14 +195,6 @@ a { color: inherit; text-decoration: none; }
   object-position: right center;
 }
 .hero__photo .hero__people { z-index: 1; }
-.hero__photo::before {          /* мягкий переход в бумагу слева */
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: linear-gradient(90deg, var(--paper) 0%, rgba(241,236,227,.8) 10%, rgba(241,236,227,0) 28%);
-}
 .hero__inner {
   position: relative;
   z-index: 3;
@@ -212,6 +206,7 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column;
   justify-content: center;
 }
+.hero__inner::before { display: none; }
 .hero__eyebrow {
   font-size: 14px;
   font-weight: 700;
@@ -222,7 +217,7 @@ a { color: inherit; text-decoration: none; }
 }
 .hero__title {
   font-family: var(--anton);
-  font-size: clamp(38px, 5vw, 72px);
+  font-size: clamp(38px, 4.7vw, 66px);
   line-height: .94;
   letter-spacing: .01em;
   text-transform: uppercase;
