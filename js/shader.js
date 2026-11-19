@@ -120,19 +120,26 @@
       }
       gl.uniform2f(uRes, canvas.width, canvas.height);
     }
+    let last = 0;
+    const FPS_MS = 1000 / 30;
     function frame(now) {
-      if (!visible) { raf = null; return; }
+      if (!visible || document.hidden) { raf = null; return; }
+      raf = requestAnimationFrame(frame);
+      if (now - last < FPS_MS) return;
+      last = now;
       resize();
       mx += (tmx - mx) * 0.04; my += (tmy - my) * 0.04;
       gl.uniform1f(uTime, (now - t0) / 1000);
       gl.uniform2f(uMouse, mx, my);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
-      raf = requestAnimationFrame(frame);
     }
     new IntersectionObserver(en => {
       visible = en[0].isIntersecting;
       if (visible && !raf && !reduced) raf = requestAnimationFrame(frame);
     }).observe(canvas);
+    document.addEventListener('visibilitychange', () => {
+      if (visible && !document.hidden && !raf && !reduced) raf = requestAnimationFrame(frame);
+    });
 
     if (reduced) { /* один статичный кадр */
       resize(); gl.uniform1f(uTime, 10); gl.drawArrays(gl.TRIANGLES, 0, 3);

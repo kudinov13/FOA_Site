@@ -241,6 +241,19 @@ def api_delete(pid):
 
 # ---------- статика ----------
 
+_STATIC_CACHE = ('.webp', '.png', '.jpg', '.jpeg', '.svg', '.woff', '.woff2', '.ttf')
+
+
+@app.after_request
+def cache_headers(resp):
+    p = request.path.lower()
+    if p.endswith(_STATIC_CACHE) or '.css' in p or '.js' in p:
+        resp.headers['Cache-Control'] = 'public, max-age=2592000, immutable'
+    elif p.endswith('.html') or p == '/':
+        resp.headers['Cache-Control'] = 'no-cache'
+    return resp
+
+
 @app.route('/', defaults={'path': 'index.html'})
 @app.route('/<path:path>')
 def static_files(path):
