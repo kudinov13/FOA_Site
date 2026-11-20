@@ -689,8 +689,8 @@ a { color: inherit; text-decoration: none; }
 }
 .footer__cols {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(28px, 5vw, 200px);
+  grid-template-columns: 1.1fr .6fr 1.1fr;
+  gap: clamp(28px, 4vw, 120px);
 }
 .footer__col-title {
   font-family: var(--anton);
@@ -728,6 +728,26 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
 }
 .footer__strip img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
+/* форма заявки в футере */
+.lead-form { display: flex; flex-direction: column; gap: 12px; max-width: 400px; }
+.lead-form__hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.lead-form__input {
+  width: 100%;
+  padding: 13px 14px;
+  font: 500 15px var(--font);
+  color: var(--ink);
+  background: transparent;
+  border: 2px solid var(--line);
+  border-radius: 0;
+}
+.lead-form__input::placeholder { color: var(--ink-60); }
+.lead-form__input:focus { outline: none; border-color: var(--orange); }
+textarea.lead-form__input { resize: vertical; }
+.lead-form .bar-btn { height: 56px; cursor: pointer; }
+.lead-form__msg { font-size: 14px; font-weight: 600; min-height: 18px; }
+.lead-form__msg.is-ok { color: var(--ink-60); }
+.lead-form__msg.is-err { color: var(--orange); }
+
 .footer__legal {
   display: flex;
   justify-content: space-between;

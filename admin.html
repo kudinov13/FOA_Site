@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=224">
+<link rel="stylesheet" href="styles.css?v=225">
 <style>
   .admin { min-height: 70vh; display: flex; align-items: flex-start; }
   .admin__box { max-width: 460px; margin: 8vh auto; width: 100%; }
@@ -41,8 +41,26 @@
   .admin__row img { width: 56px; height: 56px; object-fit: cover; }
   .admin__row-title { font-weight: 700; }
   .admin__row-cat { font-size: 13px; color: var(--ink-60); }
-  .admin__row-del { margin-left: auto; background: none; border: 2px solid rgba(23,19,14,.55); padding: 6px 14px; font: 700 12px var(--grot); cursor: pointer; }
-  .admin__row-del:hover { border-color: var(--orange); color: var(--orange); }
+  .admin__row-del, .admin__row-edit { margin-left: auto; background: none; border: 2px solid rgba(23,19,14,.55); padding: 6px 14px; font: 700 12px var(--grot); cursor: pointer; }
+  .admin__row-del:hover, .admin__row-edit:hover { border-color: var(--orange); color: var(--orange); }
+  .admin__row-edit { margin-left: auto; }
+  .admin__row-edit + .admin__row-del { margin-left: 0; }
+  .admin__tabs { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+  .admin__tab { padding: 10px 24px; border: 2px solid rgba(23,19,14,.55); background: none; font: 700 14px var(--font); color: var(--ink); cursor: pointer; text-transform: uppercase; letter-spacing: .05em; }
+  .admin__tab.is-active { background: var(--ink); color: var(--paper); }
+  .admin__tab .badge { display: inline-block; min-width: 20px; padding: 0 6px; margin-left: 8px; background: var(--orange); color: var(--ink); font-size: 12px; line-height: 18px; text-align: center; }
+  .lead-row { display: flex; gap: 16px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--ink-30); }
+  .lead-row.is-unread .lead-row__name::before { content: '●'; color: var(--orange); margin-right: 8px; }
+  .lead-row__main { flex: 1; min-width: 0; }
+  .lead-row__name { font-weight: 700; }
+  .lead-row__contacts { font-size: 14px; margin-top: 4px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .lead-row__contacts a { color: var(--orange); font-weight: 600; }
+  .lead-row__msg { font-size: 14px; color: var(--ink-60); margin-top: 6px; }
+  .lead-row__date { font-size: 12px; color: var(--ink-60); white-space: nowrap; padding-top: 3px; }
+  .lead-row__btns { display: flex; gap: 8px; }
+  .lead-row__btns button { background: none; border: 2px solid rgba(23,19,14,.55); padding: 4px 12px; font: 700 12px var(--grot); cursor: pointer; }
+  .lead-row__btns button:hover { border-color: var(--orange); color: var(--orange); }
+  .admin__editing { border: 2px dashed var(--orange); padding: 18px; margin-bottom: 20px; }
   @media (max-width: 700px) { .admin__form { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -71,13 +89,28 @@
 <!-- ===== PANEL ===== -->
 <section class="admin__panel" id="panelView" hidden>
   <div class="admin__panel-head">
-    <h1 class="admin__title" style="margin:0">Проекты</h1>
+    <h1 class="admin__title" style="margin:0">Админка</h1>
     <div style="display:flex;gap:12px">
       <a href="index.html" class="btn btn--dark" style="font-size:13px">На сайт</a>
       <button class="btn btn--dark" id="logoutBtn" style="font-size:13px">Выйти</button>
     </div>
   </div>
 
+  <div class="admin__tabs">
+    <button class="admin__tab is-active" data-tab="projects">Проекты</button>
+    <button class="admin__tab" data-tab="leads">Заявки <span class="badge" id="leadsBadge" hidden>0</span></button>
+  </div>
+
+  <div id="leadsView" hidden>
+    <div id="leadsList"></div>
+    <p class="admin__hint" id="leadsEmpty" hidden>Заявок пока нет.</p>
+  </div>
+
+  <div id="projectsView">
+  <div id="editNotice" class="admin__editing" hidden>
+    <b>Редактируешь проект.</b> Измени поля — фото можно заменить/добавить ниже.
+    <button type="button" class="btn btn--dark" id="cancelEdit" style="margin-left:12px;font-size:12px;padding:8px 16px">Отмена</button>
+  </div>
   <form class="admin__form" id="projectForm">
     <label class="field"><span>Название</span><input type="text" id="pTitle" required placeholder="Например: GOSSIP"></label>
     <label class="field"><span>Категория</span><input type="text" id="pCat" required placeholder="Например: Коммерческие интерьеры"></label>
@@ -89,7 +122,7 @@
       <div class="admin__photos" id="photoList"></div>
     </div>
     <div class="field--full">
-      <button class="btn btn--orange" type="submit">Добавить проект →</button>
+      <button class="btn btn--orange" type="submit" id="submitBtn">Добавить проект →</button>
       <span class="admin__error" id="formMsg"></span>
     </div>
   </form>
@@ -98,15 +131,68 @@
     <h2 class="admin__title" style="font-size:26px">Все проекты</h2>
     <div id="projList"></div>
   </div>
+  </div>
 </section>
 
-<script src="js/store.js?v=224"></script>
+<script src="js/store.js?v=225"></script>
 <script>
 (async function () {
   var loginView = document.getElementById('loginView');
   var panelView = document.getElementById('panelView');
 
-  function showPanel() { loginView.hidden = true; panelView.hidden = false; renderList(); }
+  function showPanel() { loginView.hidden = true; panelView.hidden = false; renderList(); renderLeads(); }
+
+  /* ---------- вкладки ---------- */
+  var tabBtns = document.querySelectorAll('.admin__tab');
+  tabBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      tabBtns.forEach(x => x.classList.remove('is-active'));
+      b.classList.add('is-active');
+      document.getElementById('projectsView').hidden = b.dataset.tab !== 'projects';
+      document.getElementById('leadsView').hidden = b.dataset.tab !== 'leads';
+      if (b.dataset.tab === 'leads') renderLeads();
+    });
+  });
+
+  /* ---------- заявки ---------- */
+  async function renderLeads() {
+    var list = document.getElementById('leadsList');
+    var leads = await fetch('/api/leads').then(r => r.ok ? r.json() : []).catch(() => []);
+    var unread = leads.filter(l => !l.is_read).length;
+    var badge = document.getElementById('leadsBadge');
+    badge.hidden = !unread;
+    badge.textContent = unread;
+    document.getElementById('leadsEmpty').hidden = leads.length > 0;
+    list.innerHTML = '';
+    leads.forEach(function (l) {
+      var row = document.createElement('div');
+      row.className = 'lead-row' + (l.is_read ? '' : ' is-unread');
+      var tg = l.tg ? '<a href="https://t.me/' + encodeURIComponent(l.tg) + '" target="_blank" rel="noopener">@' + l.tg + '</a>' : '';
+      var msg = l.message ? '<p class="lead-row__msg">' + l.message.replace(/</g, '&lt;') + '</p>' : '';
+      row.innerHTML =
+        '<div class="lead-row__main">' +
+          '<div class="lead-row__name">' + l.name.replace(/</g, '&lt;') + '</div>' +
+          '<div class="lead-row__contacts"><a href="tel:' + encodeURIComponent(l.phone) + '">' + l.phone.replace(/</g, '&lt;') + '</a>' + tg + '</div>' +
+          msg +
+        '</div>' +
+        '<span class="lead-row__date">' + (l.created_at || '').slice(0, 16) + '</span>' +
+        '<div class="lead-row__btns">' +
+          (l.is_read ? '' : '<button data-act="read" data-id="' + l.id + '">Прочитано</button>') +
+          '<button data-act="del" data-id="' + l.id + '">Удалить</button>' +
+        '</div>';
+      list.appendChild(row);
+    });
+  }
+  document.getElementById('leadsList').addEventListener('click', async function (e) {
+    var btn = e.target.closest('button[data-act]');
+    if (!btn) return;
+    if (btn.dataset.act === 'read') {
+      await fetch('/api/leads/' + btn.dataset.id + '/read', { method: 'POST' });
+    } else if (confirm('Удалить заявку #' + btn.dataset.id + '?')) {
+      await fetch('/api/leads/' + btn.dataset.id, { method: 'DELETE' });
+    } else return;
+    renderLeads();
+  });
 
   var me = await fetch('/api/me').then(r => r.json()).catch(() => ({ admin: false }));
   if (me.admin) showPanel();
@@ -131,19 +217,72 @@
   });
 
   /* ---------- фото: превью + выбор обложки ---------- */
-  var photos = []; // {file, url, isCover}
+  var photos = []; // {file, url, isCover} — режим нового проекта
+  var editing = null; // проект в режиме редактирования
   var photoList = document.getElementById('photoList');
 
-  document.getElementById('pPhotos').addEventListener('change', function (e) {
-    Array.from(e.target.files).forEach(function (f) {
+  function setEditing(p) {
+    editing = p;
+    document.getElementById('editNotice').hidden = !p;
+    document.getElementById('submitBtn').textContent = p ? 'Сохранить изменения →' : 'Добавить проект →';
+    document.getElementById('pTitle').value = p ? p.title : '';
+    document.getElementById('pCat').value = p ? p.category : '';
+    document.getElementById('pDesc').value = p ? p.description : '';
+    photos.forEach(x => URL.revokeObjectURL(x.url));
+    photos = [];
+    renderPhotos();
+  }
+  document.getElementById('cancelEdit').addEventListener('click', function () { setEditing(null); });
+
+  document.getElementById('pPhotos').addEventListener('change', async function (e) {
+    var files = Array.from(e.target.files);
+    e.target.value = '';
+    if (editing) {                          // в режиме правки фото летят сразу на сервер
+      var fd = new FormData();
+      files.forEach(f => fd.append('photos', f, f.name));
+      var r = await fetch('/api/projects/' + editing.id + '/photos', { method: 'POST', body: fd });
+      var j = await r.json().catch(() => ({}));
+      if (j.ok) { editing.photos = j.photos; FOAStore.invalidate(); renderPhotos(); }
+      return;
+    }
+    files.forEach(function (f) {
       photos.push({ file: f, url: URL.createObjectURL(f), isCover: photos.length === 0 });
     });
     renderPhotos();
-    e.target.value = '';
   });
 
   function renderPhotos() {
     photoList.innerHTML = '';
+    if (editing) {                          // существующие фото: клик = обложка, × = удалить
+      editing.photos.forEach(function (src, i) {
+        var d = document.createElement('div');
+        d.className = 'admin__thumb' + (editing.cover === src ? ' is-cover' : '');
+        d.innerHTML = '<img src="' + src + '"><button type="button" class="admin__thumb-x">×</button>';
+        d.addEventListener('click', async function (e) {
+          var url, r, j;
+          if (e.target.classList.contains('admin__thumb-x')) {
+            if (!confirm('Удалить это фото?')) return;
+            r = await fetch('/api/projects/' + editing.id + '/photos/delete', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ index: i })
+            });
+            j = await r.json().catch(() => ({}));
+            if (j.ok) { editing.photos = j.photos; editing.cover = j.cover; }
+          } else {
+            r = await fetch('/api/projects/' + editing.id + '/cover', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ index: i })
+            });
+            j = await r.json().catch(() => ({}));
+            if (j.ok) editing.cover = j.cover;
+          }
+          FOAStore.invalidate();
+          renderPhotos();
+        });
+        photoList.appendChild(d);
+      });
+      return;
+    }
     photos.forEach(function (ph, i) {
       var d = document.createElement('div');
       d.className = 'admin__thumb' + (ph.isCover ? ' is-cover' : '');
@@ -163,10 +302,28 @@
     });
   }
 
-  /* ---------- добавление ---------- */
+  /* ---------- добавление / редактирование ---------- */
   document.getElementById('projectForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     var msg = document.getElementById('formMsg');
+    var r;
+    if (editing) {                          // сохранить правки
+      r = await fetch('/api/projects/' + editing.id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: document.getElementById('pTitle').value.trim(),
+          category: document.getElementById('pCat').value.trim(),
+          description: document.getElementById('pDesc').value.trim()
+        })
+      });
+      if (!r.ok) { msg.textContent = 'Ошибка сохранения'; return; }
+      setEditing(null);
+      msg.textContent = 'Сохранено.';
+      FOAStore.invalidate();
+      renderList();
+      return;
+    }
     if (!photos.length) { msg.textContent = 'Добавь хотя бы одно фото'; return; }
 
     var fd = new FormData();
@@ -176,7 +333,7 @@
     fd.append('cover_index', photos.findIndex(p => p.isCover));
     photos.forEach(p => fd.append('photos', p.file, p.file.name));
 
-    var r = await fetch('/api/projects', { method: 'POST', body: fd });
+    r = await fetch('/api/projects', { method: 'POST', body: fd });
     if (!r.ok) { msg.textContent = 'Ошибка загрузки'; return; }
 
     photos.forEach(p => URL.revokeObjectURL(p.url));
@@ -199,14 +356,25 @@
         '<img src="' + p.cover + '" alt="">' +
         '<div><div class="admin__row-title">' + p.title + '</div>' +
         '<div class="admin__row-cat">' + p.category + ' · фото: ' + p.photos.length + '</div></div>' +
+        '<button class="admin__row-edit" data-id="' + p.id + '">Изменить</button>' +
         '<button class="admin__row-del" data-id="' + p.id + '">Удалить</button>';
       list.appendChild(row);
     });
   }
   document.getElementById('projList').addEventListener('click', async function (e) {
+    var edit = e.target.closest('.admin__row-edit');
+    if (edit) {
+      var p = (await FOAStore.all()).find(x => x.id === edit.dataset.id);
+      if (p) {
+        setEditing(p);
+        document.getElementById('projectForm').scrollIntoView({ behavior: 'smooth' });
+      }
+      return;
+    }
     var btn = e.target.closest('.admin__row-del');
     if (btn && confirm('Удалить проект «' + btn.dataset.id + '»?')) {
       await fetch('/api/projects/' + btn.dataset.id, { method: 'DELETE' });
+      if (editing && editing.id === btn.dataset.id) setEditing(null);
       FOAStore.invalidate();
       renderList();
     }

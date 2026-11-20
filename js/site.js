@@ -49,6 +49,36 @@
     });
   });
 
+  /* ---------- форма заявки ---------- */
+  const leadForm = document.getElementById('leadForm');
+  if (leadForm) {
+    leadForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const msg = document.getElementById('leadMsg');
+      const btn = leadForm.querySelector('button[type="submit"]');
+      const data = Object.fromEntries(new FormData(leadForm).entries());
+      btn.disabled = true;
+      msg.className = 'lead-form__msg';
+      msg.textContent = 'Отправляем…';
+      try {
+        const r = await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!r.ok) throw 0;
+        leadForm.reset();
+        msg.textContent = 'Заявка отправлена — свяжемся с вами.';
+        msg.classList.add('is-ok');
+      } catch (err) {
+        msg.textContent = 'Не вышло отправить — напишите нам в Telegram.';
+        msg.classList.add('is-err');
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  }
+
   /* ---------- карточка проекта ---------- */
   window.FOAcard = function (p, i, total) {
     const num = String(i + 1).padStart(2, '0');

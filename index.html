@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=224">
+<link rel="stylesheet" href="styles.css?v=225">
 </head>
 <body>
 
@@ -287,18 +287,30 @@
         <h3 class="footer__col-title">медиа</h3>
         <a class="footer__link" href="https://taplink.cc/graffitipro" target="_blank" rel="noopener">Taplink</a>
       </div>
+      <div>
+        <h3 class="footer__col-title">Заявка</h3>
+        <form class="lead-form" id="leadForm">
+          <input type="text" name="website" class="lead-form__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input class="lead-form__input" type="text" name="name" placeholder="Имя — как к вам обращаться" required>
+          <input class="lead-form__input" type="tel" name="phone" placeholder="Телефон" required>
+          <input class="lead-form__input" type="text" name="tg" placeholder="Telegram @username (необязательно)">
+          <textarea class="lead-form__input" name="message" rows="3" placeholder="Пара слов о задаче (необязательно)"></textarea>
+          <button class="bar-btn" type="submit">Отправить</button>
+          <p class="lead-form__msg" id="leadMsg" role="status"></p>
+        </form>
+      </div>
     </div>
     <div class="footer__strip"><img loading="lazy" decoding="async" src="refs_tilda/fphoto1.svg" alt="FOA — Family of Artists"></div>
     <div class="footer__legal">
       <a href="#">Политика обработки персональных данных</a>
-      <span>©family of artist, 2025</span>
+      <span data-admin-trigger>©family of artist, 2025</span>
     </div>
   </div>
 </footer>
 
-<script src="js/shader.js?v=224"></script>
-<script src="js/store.js?v=224"></script>
-<script src="js/site.js?v=224"></script>
+<script src="js/shader.js?v=225"></script>
+<script src="js/store.js?v=225"></script>
+<script src="js/site.js?v=225"></script>
 
 </body>
 </html>

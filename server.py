@@ -56,6 +56,15 @@ def init_db():
         cover TEXT NOT NULL,
         photos TEXT NOT NULL
     )''')
+    db.execute('''CREATE TABLE IF NOT EXISTS leads (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        phone TEXT NOT NULL,
+        tg TEXT DEFAULT '',
+        message TEXT DEFAULT '',
+        is_read INTEGER DEFAULT 0,
+        created_at TEXT DEFAULT (datetime('now', 'localtime'))
+    )''')
     db.commit()
     db.close()
 
@@ -235,6 +244,107 @@ def api_set_cover(pid):
 @require_admin
 def api_delete(pid):
     get_db().execute('DELETE FROM projects WHERE id = ?', (pid,))
+    get_db().commit()
+    return jsonify({'ok': True})
+
+
+@app.put('/api/projects/<pid>')
+@require_admin
+def api_update(pid):
+    row = get_db().execute('SELECT * FROM projects WHERE id = ?', (pid,)).fetchone()
+    if not row:
+        return jsonify({'error': 'not found'}), 404
+    data = request.get_json(force=True, silent=True) or {}
+    title = (data.get('title') or '').strip() or row['title']
+    category = (data.get('category') or '').strip() or row['category']
+    description = (data.get('description') or '').strip() or row['description']
+    get_db().execute(
+        'UPDATE projects SET title = ?, category = ?, description = ? WHERE id = ?',
+        (title, category, description, pid)
+    )
+    get_db().commit()
+    return jsonify({'ok': True})
+
+
+@app.post('/api/projects/<pid>/photos')
+@require_admin
+def api_add_photos(pid):
+    row = get_db().execute('SELECT * FROM projects WHERE id = ?', (pid,)).fetchone()
+    if not row:
+        return jsonify({'error': 'not found'}), 404
+    photos = json.loads(row['photos'])
+    for f in request.files.getlist('photos'):
+        try:
+            photos.append(save_webp(Image.open(f.stream)))
+        except Exception:
+            continue
+    get_db().execute('UPDATE projects SET photos = ? WHERE id = ?', (json.dumps(photos), pid))
+    get_db().commit()
+    return jsonify({'ok': True, 'photos': photos})
+
+
+@app.post('/api/projects/<pid>/photos/delete')
+@require_admin
+def api_del_photo(pid):
+    row = get_db().execute('SELECT * FROM projects WHERE id = ?', (pid,)).fetchone()
+    if not row:
+        return jsonify({'error': 'not found'}), 404
+    data = request.get_json(force=True, silent=True) or {}
+    photos = json.loads(row['photos'])
+    idx = int(data.get('index', -1))
+    if not (0 <= idx < len(photos)):
+        return jsonify({'error': 'bad index'}), 400
+    if len(photos) == 1:
+        return jsonify({'error': 'Нельзя удалить единственное фото'}), 400
+    removed = photos.pop(idx)
+    cover = photos[0] if row['cover'] == removed else row['cover']
+    get_db().execute('UPDATE projects SET photos = ?, cover = ? WHERE id = ?',
+                     (json.dumps(photos), cover, pid))
+    get_db().commit()
+    return jsonify({'ok': True, 'photos': photos, 'cover': cover})
+
+
+# ---------- заявки ----------
+
+@app.post('/api/leads')
+def api_lead_create():
+    data = request.get_json(force=True, silent=True) or request.form
+    if (data.get('website') or '').strip():     # honeypot — спам принимаем молча
+        return jsonify({'ok': True})
+    name = (data.get('name') or '').strip()
+    phone = (data.get('phone') or '').strip()
+    tg = (data.get('tg') or '').strip().lstrip('@')
+    message = (data.get('message') or '').strip()
+    if not name or not phone:
+        return jsonify({'error': 'Укажите имя и телефон'}), 400
+    get_db().execute(
+        'INSERT INTO leads (name, phone, tg, message) VALUES (?,?,?,?)',
+        (name, phone, tg, message)
+    )
+    get_db().commit()
+    # TODO: пересылка в Telegram — завести бота, токен и chat_id через env
+    return jsonify({'ok': True})
+
+
+@app.get('/api/leads')
+@require_admin
+def api_leads():
+    rows = get_db().execute('SELECT * FROM leads ORDER BY id DESC').fetchall()
+    return jsonify([dict(r) for r in rows])
+
+
+@app.post('/api/leads/<int:lid>/read')
+@require_admin
+def api_lead_read(lid):
+    get_db().execute('UPDATE leads SET is_read = 1 WHERE id = ?', (lid,))
+    get_db().commit()
+    return jsonify({'ok': True})
+
+
+@app.delete('/api/leads/<int:lid>')
+@require_admin
+def api_lead_delete(lid):
+    get_db().execute('DELETE FROM leads WHERE id = ?', (lid,))
     get_db().commit()
     return jsonify({'ok': True})
 
