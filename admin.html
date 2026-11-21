@@ -168,11 +168,13 @@
       var row = document.createElement('div');
       row.className = 'lead-row' + (l.is_read ? '' : ' is-unread');
       var tg = l.tg ? '<a href="https://t.me/' + encodeURIComponent(l.tg) + '" target="_blank" rel="noopener">@' + l.tg + '</a>' : '';
-      var msg = l.message ? '<p class="lead-row__msg">' + l.message.replace(/</g, '&lt;') + '</p>' : '';
+      var phone = l.phone ? '<a href="tel:' + encodeURIComponent(l.phone) + '">' + l.phone.replace(/</g, '&lt;') + '</a>' : '';
+      var src = l.source === 'chat' ? ' <span style="font-size:11px;color:var(--orange);font-weight:700">чат-бот</span>' : '';
+      var msg = l.message ? '<p class="lead-row__msg">' + l.message.replace(/</g, '&lt;').replace(/\n/g, '<br>') + '</p>' : '';
       row.innerHTML =
         '<div class="lead-row__main">' +
-          '<div class="lead-row__name">' + l.name.replace(/</g, '&lt;') + '</div>' +
-          '<div class="lead-row__contacts"><a href="tel:' + encodeURIComponent(l.phone) + '">' + l.phone.replace(/</g, '&lt;') + '</a>' + tg + '</div>' +
+          '<div class="lead-row__name">' + l.name.replace(/</g, '&lt;') + src + '</div>' +
+          '<div class="lead-row__contacts">' + phone + tg + '</div>' +
           msg +
         '</div>' +
         '<span class="lead-row__date">' + (l.created_at || '').slice(0, 16) + '</span>' +

@@ -4,7 +4,9 @@
 import hashlib
 import json
 import os
+import re
 import sqlite3
+import time
 import uuid
 from functools import wraps
 from io import BytesIO
@@ -13,6 +15,24 @@ from flask import Flask, g, jsonify, request, send_from_directory, session
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
+
+
+def _load_env():
+    env_path = os.path.join(ROOT, '.env')
+    if not os.path.isfile(env_path):
+        return
+    with open(env_path, encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('#') or '=' not in line:
+                continue
+            key, _, value = line.partition('=')
+            key = key.strip()
+            if key and key not in os.environ:
+                os.environ[key] = value.strip()
+
+
+_load_env()
 DB_PATH = os.path.join(ROOT, 'foa.db')
 MEDIA_DIR = os.path.join(ROOT, 'media')
 SEED_FILE = os.path.join(ROOT, 'data', 'projects.json')
@@ -65,6 +85,18 @@ def init_db():
         is_read INTEGER DEFAULT 0,
         created_at TEXT DEFAULT (datetime('now', 'localtime'))
     )''')
+    db.execute('''CREATE TABLE IF NOT EXISTS chat_files (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        session_id TEXT NOT NULL,
+        filename TEXT NOT NULL,
+        original_name TEXT DEFAULT '',
+        lead_id INTEGER,
+        created_at TEXT DEFAULT (datetime('now', 'localtime'))
+    )''')
+    try:
+        db.execute("ALTER TABLE leads ADD COLUMN source TEXT DEFAULT 'form'")
+    except sqlite3.OperationalError:
+        pass
     db.commit()
     db.close()
 
@@ -317,12 +349,22 @@ def api_lead_create():
     message = (data.get('message') or '').strip()
     if not name or not phone:
         return jsonify({'error': 'Укажите имя и телефон'}), 400
-    get_db().execute(
-        'INSERT INTO leads (name, phone, tg, message) VALUES (?,?,?,?)',
-        (name, phone, tg, message)
+    cur = get_db().execute(
+        'INSERT INTO leads (name, phone, tg, message, source) VALUES (?,?,?,?,?)',
+        (name, phone, tg, message, 'form')
     )
     get_db().commit()
-    # TODO: пересылка в Telegram — завести бота, токен и chat_id через env
+    try:
+        from telegram_send import send_message
+        esc = lambda s: str(s or '').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+        send_message(
+            '<b>Новая заявка #%s с сайта семьяхудожников.рф (форма)</b>\n\n'
+            '<b>Имя:</b> %s\n<b>Телефон:</b> %s\n'
+            '<b>Telegram:</b> %s\n<b>Сообщение:</b> %s'
+            % (cur.lastrowid, esc(name), esc(phone), esc('@' + tg if tg else '—'), esc(message or '—'))
+        )
+    except Exception as e:
+        print('[leads] telegram notify failed:', e)
     return jsonify({'ok': True})
 
 
@@ -347,6 +389,258 @@ def api_lead_delete(lid):
     get_db().execute('DELETE FROM leads WHERE id = ?', (lid,))
     get_db().commit()
     return jsonify({'ok': True})
+
+
+# ---------- чат-бот (GigaChat) ----------
+
+CHAT_LIMIT = 30
+CHAT_WINDOW = 10 * 60
+_chat_hits = {}
+
+MAX_HISTORY = 20
+MAX_MESSAGE_LEN = 2000
+SESSION_RE = re.compile(r'^[a-zA-Z0-9_-]{16,80}$')
+PLACEHOLDER = re.compile(r'неуказан|не указан|unknown|нет данных|^\s*$', re.I)
+
+CHAT_UPLOAD_EXT = {'.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg', '.ai', '.pdf', '.eps', '.zip'}
+
+
+def _rate_ok(key):
+    now = time.time()
+    hits = [t for t in _chat_hits.get(key, []) if now - t < CHAT_WINDOW]
+    if len(hits) >= CHAT_LIMIT:
+        _chat_hits[key] = hits
+        return False
+    hits.append(now)
+    _chat_hits[key] = hits
+    return True
+
+
+def _esc(s):
+    return str(s or '').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+
+
+def _valid_application(a, history):
+    required = [
+        ('name', 'имя'),
+        ('work_type', 'вид работы'),
+        ('city', 'город'),
+        ('contact_method', 'способ связи'),
+        ('contact', 'контакт'),
+    ]
+    missing = [label for key, label in required if PLACEHOLDER.search(str(a.get(key) or ''))]
+    if missing:
+        return 'missing: %s' % ', '.join(missing)
+
+    method = str(a.get('contact_method', '')).lower()
+    contact = str(a.get('contact', '')).strip()
+    if method not in ('telegram', 'phone', 'whatsapp'):
+        return 'invalid: способ связи — telegram, phone или whatsapp'
+
+    user_text = '\n'.join(m['content'] for m in history if m['role'] == 'user')
+    user_digits = re.sub(r'\D', '', user_text)
+    if method == 'telegram':
+        if not re.match(r'^(@[a-zA-Z0-9_]{5,32}|https://t\.me/[a-zA-Z0-9_]{5,32}/?$)', contact):
+            return 'invalid: нужен Telegram @username или ссылка https://t.me/username'
+        if contact.lower() not in user_text.lower():
+            return 'invalid: Telegram-контакт не был указан клиентом'
+    else:
+        if len(re.sub(r'\D', '', contact)) < 10:
+            return 'invalid: номер телефона должен содержать не менее 10 цифр'
+        contact_digits = re.sub(r'\D', '', contact)
+        if contact_digits not in user_digits and contact_digits[1:] not in user_digits:
+            return 'invalid: номер телефона не был указан клиентом'
+
+    phone = str(a.get('phone') or '')
+    if phone and len(re.sub(r'\D', '', phone)) < 10:
+        return 'invalid: неверный номер телефона'
+    return None
+
+
+def _create_chat_lead(a, session_id):
+    method = str(a.get('contact_method', '')).lower()
+    contact = str(a.get('contact', '')).strip()
+    phone = str(a.get('phone') or '').strip()
+    tg = ''
+    if method == 'telegram':
+        tg = re.sub(r'^(https://t\.me/|@)', '', contact).strip('/')
+    elif not phone:
+        phone = contact
+    lines = [
+        '[чат-бот] Вид работы: %s' % (a.get('work_type') or ''),
+        'Город: %s' % (a.get('city') or ''),
+    ]
+    for label, key in (('Задача', 'description'), ('Размеры', 'wall_size'), ('Сроки', 'deadline'), ('Комментарий', 'comment')):
+        if a.get(key):
+            lines.append('%s: %s' % (label, a[key]))
+    cur = get_db().execute(
+        'INSERT INTO leads (name, phone, tg, message, source) VALUES (?,?,?,?,?)',
+        (str(a.get('name') or ''), phone, tg, '\n'.join(lines), 'chat')
+    )
+    lead_id = cur.lastrowid
+    get_db().execute(
+        'UPDATE chat_files SET lead_id = ? WHERE session_id = ? AND lead_id IS NULL',
+        (lead_id, session_id)
+    )
+    get_db().commit()
+    return lead_id
+
+
+def _chat_files_for(session_id, lead_id=None):
+    if lead_id is not None:
+        return get_db().execute(
+            'SELECT filename, original_name FROM chat_files WHERE lead_id = ?', (lead_id,)
+        ).fetchall()
+    return get_db().execute(
+        'SELECT id, original_name FROM chat_files WHERE session_id = ? AND lead_id IS NULL',
+        (session_id,)
+    ).fetchall()
+
+
+def _notify_chat_lead(lead_id, a):
+    from telegram_send import send_message, send_document
+    method = str(a.get('contact_method', '')).lower()
+    contact_label = {'telegram': 'Telegram', 'phone': 'Звонок', 'whatsapp': 'WhatsApp'}.get(method, method)
+    parts = [
+        '<b>Заявка #%s с сайта семьяхудожников.рф (чат-бот)</b>' % lead_id,
+        '',
+        '<b>Имя:</b> %s' % _esc(a.get('name')),
+        '<b>Работа:</b> %s' % _esc(a.get('work_type')),
+        '<b>Город:</b> %s' % _esc(a.get('city')),
+    ]
+    if a.get('description'):
+        parts.append('<b>Задача:</b> %s' % _esc(a['description']))
+    if a.get('wall_size'):
+        parts.append('<b>Размеры:</b> %s' % _esc(a['wall_size']))
+    if a.get('deadline'):
+        parts.append('<b>Сроки:</b> %s' % _esc(a['deadline']))
+    parts += [
+        '',
+        '<b>Связь:</b> %s — %s' % (_esc(contact_label), _esc(a.get('contact'))),
+    ]
+    if a.get('phone'):
+        parts.append('<b>Телефон:</b> %s' % _esc(a['phone']))
+    if a.get('comment'):
+        parts.append('<b>Комментарий:</b> %s' % _esc(a['comment']))
+    send_message('\n'.join(parts))
+    for f in _chat_files_for(None, lead_id):
+        send_document(
+            os.path.join(MEDIA_DIR, f['filename']),
+            'Файл к заявке #%s: %s' % (lead_id, f['original_name'])
+        )
+
+
+@app.post('/api/chat')
+def api_chat():
+    if not _rate_ok('chat:%s' % (request.remote_addr or 'x')):
+        return jsonify({'error': 'Слишком много сообщений. Попробуйте позже.'}), 429
+
+    data = request.get_json(force=True, silent=True) or {}
+    raw = data.get('messages')
+    if not isinstance(raw, list):
+        return jsonify({'error': 'bad request'}), 400
+    history = [
+        {'role': m['role'], 'content': str(m['content'])[:MAX_MESSAGE_LEN]}
+        for m in raw[-MAX_HISTORY:]
+        if isinstance(m, dict) and m.get('role') in ('user', 'assistant')
+        and isinstance(m.get('content'), str)
+    ]
+    if not history:
+        return jsonify({'error': 'empty history'}), 400
+
+    session_id = data.get('session_id') if SESSION_RE.match(str(data.get('session_id', ''))) else ''
+
+    if not os.environ.get('GIGACHAT_CREDENTIALS'):
+        return jsonify({'reply': 'Чат временно недоступен — оставьте заявку в форме ниже, и художники свяжутся с вами.'})
+
+    pending = _chat_files_for(session_id) if session_id else []
+    file_ctx = ''
+    if pending:
+        file_ctx = '\n\nКЛИЕНТ ПРИКРЕПИЛ ФАЙЛЫ:\n%s\nФайлы автоматически уйдут в заявку; не проси прислать их повторно.' % '\n'.join(
+            '%s. %s' % (i + 1, f['original_name']) for i, f in enumerate(pending)
+        )
+
+    from foa_prompt import SYSTEM_PROMPT, FUNCTIONS
+    from gigachat import chat_completion
+    messages = [{'role': 'system', 'content': SYSTEM_PROMPT + file_ctx}] + history
+    try:
+        result = chat_completion(messages, FUNCTIONS)
+    except Exception as e:
+        print('[chat] gigachat failed:', e)
+        return jsonify({'reply': 'Не получилось ответить. Оставьте заявку в форме ниже — художники свяжутся с вами в течение дня.'})
+
+    for _ in range(2):
+        fc = result['message'].get('function_call')
+        if not fc:
+            break
+        messages.append({
+            'role': 'assistant',
+            'content': result['message'].get('content') or '',
+            'function_call': fc,
+        })
+        fn_name = fc.get('name')
+        args = fc.get('arguments') or {}
+        submitted = False
+
+        if fn_name == 'submit_application':
+            invalid = _valid_application(args, history)
+            if invalid:
+                fn_result = {'ok': False, 'error': 'Не хватает данных (%s). Доспроси клиента и вызови функцию снова.' % invalid}
+            else:
+                lead_id = _create_chat_lead(args, session_id)
+                try:
+                    _notify_chat_lead(lead_id, args)
+                except Exception as e:
+                    print('[chat] telegram notify failed:', e)
+                files_n = len(_chat_files_for(None, lead_id))
+                fn_result = {'ok': True, 'application_id': lead_id, 'files_attached': files_n}
+                submitted = True
+        elif fn_name == 'contact_admin':
+            try:
+                from telegram_send import send_message
+                send_message(
+                    '<b>Вопрос из чат-бота FOA</b>\n\n%s%s\n\nКлиент на сайте; если контакта нет — ответ невозможен, бот предложит оставить заявку.'
+                    % (_esc(args.get('question')),
+                       '\n\n<b>Контакт:</b> %s' % _esc(args.get('contact')) if args.get('contact') else '')
+                )
+            except Exception as e:
+                print('[chat] handoff failed:', e)
+            fn_result = {'ok': True}
+        else:
+            fn_result = {'ok': False, 'error': 'unknown function'}
+
+        messages.append({'role': 'function', 'name': fn_name, 'content': json.dumps(fn_result)})
+        result = chat_completion(messages, FUNCTIONS)
+
+        if submitted and not result['message'].get('function_call'):
+            return jsonify({
+                'reply': 'Передал Алине фото и вводные. Она напишет по стоимости и срокам в течение дня. Спасибо!',
+                'submitted': True,
+                'model': result['model'],
+            })
+
+    return jsonify({'reply': result['message'].get('content') or '', 'model': result['model']})
+
+
+@app.post('/api/chat/file')
+def api_chat_file():
+    f = request.files.get('file')
+    session_id = request.form.get('session_id', '')
+    if not SESSION_RE.match(session_id):
+        return jsonify({'error': 'Некорректная сессия чата'}), 400
+    if not f or not f.filename:
+        return jsonify({'error': 'Нет файла'}), 400
+    ext = os.path.splitext(f.filename)[1].lower()
+    if ext not in CHAT_UPLOAD_EXT:
+        return jsonify({'error': 'Недопустимый формат файла'}), 400
+    name = uuid.uuid4().hex + ext
+    f.save(os.path.join(MEDIA_DIR, name))
+    get_db().execute(
+        'INSERT INTO chat_files (session_id, filename, original_name) VALUES (?,?,?)',
+        (session_id, name, f.filename[:255])
+    )
+    get_db().commit()
+    return jsonify({'ok': True, 'filename': f.filename})
 
 
 # ---------- статика ----------
