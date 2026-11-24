@@ -439,6 +439,18 @@ def _valid_application(a, history):
 
     user_text = '\n'.join(m['content'] for m in history if m['role'] == 'user')
     user_digits = re.sub(r'\D', '', user_text)
+
+    # имя должно быть реально названо клиентом — отдельным словом в его сообщениях
+    name = str(a.get('name') or '').strip()
+    if re.match(r'^(вы|клиент|заказчик|имя|неизвестн\w*|незнаком\w*|аноним\w*|user|пользователь|тест\w*|гость)$', name, re.I):
+        return 'missing: имя — спросите «Как к вам обращаться?»'
+    if not re.search(r'(?<![а-яёa-z0-9])' + re.escape(name.lower()) + r'(?![а-яёa-z0-9])', user_text.lower()):
+        return 'invalid: имя не было указано клиентом — спросите «Как к вам обращаться?»'
+
+    # клиент отказался от Telegram — нельзя записывать tg-контакт
+    if method == 'telegram' and re.search(r'(не|нет|без)\b.{0,20}?(телеграм\w*|telegram|\bтг\b)', user_text, re.I):
+        return 'invalid: клиент отказался от Telegram — спросите номер телефона'
+
     if method == 'telegram':
         if not re.match(r'^(@[a-zA-Z0-9_]{5,32}|https://t\.me/[a-zA-Z0-9_]{5,32}/?$)', contact):
             return 'invalid: нужен Telegram @username или ссылка https://t.me/username'
