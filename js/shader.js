@@ -125,11 +125,18 @@
     }
     let last = 0;
     const FPS_MS = 1000 / 30;
+    /* на мобильном — прорисовать немного кадров для «красивого» разводья и остановиться:
+       статичная текстура вместо постоянной GPU-работы */
+    const mobile = matchMedia('(max-width: 760px)').matches;
+    let frames = 0;
+    const MAX_FRAMES = mobile ? 45 : Infinity;
     function frame(now) {
       if (!visible || document.hidden) { raf = null; return; }
+      if (frames >= MAX_FRAMES) { raf = null; return; }
       raf = requestAnimationFrame(frame);
       if (now - last < FPS_MS) return;
       last = now;
+      frames++;
       resize();
       mx += (tmx - mx) * 0.04; my += (tmy - my) * 0.04;
       gl.uniform1f(uTime, (now - t0) / 1000);
