@@ -125,11 +125,11 @@
     }
     let last = 0;
     const FPS_MS = 1000 / 30;
-    /* на мобильном — прорисовать немного кадров для «красивого» разводья и остановиться:
-       статичная текстура вместо постоянной GPU-работы */
+    /* на мобильном — один статичный кадр: паттерн не «дозревает»,
+       так что анимация не нужна, а GPU/battery нагрузка нулевая */
     const mobile = matchMedia('(max-width: 760px)').matches;
     let frames = 0;
-    const MAX_FRAMES = mobile ? 45 : Infinity;
+    const MAX_FRAMES = mobile ? 1 : Infinity;
     function frame(now) {
       if (!visible || document.hidden) { raf = null; return; }
       if (frames >= MAX_FRAMES) { raf = null; return; }
