@@ -113,7 +113,7 @@
     let visible = false, raf = null, t0 = performance.now();
     /* рендер в пониженном разрешении — «краска» всё равно мягкая,
        а GPU-нагрузка падает в разы (важно на слабых устройствах) */
-    const scale = matchMedia('(max-width: 760px)').matches ? 0.4 : 0.55;
+    const scale = matchMedia('(max-width: 760px)').matches ? 0.35 : 0.55;
     function resize() {
       const dpr = Math.min(devicePixelRatio, 1.5) * scale;
       const w = canvas.clientWidth * dpr, h = canvas.clientHeight * dpr;
@@ -124,7 +124,8 @@
       gl.uniform2f(uRes, canvas.width, canvas.height);
     }
     let last = 0;
-    const FPS_MS = 1000 / 30;
+    /* мобильный: 20 fps — плавно для «краски», нагрузка ниже */
+    const FPS_MS = 1000 / (matchMedia('(max-width: 760px)').matches ? 20 : 30);
     function frame(now) {
       if (!visible || document.hidden) { raf = null; return; }
       raf = requestAnimationFrame(frame);
@@ -149,20 +150,104 @@
     }
   }
 
-  /* инициализация откладывается до idle — не конкурирует с LCP/FCP */
-  /* на мобильном — запечённая webp-текстура вместо живого WebGL:
-     визуально тот же паттерн, GPU/CPU-нагрузка нулевая */
-  const mobile = matchMedia('(max-width: 760px)').matches;
-  function start() {
-    if (!mobile) {
-      document.querySelectorAll('canvas[data-shader]').forEach(init);
-      return;
+  /* ===== Worker-рендеринг для мобильных =====
+     Весь WebGL уходит в worker через OffscreenCanvas — главный поток
+     не трогается вообще (TBT ≈ 0), анимация остаётся живой. */
+  const workerSrc = `
+const VERT=${JSON.stringify(VERT)};
+const FRAG=${JSON.stringify(FRAG)};
+const states=new Map();
+function sh(gl,t,s){const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);return x;}
+onmessage=e=>{
+  const d=e.data;
+  if(d.type==='init'){
+    const gl=d.canvas.getContext('webgl',{antialias:false,alpha:false});
+    if(!gl)return;
+    const p=gl.createProgram();
+    gl.attachShader(p,sh(gl,gl.VERTEX_SHADER,VERT));
+    gl.attachShader(p,sh(gl,gl.FRAGMENT_SHADER,FRAG));
+    gl.linkProgram(p);gl.useProgram(p);
+    const b=gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER,b);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+    const l=gl.getAttribLocation(p,'a_pos');
+    gl.enableVertexAttribArray(l);gl.vertexAttribPointer(l,2,gl.FLOAT,false,0,0);
+    gl.uniform1f(gl.getUniformLocation(p,'u_dark'),d.dark);
+    states.set(d.id,{gl,c:d.canvas,uRes:gl.getUniformLocation(p,'u_res'),
+      uTime:gl.getUniformLocation(p,'u_time'),uMouse:gl.getUniformLocation(p,'u_mouse'),
+      mx:.5,my:.5,tmx:.5,tmy:.5,t0:performance.now(),w:0,h:0,vis:false,last:0});
+    return;
+  }
+  const s=states.get(d.id);if(!s)return;
+  if(d.type==='size'){s.w=d.w;s.h=d.h;}
+  else if(d.type==='vis')s.vis=d.v;
+  else if(d.type==='mouse'){s.tmx=d.x;s.tmy=d.y;}
+};
+setInterval(()=>{
+  const now=performance.now();
+  for(const s of states.values()){
+    if(!s.vis||!s.w)continue;
+    if(now-s.last<50)continue;   /* ~20 fps — «краска» и так медленная */
+    s.last=now;
+    const gl=s.gl,c=s.c;
+    if(c.width!==s.w||c.height!==s.h){
+      c.width=s.w;c.height=s.h;
+      gl.viewport(0,0,s.w,s.h);gl.uniform2f(s.uRes,s.w,s.h);
     }
-    document.querySelectorAll('canvas[data-shader]').forEach(c => {
+    s.mx+=(s.tmx-s.mx)*0.04;s.my+=(s.tmy-s.my)*0.04;
+    gl.uniform1f(s.uTime,(now-s.t0)/1000);
+    gl.uniform2f(s.uMouse,s.mx,s.my);
+    gl.drawArrays(gl.TRIANGLES,0,3);
+  }
+},33);
+`;
+
+  const mobile = matchMedia('(max-width: 760px)').matches;
+  const MOBILE_SCALE = 0.35;
+  let worker = null, wseq = 0;
+
+  function initWorker(canvas) {
+    if (!worker) {
+      worker = new Worker(URL.createObjectURL(new Blob([workerSrc], { type: 'text/javascript' })));
+    }
+    const off = canvas.transferControlToOffscreen();
+    const id = wseq++;
+    const dark = canvas.dataset.theme === 'dark' ? 1 : (canvas.dataset.theme === 'gray' ? 2 : 0);
+    worker.postMessage({ type: 'init', id, canvas: off, dark }, [off]);
+
+    new ResizeObserver(() => {
+      const dpr = Math.min(devicePixelRatio, 1.5) * MOBILE_SCALE;
+      worker.postMessage({ type: 'size', id,
+        w: Math.round(canvas.clientWidth * dpr), h: Math.round(canvas.clientHeight * dpr) });
+    }).observe(canvas);
+
+    let inView = false;
+    const sendVis = () => worker.postMessage({ type: 'vis', id, v: inView && !document.hidden });
+    new IntersectionObserver(en => { inView = en[0].isIntersecting; sendVis(); }).observe(canvas);
+    document.addEventListener('visibilitychange', sendVis);
+
+    canvas.parentElement.addEventListener('pointermove', e => {
+      const r = canvas.getBoundingClientRect();
+      worker.postMessage({ type: 'mouse', id,
+        x: (e.clientX - r.left) / r.width, y: 1 - (e.clientY - r.top) / r.height });
+    });
+  }
+
+  /* инициализация откладывается до idle — не конкурирует с LCP/FCP.
+     на мобильном сначала мгновенно показывается запечённая текстура,
+     затем поверх поднимается живая анимация из worker'а */
+  function start() {
+    const cs = [...document.querySelectorAll('canvas[data-shader]')];
+    if (!mobile) { cs.forEach(init); return; }
+    cs.forEach(c => {
       const t = c.dataset.theme === 'gray' ? 'shader_gray' :
                 c.dataset.theme === 'dark' ? 'shader_dark' : 'shader_light';
       c.style.background = `url("Photo/${t}.webp") center/cover`;
     });
+    if (reduced) return; /* статичная текстура — корректный «кадр» того же шейдера */
+    cs.forEach((c, i) => setTimeout(() => {
+      try { initWorker(c); } catch (e) { /* нет OffscreenCanvas — остаётся текстура */ }
+    }, 300 + i * 300));
   }
   if ('requestIdleCallback' in window) {
     requestIdleCallback(start, { timeout: 1800 });
