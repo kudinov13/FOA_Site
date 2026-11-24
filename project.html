@@ -3,11 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Кейс — FOA · Family of Artists</title>
+<title>Кейс по росписи — FOA · Family of Artists</title>
+<meta name="description" content="Кейс дуэта художников FOA — пример художественной росписи стен, фасадов и интерьеров в Москве. Смотрите реализованные проекты.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html">
+<meta name="theme-color" content="#F1ECE3">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" href="/favicon-192.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FOA · Family of Artists">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Кейс по росписи — FOA · Family of Artists">
+<meta property="og:description" content="Пример художественной росписи стен и фасадов от дуэта FOA.">
+<meta property="og:url" content="https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html">
+<meta property="og:image" content="https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/Photo/og-cover.webp">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="fonts/anton-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-var-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=226">
+<link rel="stylesheet" href="styles.css?v=227">
 </head>
 <body>
 
@@ -71,7 +87,36 @@
     return;
   }
 
-  document.title = p.title + ' — FOA · Family of Artists';
+  document.title = p.title + ' — роспись от художников FOA';
+
+  var absCover = /^https?:/.test(p.cover) ? p.cover : 'https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/' + p.cover;
+  var pageUrl = 'https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=' + encodeURIComponent(id);
+  var desc = (p.description || '').replace(/\s+/g, ' ').slice(0, 160);
+  var meta = function (sel, attr, val) {
+    var el = document.querySelector(sel);
+    if (el) el.setAttribute(attr, val);
+  };
+  meta('meta[name="description"]', 'content', desc);
+  meta('link[rel="canonical"]', 'href', pageUrl);
+  meta('meta[property="og:title"]', 'content', p.title + ' — роспись от художников FOA');
+  meta('meta[property="og:description"]', 'content', desc);
+  meta('meta[property="og:url"]', 'content', pageUrl);
+  meta('meta[property="og:image"]', 'content', absCover);
+
+  var ld = document.createElement('script');
+  ld.type = 'application/ld+json';
+  ld.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    'name': p.title,
+    'description': p.description,
+    'image': absCover,
+    'url': pageUrl,
+    'genre': p.category,
+    'inLanguage': 'ru',
+    'creator': { '@type': 'ProfessionalService', 'name': 'FOA — Family of Artists', 'url': 'https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/' }
+  });
+  document.head.appendChild(ld);
 
   var gallery = '';
   for (var i = 0; i < p.photos.length; i++) {

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /api/
+Disallow: /data/
+
+Sitemap: https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/sitemap.xml

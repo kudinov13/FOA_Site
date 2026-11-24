@@ -802,6 +802,7 @@ textarea.lead-form__input { resize: vertical; }
   color: var(--ink-60);
 }
 .footer__legal a:hover { color: var(--orange); }
+.footer__seo { color: var(--ink-30); font-weight: 400; }
 
 /* ============ projects page ============ */
 .projects-page__grid {
