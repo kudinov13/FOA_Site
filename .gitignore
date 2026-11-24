@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 nul
 .env
+srv.log
