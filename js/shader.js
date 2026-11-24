@@ -149,5 +149,13 @@
     }
   }
 
-  document.querySelectorAll('canvas[data-shader]').forEach(init);
+  /* инициализация откладывается до idle — не конкурирует с LCP/FCP */
+  function start() {
+    document.querySelectorAll('canvas[data-shader]').forEach(init);
+  }
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(start, { timeout: 1800 });
+  } else {
+    setTimeout(start, 600);
+  }
 })();
