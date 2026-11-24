@@ -125,18 +125,11 @@
     }
     let last = 0;
     const FPS_MS = 1000 / 30;
-    /* на мобильном — один статичный кадр: паттерн не «дозревает»,
-       так что анимация не нужна, а GPU/battery нагрузка нулевая */
-    const mobile = matchMedia('(max-width: 760px)').matches;
-    let frames = 0;
-    const MAX_FRAMES = mobile ? 1 : Infinity;
     function frame(now) {
       if (!visible || document.hidden) { raf = null; return; }
-      if (frames >= MAX_FRAMES) { raf = null; return; }
       raf = requestAnimationFrame(frame);
       if (now - last < FPS_MS) return;
       last = now;
-      frames++;
       resize();
       mx += (tmx - mx) * 0.04; my += (tmy - my) * 0.04;
       gl.uniform1f(uTime, (now - t0) / 1000);
@@ -157,8 +150,19 @@
   }
 
   /* инициализация откладывается до idle — не конкурирует с LCP/FCP */
+  /* на мобильном — запечённая webp-текстура вместо живого WebGL:
+     визуально тот же паттерн, GPU/CPU-нагрузка нулевая */
+  const mobile = matchMedia('(max-width: 760px)').matches;
   function start() {
-    document.querySelectorAll('canvas[data-shader]').forEach(init);
+    if (!mobile) {
+      document.querySelectorAll('canvas[data-shader]').forEach(init);
+      return;
+    }
+    document.querySelectorAll('canvas[data-shader]').forEach(c => {
+      const t = c.dataset.theme === 'gray' ? 'shader_gray' :
+                c.dataset.theme === 'dark' ? 'shader_dark' : 'shader_light';
+      c.style.background = `url("Photo/${t}.webp") center/cover`;
+    });
   }
   if ('requestIdleCallback' in window) {
     requestIdleCallback(start, { timeout: 1800 });
