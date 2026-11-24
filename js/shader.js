@@ -111,8 +111,11 @@
     });
 
     let visible = false, raf = null, t0 = performance.now();
+    /* рендер в пониженном разрешении — «краска» всё равно мягкая,
+       а GPU-нагрузка падает в разы (важно на слабых устройствах) */
+    const scale = matchMedia('(max-width: 760px)').matches ? 0.4 : 0.55;
     function resize() {
-      const dpr = Math.min(devicePixelRatio, 1.5);
+      const dpr = Math.min(devicePixelRatio, 1.5) * scale;
       const w = canvas.clientWidth * dpr, h = canvas.clientHeight * dpr;
       if (canvas.width !== w || canvas.height !== h) {
         canvas.width = w; canvas.height = h;
