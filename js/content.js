@@ -21,13 +21,22 @@
     return el.textContent;
   }
 
+  /* Enter = перенос везде; [м]/[m] = только мобильный; [д]/[d] = только десктоп */
+  function renderInline(text) {
+    return text.split('\n').map(function (line) {
+      return line.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/\[(?:м|m)\]/gi, '<br class="foa-br-m">')
+        .replace(/\[(?:д|d)\]/gi, '<br class="foa-br-d">');
+    }).join('<br>');
+  }
+
   function setText(el, text) {
     if (isList(el)) {
       el.innerHTML = text.split('\n').filter(function (s) { return s.trim(); })
         .map(function (s) { return '<li>' + s.replace(/</g, '&lt;') + '</li>'; })
         .join('');
     } else {
-      el.textContent = text;
+      el.innerHTML = renderInline(text);
     }
   }
 
@@ -67,7 +76,8 @@
     '.foa-em button{padding:8px 18px;font:600 13px var(--font),sans-serif;cursor:pointer;border:1px solid #17130e;background:#fff}' +
     '.foa-em button.primary{background:#e8501a;border-color:#e8501a;color:#fff}' +
     '.foa-em .ok{font-size:12px;color:#2a7d2a;font-weight:600}' +
-    '.foa-em .lbl{font:11px var(--font),sans-serif;color:rgba(23,19,14,.55);margin-bottom:10px}';
+    '.foa-em .lbl{font:11px var(--font),sans-serif;color:rgba(23,19,14,.55);margin-bottom:10px}' +
+    '.foa-em .hint{font:11px/1.5 var(--font),sans-serif;color:rgba(23,19,14,.55);margin:8px 0 0}';
 
   var modal, editing = null;
 
@@ -114,6 +124,7 @@
     modal.hidden = true;
     modal.innerHTML =
       '<div class="foa-em"><h4></h4><div class="lbl"></div><textarea rows="4"></textarea>' +
+      '<div class="hint">Перенос строки: Enter — везде · [м] — только на телефоне · [д] — только на компьютере</div>' +
       '<div class="row">' +
         '<label>Шрифт <select data-s="font">' +
           '<option value="">по умолчанию</option>' +

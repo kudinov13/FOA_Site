@@ -1073,3 +1073,8 @@ textarea.lead-form__input { resize: vertical; }
   .svc__principle + .svc__principle { border-left: none; padding-left: 0; }
   .marquee__track img { width: 150px; height: 106px; }
 }
+
+/* переносы строк из контент-редактора: [м] — мобильный, [д] — десктоп */
+.foa-br-m, .foa-br-d { display: none; }
+@media (max-width: 760px) { .foa-br-m { display: inline; } }
+@media (min-width: 761px) { .foa-br-d { display: inline; } }
