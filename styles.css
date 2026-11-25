@@ -853,8 +853,9 @@ textarea.lead-form__input { resize: vertical; }
   font-size: 16px;
   line-height: 1.65;
   color: var(--ink-60);
-  margin-bottom: clamp(30px, 4vw, 56px);
+  margin-bottom: 18px;
 }
+.case__text:last-of-type { margin-bottom: clamp(30px, 4vw, 56px); }
 .case__gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
