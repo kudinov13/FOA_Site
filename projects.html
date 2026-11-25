@@ -95,7 +95,7 @@
 <script src="js/site.js?v=226" defer></script>
 <script src="js/chat.js?v=226" defer></script>
 <script>
-(async function () {
+document.addEventListener('DOMContentLoaded', async function () {
   var STEP = 6;
   var projects = await FOAStore.all();
   var shown = 0;
@@ -115,7 +115,7 @@
 
   moreBtn.addEventListener('click', renderBatch);
   renderBatch();
-})();
+});
 </script>
 
 </body>
