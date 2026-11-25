@@ -30,6 +30,22 @@
     }).join('<br>');
   }
 
+  /* ссылки-контакты: при правке текста обновляем и href (data-editable-href) */
+  function syncHref(el, text) {
+    var t = el.dataset.editableHref;
+    if (!t || el.tagName !== 'A') return;
+    var s = text.trim();
+    if (t === 'tel') {
+      var digits = s.replace(/[^\d]/g, '');
+      if (digits.length >= 6) el.href = 'tel:+' + digits;
+    } else if (t === 'mailto') {
+      if (s.indexOf('@') > 0) el.href = 'mailto:' + s;
+    } else if (t === 'tg') {
+      var m = s.match(/^(?:https?:\/\/)?(?:t\.me\/)?@?([\w.]+)$/);
+      if (m) el.href = 'https://t.me/' + m[1];
+    }
+  }
+
   function setText(el, text) {
     if (isList(el)) {
       el.innerHTML = text.split('\n').filter(function (s) { return s.trim(); })
@@ -38,6 +54,7 @@
     } else {
       el.innerHTML = renderInline(text);
     }
+    syncHref(el, text);
   }
 
   function applyStyles(el, s) {
@@ -49,7 +66,7 @@
 
   function applyOverrides() {
     document.querySelectorAll('[data-editable]').forEach(function (el) {
-      if (!originals.has(el)) originals.set(el, { text: getText(el) });
+      if (!originals.has(el)) originals.set(el, { text: getText(el), href: el.getAttribute('href') });
       var o = overrides[el.dataset.editable];
       if (!o) return;
       if (o.text) setText(el, o.text);
@@ -170,6 +187,7 @@
             delete overrides[key];
             var orig = originals.get(el);
             setText(el, orig.text);
+            if (orig.href) el.setAttribute('href', orig.href);
             applyStyles(el, {});
             modal.hidden = true;
             placeButtons();
