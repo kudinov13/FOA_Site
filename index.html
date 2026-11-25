@@ -93,12 +93,12 @@
     <img fetchpriority="high" decoding="async" class="hero__people" src="Photo/HeroPeople.webp" srcset="Photo/HeroPeople-800.webp 800w, Photo/HeroPeople.webp 1600w" sizes="(max-width: 800px) 100vw, 1600px" alt="Алина и Виталий — дуэт художников FOA" width="1600" height="900">
   </div>
   <div class="hero__inner">
-    <p class="hero__eyebrow">Family of Artists</p>
-    <h1 class="hero__title">Превращаем стены в <span class="accent">искусство,</span> сохраняя аутентичность</h1>
-    <p class="hero__text">Рисуем там, где другие видят просто стену: на фасадах, в интерьерах, в коммерческих и жилых пространствах.</p>
+    <p class="hero__eyebrow" data-editable="hero_eyebrow" data-label="Герой — надзаголовок">Family of Artists</p>
+    <h1 class="hero__title"><span data-editable="hero_title_a" data-label="Герой — заголовок (до оранжевого)">Превращаем стены в </span><span class="accent" data-editable="hero_title_b" data-label="Герой — заголовок (оранжевое слово)">искусство,</span><span data-editable="hero_title_c" data-label="Герой — заголовок (после)"> сохраняя аутентичность</span></h1>
+    <p class="hero__text" data-editable="hero_text" data-label="Герой — подзаголовок">Рисуем там, где другие видят просто стену: на фасадах, в интерьерах, в коммерческих и жилых пространствах.</p>
     <div class="hero__foot">
-      <a href="#contacts" class="btn btn--orange">Начать проект</a>
-      <span class="hero__meta">МОСКВА / WORLDWIDE</span>
+      <a href="#contacts" class="btn btn--orange" data-editable="hero_btn" data-label="Герой — кнопка">Начать проект</a>
+      <span class="hero__meta" data-editable="hero_meta" data-label="Герой — метка справа">МОСКВА / WORLDWIDE</span>
     </div>
   </div>
 </section>
@@ -137,17 +137,17 @@
 <section class="about" id="about">
   <div class="about__inner">
     <img loading="lazy" decoding="async" class="about__mark" src="refs_tilda/logo_foa.svg" alt="" aria-hidden="true">
-    <p class="about__lead">Мы&nbsp;дуэт художников с&nbsp;разными подходами, но&nbsp;общим правилом: <span class="accent">если работа не&nbsp;цепляет нас самих, мы&nbsp;её&nbsp;не&nbsp;сдаём.</span></p>
-    <p class="about__lead">Рисуем там, где другие видят просто стену: на&nbsp;фасадах, в&nbsp;интерьерах, в&nbsp;коммерческих и&nbsp;социальных пространствах, а&nbsp;также в&nbsp;жилых помещениях. <span class="accent">Не&nbsp;штампуем шаблоны</span>&nbsp;— создаём искусство, которое работает на&nbsp;ваш бренд или создает уют в&nbsp;доме.</p>
+    <p class="about__lead"><span data-editable="about_lead1_a" data-label="О нас — абзац 1 (до оранжевого)">Мы&nbsp;дуэт художников с&nbsp;разными подходами, но&nbsp;общим правилом: </span><span class="accent" data-editable="about_lead1_b" data-label="О нас — абзац 1 (оранжевое)">если работа не&nbsp;цепляет нас самих, мы&nbsp;её&nbsp;не&nbsp;сдаём.</span></p>
+    <p class="about__lead"><span data-editable="about_lead2_a" data-label="О нас — абзац 2 (до оранжевого)">Рисуем там, где другие видят просто стену: на&nbsp;фасадах, в&nbsp;интерьерах, в&nbsp;коммерческих и&nbsp;социальных пространствах, а&nbsp;также в&nbsp;жилых помещениях. </span><span class="accent" data-editable="about_lead2_b" data-label="О нас — абзац 2 (оранжевое)">Не&nbsp;штампуем шаблоны</span><span data-editable="about_lead2_c" data-label="О нас — абзац 2 (после)">&nbsp;— создаём искусство, которое работает на&nbsp;ваш бренд или создает уют в&nbsp;доме.</span></p>
 
     <div class="about__cards">
       <div class="artist-card">
         <div class="artist-card__photo"><img loading="lazy" decoding="async" src="refs_tilda/tild3065-6233-4661-b130-633862363839_noroot.webp" alt="Алина — художник-монументалист" width="1600" height="1143"></div>
         <div class="artist-card__info">
-          <span class="artist-card__name">АЛИНА</span>
+          <span class="artist-card__name" data-editable="artist1_name" data-label="О нас — художник 1: имя">АЛИНА</span>
           <span class="artist-card__line"></span>
           <span class="artist-card__label">имя:</span>
-          <span class="artist-card__role">художник — монументалист</span>
+          <span class="artist-card__role" data-editable="artist1_role" data-label="О нас — художник 1: специальность">художник — монументалист</span>
           <span class="artist-card__line"></span>
           <span class="artist-card__label">специальность:</span>
         </div>
@@ -155,16 +155,16 @@
       <div class="artist-card">
         <div class="artist-card__photo"><img loading="lazy" decoding="async" src="refs_tilda/tild3065-6233-4566-a464-653265303738_noroot.webp" alt="Виталий — паблик-арт-художник" width="1600" height="1143"></div>
         <div class="artist-card__info">
-          <span class="artist-card__name">ВИТАЛИЙ</span>
+          <span class="artist-card__name" data-editable="artist2_name" data-label="О нас — художник 2: имя">ВИТАЛИЙ</span>
           <span class="artist-card__line"></span>
           <span class="artist-card__label">имя:</span>
-          <span class="artist-card__role">паблик-арт-художник</span>
+          <span class="artist-card__role" data-editable="artist2_role" data-label="О нас — художник 2: специальность">паблик-арт-художник</span>
           <span class="artist-card__line"></span>
           <span class="artist-card__label">специальность:</span>
         </div>
       </div>
     </div>
-    <a href="https://t.me/blue_vlvt" target="_blank" rel="noopener" class="bar-btn about__bar">Написать нам</a>
+    <a href="https://t.me/blue_vlvt" target="_blank" rel="noopener" class="bar-btn about__bar" data-editable="about_btn" data-label="О нас — кнопка">Написать нам</a>
   </div>
 </section>
 
@@ -222,21 +222,21 @@
 <section class="principles" id="principles">
   <img loading="lazy" decoding="async" class="principles__sign" src="Photo/OrangeBlock.webp" alt="" aria-hidden="true" width="833" height="1581">
   <div class="section__inner">
-    <h2 class="h-giant">не работаем по шаблону. Мы:</h2>
+    <h2 class="h-giant" data-editable="principles_title" data-label="Принципы — заголовок">не работаем по шаблону. Мы:</h2>
     <div class="principle-row" style="margin-top: clamp(28px,3.5vw,50px)">
       <span class="principle-row__num">01</span>
-      <span class="principle-row__text">Работаем как семья</span>
-      <p class="principle-row__sub">Говорим как профессионалы</p>
+      <span class="principle-row__text" data-editable="pr1_text" data-label="Принцип 1 — текст">Работаем как семья</span>
+      <p class="principle-row__sub" data-editable="pr1_sub" data-label="Принцип 1 — подпись">Говорим как профессионалы</p>
     </div>
     <div class="principle-row">
       <span class="principle-row__num">02</span>
-      <span class="principle-row__text">Каждый проект — это идея, а не просто картинки</span>
-      <p class="principle-row__sub">Не копируем</p>
+      <span class="principle-row__text" data-editable="pr2_text" data-label="Принцип 2 — текст">Каждый проект — это идея, а не просто картинки</span>
+      <p class="principle-row__sub" data-editable="pr2_sub" data-label="Принцип 2 — подпись">Не копируем</p>
     </div>
     <div class="principle-row">
       <span class="principle-row__num">03</span>
-      <span class="principle-row__text">А создаем, ваш бренд достоин уникального стиля, а не реплик</span>
-      <p class="principle-row__sub">По-итальянски: с огнём, уважением и без компромиссов</p>
+      <span class="principle-row__text" data-editable="pr3_text" data-label="Принцип 3 — текст">А создаем, ваш бренд достоин уникального стиля, а не реплик</span>
+      <p class="principle-row__sub" data-editable="pr3_sub" data-label="Принцип 3 — подпись">По-итальянски: с огнём, уважением и без компромиссов</p>
     </div>
   </div>
 </section>
@@ -244,12 +244,12 @@
 <!-- ================= SERVICES ================= -->
 <section class="services" id="services">
   <div class="section__inner">
-    <h2 class="h-giant">наши услуги:</h2>
+    <h2 class="h-giant" data-editable="services_title" data-label="Услуги — заголовок">наши услуги:</h2>
     <div class="services__cards">
       <div class="svc-card">
         <span class="svc-card__num">01</span>
-        <h3 class="svc-card__title">Монументально — декоративная живопись:</h3>
-        <ul class="svc-card__list">
+        <h3 class="svc-card__title" data-editable="svc1_title" data-label="Услуга 1 — название">Монументально — декоративная живопись:</h3>
+        <ul class="svc-card__list" data-editable="svc1_list" data-label="Услуга 1 — список (по строке на пункт)">
           <li>Крупные объекты, здания и конструкции</li>
           <li>Граффити оформление</li>
           <li>Роспись стен, потолков, полов</li>
@@ -260,9 +260,9 @@
       </div>
       <div class="svc-card">
         <span class="svc-card__num">02</span>
-        <h3 class="svc-card__title">Станковая живопись:</h3>
-        <p class="svc-card__desc">Классические картины, создаваемые на мольберте, как самостоятельные произведения искусства</p>
-        <ul class="svc-card__list">
+        <h3 class="svc-card__title" data-editable="svc2_title" data-label="Услуга 2 — название">Станковая живопись:</h3>
+        <p class="svc-card__desc" data-editable="svc2_desc" data-label="Услуга 2 — описание">Классические картины, создаваемые на мольберте, как самостоятельные произведения искусства</p>
+        <ul class="svc-card__list" data-editable="svc2_list" data-label="Услуга 2 — список (по строке на пункт)">
           <li>Портреты, натюрморты</li>
           <li>Копии картин великих мастеров</li>
           <li>Пейзажи</li>
@@ -278,8 +278,8 @@
   <img loading="lazy" decoding="async" class="statement__scribble" src="Photo/Rospis.webp" alt="" aria-hidden="true" width="800" height="1600">
   <img loading="lazy" decoding="async" class="statement__brush" src="Photo/Orange_Line1.webp" alt="" aria-hidden="true" width="1164" height="1351">
   <div class="section__inner">
-    <p class="statement__text">На этом наши возможности не заканчиваются. <span class="accent">Пришлите нам ваши идеи</span> и мы предложим решение</p>
-    <a href="#contacts" class="bar-btn statement__bar">Оставить заявку</a>
+    <p class="statement__text"><span data-editable="statement_a" data-label="Заявление — текст (до оранжевого)">На этом наши возможности не заканчиваются. </span><span class="accent" data-editable="statement_b" data-label="Заявление — текст (оранжевое)">Пришлите нам ваши идеи</span><span data-editable="statement_c" data-label="Заявление — текст (после)"> и мы предложим решение</span></p>
+    <a href="#contacts" class="bar-btn statement__bar" data-editable="statement_btn" data-label="Заявление — кнопка">Оставить заявку</a>
   </div>
 </section>
 
@@ -288,8 +288,8 @@
   <div class="section__inner">
     <div class="works__head">
       <div>
-        <h2 class="h-giant">Наши работы — это наши слова</h2>
-        <p class="works__sub">Делаем искусство, которое заметят</p>
+        <h2 class="h-giant" data-editable="works_title" data-label="Работы — заголовок">Наши работы — это наши слова</h2>
+        <p class="works__sub" data-editable="works_sub" data-label="Работы — подзаголовок">Делаем искусство, которое заметят</p>
       </div>
       <a href="projects.html" class="link-more works__more">Смотреть все проекты</a>
     </div>
@@ -314,8 +314,8 @@
 <section class="cta" id="cta">
   <canvas class="shader-bg" data-shader aria-hidden="true"></canvas>
   <div class="cta__inner">
-    <p class="cta__text">Если вам нужно <span class="accent">«как у всех»</span> — мы не подходим. Если хотите, чтобы прохожие останавливались и фотографировали — <span class="accent">это к нам</span></p>
-    <a href="#contacts" class="bar-btn cta__bar">Начать проект</a>
+    <p class="cta__text"><span data-editable="cta_a" data-label="Призыв — текст (до оранжевого)">Если вам нужно </span><span class="accent" data-editable="cta_b" data-label="Призыв — текст (оранжевое 1)">«как у всех»</span><span data-editable="cta_c" data-label="Призыв — текст (середина)"> — мы не подходим. Если хотите, чтобы прохожие останавливались и фотографировали — </span><span class="accent" data-editable="cta_d" data-label="Призыв — текст (оранжевое 2)">это к нам</span></p>
+    <a href="#contacts" class="bar-btn cta__bar" data-editable="cta_btn" data-label="Призыв — кнопка">Начать проект</a>
   </div>
 </section>
 
@@ -361,13 +361,14 @@
     <div class="footer__strip"><img loading="lazy" decoding="async" src="refs_tilda/fphoto1.svg" alt="FOA — Family of Artists"></div>
     <div class="footer__legal">
       <a href="#">Политика обработки персональных данных</a>
-      <span class="footer__seo">Художественная роспись стен и фасадов в Москве и по всей России — от 3 500 ₽/м²</span>
+      <span class="footer__seo" data-editable="footer_seo" data-label="Подвал — SEO-строка">Художественная роспись стен и фасадов в Москве и по всей России — от 3 500 ₽/м²</span>
       <span data-admin-trigger>©family of artist, 2025</span>
     </div>
   </div>
 </footer>
 
 <script src="js/shader.js?v=227" defer></script>
+<script src="js/content.js?v=226" defer></script>
 <script src="js/store.js?v=226" defer></script>
 <script src="js/site.js?v=226" defer></script>
 <script src="js/chat.js?v=226" defer></script>

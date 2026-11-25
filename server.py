@@ -93,6 +93,11 @@ def init_db():
         lead_id INTEGER,
         created_at TEXT DEFAULT (datetime('now', 'localtime'))
     )''')
+    db.execute('''CREATE TABLE IF NOT EXISTS content_blocks (
+        block_key TEXT PRIMARY KEY,
+        text TEXT DEFAULT '',
+        styles TEXT DEFAULT '{}'
+    )''')
     try:
         db.execute("ALTER TABLE leads ADD COLUMN source TEXT DEFAULT 'form'")
     except sqlite3.OperationalError:
@@ -387,6 +392,50 @@ def api_lead_read(lid):
 @require_admin
 def api_lead_delete(lid):
     get_db().execute('DELETE FROM leads WHERE id = ?', (lid,))
+    get_db().commit()
+    return jsonify({'ok': True})
+
+
+# ---------- редактируемые блоки контента ----------
+
+_STYLE_KEYS = ('font', 'color', 'mt', 'mb', 'fs')
+
+
+@app.get('/api/content')
+def api_content():
+    rows = get_db().execute('SELECT block_key, text, styles FROM content_blocks').fetchall()
+    return jsonify({
+        r['block_key']: {'text': r['text'], 'styles': json.loads(r['styles'] or '{}')}
+        for r in rows
+    })
+
+
+@app.post('/api/content')
+@require_admin
+def api_content_save():
+    d = request.get_json(force=True, silent=True) or {}
+    key = str(d.get('key') or '')[:100]
+    if not key:
+        return jsonify({'error': 'key required'}), 400
+    text = str(d.get('text') or '')[:5000]
+    raw_styles = d.get('styles')
+    styles = {}
+    if isinstance(raw_styles, dict):
+        styles = {k: str(v)[:50] for k, v in raw_styles.items()
+                  if k in _STYLE_KEYS and str(v).strip()}
+    get_db().execute(
+        'INSERT INTO content_blocks (block_key, text, styles) VALUES (?,?,?) '
+        'ON CONFLICT(block_key) DO UPDATE SET text=excluded.text, styles=excluded.styles',
+        (key, text, json.dumps(styles, ensure_ascii=False))
+    )
+    get_db().commit()
+    return jsonify({'ok': True})
+
+
+@app.delete('/api/content/<path:key>')
+@require_admin
+def api_content_delete(key):
+    get_db().execute('DELETE FROM content_blocks WHERE block_key = ?', (key,))
     get_db().commit()
     return jsonify({'ok': True})
 

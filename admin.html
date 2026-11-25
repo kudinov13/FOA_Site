@@ -10,6 +10,7 @@
 <link rel="preload" href="fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css?v=228">
 <style>
+  [hidden] { display: none !important; }
   .admin { min-height: 70vh; display: flex; align-items: flex-start; }
   .admin__box { max-width: 460px; margin: 8vh auto; width: 100%; }
   .admin__title { font-family: var(--anton); font-size: 42px; text-transform: uppercase; margin-bottom: 24px; }
@@ -62,6 +63,23 @@
   .lead-row__btns button { background: none; border: 2px solid rgba(23,19,14,.55); padding: 4px 12px; font: 700 12px var(--grot); cursor: pointer; }
   .lead-row__btns button:hover { border-color: var(--orange); color: var(--orange); }
   .admin__editing { border: 2px dashed var(--orange); padding: 18px; margin-bottom: 20px; }
+  .cblock { border: 2px solid rgba(23,19,14,.45); background: var(--paper-2, #EAE4D8); padding: 16px 18px; margin-bottom: 14px; }
+  .cblock__head { display: flex; gap: 10px; align-items: baseline; margin-bottom: 10px; flex-wrap: wrap; }
+  .cblock__name { font-weight: 700; }
+  .cblock__meta { font-size: 12px; color: var(--ink-60); }
+  .cblock.is-over .cblock__name::after { content: ' · изменён'; color: var(--orange); font-size: 11px; font-weight: 700; }
+  .cblock textarea { width: 100%; font: 500 14px var(--font); padding: 8px 10px; border: 1px solid var(--ink-30); background: #fff; resize: vertical; }
+  .cblock__ctrls { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; align-items: center; font-size: 12px; color: var(--ink-60); }
+  .cblock__ctrls label { display: flex; gap: 6px; align-items: center; }
+  .cblock__ctrls input[type=number] { width: 60px; padding: 4px 6px; border: 1px solid var(--ink-30); font: 500 12px var(--font); }
+  .cblock__ctrls input[type=color] { width: 28px; height: 28px; padding: 0; border: 1px solid var(--ink-30); background: none; }
+  .cblock__ctrls select { padding: 4px 6px; border: 1px solid var(--ink-30); font: 500 12px var(--font); max-width: 200px; }
+  .cblock__btns { display: flex; gap: 8px; margin-top: 12px; align-items: center; }
+  .cblock__btns button { background: none; border: 2px solid rgba(23,19,14,.55); padding: 5px 14px; font: 700 12px var(--grot); cursor: pointer; }
+  .cblock__btns button.save { border-color: var(--orange); color: var(--orange); }
+  .cblock__btns button:hover { border-color: var(--orange); color: var(--orange); }
+  .cblock__saved { font-size: 12px; color: #2a7d2a; font-weight: 600; }
+  .content-page-title { margin: 30px 0 12px; font: 700 14px var(--font); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-60); }
   @media (max-width: 700px) { .admin__form { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -100,6 +118,12 @@
   <div class="admin__tabs">
     <button class="admin__tab is-active" data-tab="projects">Проекты</button>
     <button class="admin__tab" data-tab="leads">Заявки <span class="badge" id="leadsBadge" hidden>0</span></button>
+    <button class="admin__tab" data-tab="content">Контент</button>
+  </div>
+
+  <div id="contentView" hidden>
+    <p class="admin__hint">Текст и оформление блоков сайта. Пустые поля стилей = оформление по умолчанию.</p>
+    <div id="contentList"><p class="admin__hint">Загрузка блоков…</p></div>
   </div>
 
   <div id="leadsView" hidden>
@@ -135,6 +159,7 @@
   </div>
 </section>
 
+<script src="js/content.js?v=226"></script>
 <script src="js/store.js?v=226"></script>
 <script>
 (async function () {
@@ -151,7 +176,9 @@
       b.classList.add('is-active');
       document.getElementById('projectsView').hidden = b.dataset.tab !== 'projects';
       document.getElementById('leadsView').hidden = b.dataset.tab !== 'leads';
+      document.getElementById('contentView').hidden = b.dataset.tab !== 'content';
       if (b.dataset.tab === 'leads') renderLeads();
+      if (b.dataset.tab === 'content') renderContent();
     });
   });
 
@@ -197,8 +224,92 @@
     renderLeads();
   });
 
-  var me = await fetch('/api/me').then(r => r.json()).catch(() => ({ admin: false }));
-  if (me.admin) showPanel();
+  /* ---------- контент ---------- */
+  var contentList = document.getElementById('contentList');
+  function num(v) { return v ? parseInt(v, 10) : ''; }
+
+  async function renderContent() {
+    contentList.innerHTML = '<p class="admin__hint">Загрузка блоков…</p>';
+    var blocks = [];
+    var pages = ['index.html', 'projects.html'];
+    for (var i = 0; i < pages.length; i++) {
+      try { blocks = blocks.concat(await FOAContent.collect(pages[i])); } catch (e) {}
+    }
+    var overrides = await fetch('/api/content').then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; });
+    contentList.innerHTML = '';
+    if (!blocks.length) {
+      contentList.innerHTML = '<p class="admin__hint">Редактируемых блоков не найдено.</p>';
+      return;
+    }
+    var lastPage = null;
+    blocks.forEach(function (b) {
+      if (b.page !== lastPage) {
+        lastPage = b.page;
+        var h = document.createElement('h3');
+        h.className = 'content-page-title';
+        h.textContent = 'Страница: ' + b.page;
+        contentList.appendChild(h);
+      }
+      var o = overrides[b.key] || {};
+      var st = o.styles || {};
+      var div = document.createElement('div');
+      div.className = 'cblock' + ((o.text || Object.keys(st).length) ? ' is-over' : '');
+      div.dataset.key = b.key;
+      div.innerHTML =
+        '<div class="cblock__head"><span class="cblock__name">' + b.label.replace(/</g, '&lt;') + '</span>' +
+        '<span class="cblock__meta">' + b.page + ' · ' + b.key + '</span></div>' +
+        '<textarea rows="' + (b.isList || b.text.length > 90 ? 3 : 1) + '">' + (o.text || b.text).replace(/</g, '&lt;') + '</textarea>' +
+        '<div class="cblock__ctrls">' +
+          '<label>Шрифт <select data-s="font">' +
+            '<option value="">по умолчанию</option>' +
+            '<option value="var(--anton)">заголовочный (Anton/Oswald)</option>' +
+            '<option value="var(--font)">основной (Inter)</option>' +
+          '</select></label>' +
+          '<label><input type="checkbox" data-s="colorOn"' + (st.color ? ' checked' : '') + '> цвет ' +
+            '<input type="color" data-s="color" value="' + (st.color || '#17130e') + '"></label>' +
+          '<label>отступ сверху <input type="number" min="0" max="300" data-s="mt" value="' + num(st.mt) + '" placeholder="—"> px</label>' +
+          '<label>отступ снизу <input type="number" min="0" max="300" data-s="mb" value="' + num(st.mb) + '" placeholder="—"> px</label>' +
+          '<label>размер шрифта <input type="number" min="8" max="160" data-s="fs" value="' + num(st.fs) + '" placeholder="—"> px</label>' +
+        '</div>' +
+        '<div class="cblock__btns"><button class="save">Сохранить</button><button class="reset">Сбросить</button>' +
+        '<span class="cblock__saved" hidden>сохранено ✓</span></div>';
+      div.querySelector('select[data-s=font]').value = st.font || '';
+      contentList.appendChild(div);
+    });
+  }
+
+  contentList.addEventListener('click', async function (e) {
+    var btn = e.target.closest('button');
+    if (!btn) return;
+    var div = btn.closest('.cblock');
+    var key = div.dataset.key;
+    var saved = div.querySelector('.cblock__saved');
+    if (btn.classList.contains('save')) {
+      var styles = {};
+      var font = div.querySelector('[data-s=font]').value;
+      if (font) styles.font = font;
+      if (div.querySelector('[data-s=colorOn]').checked) {
+        styles.color = div.querySelector('[data-s=color]').value;
+      }
+      ['mt', 'mb', 'fs'].forEach(function (k) {
+        var v = div.querySelector('[data-s=' + k + ']').value;
+        if (v !== '') styles[k] = v + 'px';
+      });
+      var r = await fetch('/api/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: key, text: div.querySelector('textarea').value, styles: styles })
+      });
+      if (r.ok) {
+        saved.hidden = false;
+        setTimeout(function () { saved.hidden = true; }, 2000);
+        div.classList.add('is-over');
+      }
+    } else if (btn.classList.contains('reset')) {
+      await fetch('/api/content/' + encodeURIComponent(key), { method: 'DELETE' });
+      renderContent();
+    }
+  });
 
   document.getElementById('loginForm').addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -218,6 +329,9 @@
     await fetch('/api/logout', { method: 'POST' });
     location.reload();
   });
+
+  var me = await fetch('/api/me').then(r => r.json()).catch(() => ({ admin: false }));
+  if (me.admin) showPanel();
 
   /* ---------- фото: превью + выбор обложки ---------- */
   var photos = []; // {file, url, isCover} — режим нового проекта
