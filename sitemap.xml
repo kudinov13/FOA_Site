@@ -1,75 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/projects.html</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=gossip</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pusk</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=paragon</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=greeneva</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=minstroy</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=molodezh</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=promtehgaz</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=cifrus</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pilatius</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=epic</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/</loc><priority>1.0</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/projects.html</loc><priority>0.9</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=gossip</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pusk</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=paragon</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=greeneva</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=minstroy</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=molodezh</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=promtehgaz</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=cifrus</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pilatius</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=epic</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pf3ab9d9b2f5f</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p7c20963d6fea</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p8ce139d4373f</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pb2f2c22e9d00</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p098f4978d602</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p493dfd7a52c6</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p1677d77ec879</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pe2046d718e51</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pb596ef150eb5</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pd5214d7eca58</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p6ce1f4069562</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pce5521158acc</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p183f54f0c645</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p8b2a1996dffd</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pc83e78414e73</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pf3e162b7d18f</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p6e8784e3d777</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pbb676d084714</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pb49d5345229b</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p09bee566848f</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pb72846c2d86b</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pa5b64e651079</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p4371f5aaff0d</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p116c31f008f0</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p3cf554b57d5e</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=p69c34f47d294</loc><priority>0.7</priority></url>
+<url><loc>https://xn--b1adcfkmkkhey0az1hzb.xn--p1ai/project.html?id=pd58b0331e5f9</loc><priority>0.7</priority></url>
 </urlset>
