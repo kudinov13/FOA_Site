@@ -668,7 +668,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--ink-60);
 }
 .works__more { margin-left: auto; }
-.works__bar { margin-top: clamp(28px, 3.5vw, 44px); }
+.works__bar { margin-bottom: clamp(28px, 3.5vw, 44px); }
 .works__list { display: flex; flex-direction: column; gap: clamp(28px, 3.5vw, 44px); }
 .work-panel {
   position: relative;
