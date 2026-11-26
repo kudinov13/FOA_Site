@@ -453,7 +453,7 @@ a { color: inherit; text-decoration: none; }
   border-bottom: 2px solid var(--line);
   overflow: hidden;
   padding: clamp(20px, 2.6vw, 36px) 0;
-  background: var(--ink);
+  background: #000;
 }
 .marquee__track {
   display: flex;
