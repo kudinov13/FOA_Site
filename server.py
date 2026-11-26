@@ -106,6 +106,10 @@ def init_db():
         db.execute("ALTER TABLE projects ADD COLUMN featured INTEGER DEFAULT 0")
     except sqlite3.OperationalError:
         pass
+    try:
+        db.execute("ALTER TABLE projects ADD COLUMN works INTEGER DEFAULT 0")
+    except sqlite3.OperationalError:
+        pass
     db.commit()
     db.close()
 
@@ -118,7 +122,8 @@ def row_to_project(row):
         'description': row['description'],
         'cover': row['cover'],
         'photos': json.loads(row['photos']),
-        'featured': bool(row['featured'])
+        'featured': bool(row['featured']),
+        'works': bool(row['works'])
     }
 
 
@@ -301,9 +306,10 @@ def api_update(pid):
     category = (data.get('category') or '').strip() or row['category']
     description = (data.get('description') or '').strip() or row['description']
     featured = (1 if data['featured'] else 0) if 'featured' in data else row['featured']
+    works = (1 if data['works'] else 0) if 'works' in data else row['works']
     get_db().execute(
-        'UPDATE projects SET title = ?, category = ?, description = ?, featured = ? WHERE id = ?',
-        (title, category, description, featured, pid)
+        'UPDATE projects SET title = ?, category = ?, description = ?, featured = ?, works = ? WHERE id = ?',
+        (title, category, description, featured, works, pid)
     )
     get_db().commit()
     return jsonify({'ok': True})

@@ -276,20 +276,7 @@
       </div>
     </div>
     <a href="projects.html" class="bar-btn works__bar">Смотреть все проекты →</a>
-    <div class="works__list">
-      <a href="project.html?id=paragon" class="work-panel">
-        <img loading="lazy" decoding="async" src="refs_tilda/tild3730-3235-4632-b966-333739666364_2021-04-18_16-38-01.webp" alt="Paragon Arena — мурал в зале" width="1600" height="1200">
-        <span class="work-panel__name">Paragon Arena</span>
-      </a>
-      <a href="project.html?id=gossip" class="work-panel">
-        <img loading="lazy" decoding="async" src="refs_tilda/tild6665-6466-4435-b266-643162633964_IMG_0208.webp" alt="GOSSIP — неоновый мурал" width="1200" height="1600">
-        <span class="work-panel__name">Gossip</span>
-      </a>
-      <a href="project.html?id=molodezh" class="work-panel">
-        <img loading="lazy" decoding="async" src="refs_tilda/tild3738-3365-4331-b139-633431656135_noroot.webp" alt="Арт-объект — мишка" width="1000" height="714">
-        <span class="work-panel__name">Арт-объекты</span>
-      </a>
-    </div>
+    <div class="works__list" id="worksList"></div>
   </div>
 </section>
 
@@ -356,22 +343,34 @@
 <script src="js/site.js?v=226" defer></script>
 <script src="js/chat.js?v=226" defer></script>
 <script>
-/* Лучшие проекты: отмеченные ★ в админке; если ни одного — первые 3 */
+/* Лучшие проекты (★) и панели работ (▣) — из админки; без отметок — первые 3 */
 document.addEventListener('DOMContentLoaded', async function () {
-  var grid = document.getElementById('homeGrid');
-  if (!grid) return;
   var esc = function (s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
   var ps = await FOAStore.all().catch(function () { return []; });
-  var feat = ps.filter(function (p) { return p.featured; });
-  var show = feat.length ? feat : ps.slice(0, 3);
-  grid.innerHTML = show.map(function (p) {
-    return '<a href="project.html?id=' + encodeURIComponent(p.id) + '" class="project-card">' +
-      '<div class="project-card__img"><img loading="lazy" decoding="async" src="' + p.cover + '" alt="' + esc(p.title) + ' — ' + esc(p.category) + '"></div>' +
-      '<div class="project-card__meta">' +
-        '<span class="project-card__name">' + esc(p.title) + '</span>' +
-        '<span class="project-card__index">' + esc(p.category) + '</span>' +
-      '</div></a>';
-  }).join('');
+  if (!ps.length) return;
+
+  var grid = document.getElementById('homeGrid');
+  if (grid) {
+    var feat = ps.filter(function (p) { return p.featured; });
+    grid.innerHTML = (feat.length ? feat : ps.slice(0, 3)).map(function (p) {
+      return '<a href="project.html?id=' + encodeURIComponent(p.id) + '" class="project-card">' +
+        '<div class="project-card__img"><img loading="lazy" decoding="async" src="' + p.cover + '" alt="' + esc(p.title) + ' — ' + esc(p.category) + '"></div>' +
+        '<div class="project-card__meta">' +
+          '<span class="project-card__name">' + esc(p.title) + '</span>' +
+          '<span class="project-card__index">' + esc(p.category) + '</span>' +
+        '</div></a>';
+    }).join('');
+  }
+
+  var works = document.getElementById('worksList');
+  if (works) {
+    var wlist = ps.filter(function (p) { return p.works; });
+    works.innerHTML = (wlist.length ? wlist : ps.slice(0, 3)).map(function (p) {
+      return '<a href="project.html?id=' + encodeURIComponent(p.id) + '" class="work-panel">' +
+        '<img loading="lazy" decoding="async" src="' + p.cover + '" alt="' + esc(p.title) + ' — ' + esc(p.category) + '">' +
+        '<span class="work-panel__name">' + esc(p.title) + '</span></a>';
+    }).join('');
+  }
 });
 </script>
 

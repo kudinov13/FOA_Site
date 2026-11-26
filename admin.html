@@ -8,7 +8,7 @@
 <link rel="preload" href="fonts/anton-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-var-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=233">
+<link rel="stylesheet" href="styles.css?v=231">
 <style>
   [hidden] { display: none !important; }
   .admin { min-height: 70vh; display: flex; align-items: flex-start; padding: 0 var(--pad); }
@@ -49,6 +49,11 @@
   .admin__row-fav:hover { border-color: var(--orange); }
   .admin__row-fav.is-fav { color: var(--orange); border-color: var(--orange); }
   .admin__row-fav + .admin__row-edit { margin-left: 0; }
+  .admin__row-fav + .admin__row-work { margin-left: 8px; }
+  .admin__row-work { background: none; border: 2px solid rgba(23,19,14,.55); padding: 5px 11px; font: 700 15px/1 var(--grot); cursor: pointer; color: rgba(23,19,14,.35); }
+  .admin__row-work:hover { border-color: var(--orange); }
+  .admin__row-work.is-work { color: var(--orange); border-color: var(--orange); }
+  .admin__row-work + .admin__row-edit { margin-left: 0; }
   .admin__row-edit { margin-left: auto; }
   .admin__row-edit + .admin__row-del { margin-left: 0; }
   .admin__tabs { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
@@ -142,7 +147,7 @@
 
   <div class="admin__list">
     <h2 class="admin__title" style="font-size:26px">Все проекты</h2>
-    <p class="admin__hint">★ — показывать проект в блоке «Проекты» на главной. Если ни одна звёздочка не отмечена, там покажутся первые 3 проекта из списка.</p>
+    <p class="admin__hint">★ — карточка в «Лучших проектах» на главной. ▣ — большая панель в «Наши работы — это наши слова» (фото = обложка проекта, меняется кликом по фото в редакторе). Без отметок показываются первые 3 проекта.</p>
     <div id="projList"></div>
   </div>
   </div>
@@ -372,7 +377,8 @@
         '<img src="' + p.cover + '" alt="">' +
         '<div><div class="admin__row-title">' + p.title + '</div>' +
         '<div class="admin__row-cat">' + p.category + ' · фото: ' + p.photos.length + '</div></div>' +
-        '<button class="admin__row-fav' + (p.featured ? ' is-fav' : '') + '" data-id="' + p.id + '" data-fav="' + (p.featured ? 1 : 0) + '" title="Показывать на главной">★</button>' +
+        '<button class="admin__row-fav' + (p.featured ? ' is-fav' : '') + '" data-id="' + p.id + '" data-fav="' + (p.featured ? 1 : 0) + '" title="Карточка в «Лучших проектах» на главной">★</button>' +
+        '<button class="admin__row-work' + (p.works ? ' is-work' : '') + '" data-id="' + p.id + '" data-work="' + (p.works ? 1 : 0) + '" title="Большая панель в «Наши работы» на главной">▣</button>' +
         '<button class="admin__row-edit" data-id="' + p.id + '">Изменить</button>' +
         '<button class="admin__row-del" data-id="' + p.id + '">Удалить</button>';
       list.appendChild(row);
@@ -391,6 +397,21 @@
       fav.dataset.fav = on ? '1' : '0';
       fav.classList.toggle('is-fav', on);
       fav.disabled = false;
+      FOAStore.invalidate();
+      return;
+    }
+    var wk = e.target.closest('.admin__row-work');
+    if (wk) {
+      wk.disabled = true;
+      var won = wk.dataset.work !== '1';
+      await fetch('/api/projects/' + wk.dataset.id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ works: won })
+      });
+      wk.dataset.work = won ? '1' : '0';
+      wk.classList.toggle('is-work', won);
+      wk.disabled = false;
       FOAStore.invalidate();
       return;
     }
