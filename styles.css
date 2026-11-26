@@ -961,6 +961,33 @@ textarea.lead-form__input { resize: vertical; }
   cursor: pointer;
 }
 .lightbox__close:hover { color: var(--orange); }
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--paper);
+  font-size: clamp(44px, 7vw, 80px);
+  line-height: 1;
+  cursor: pointer;
+  padding: 16px;
+  z-index: 2;
+  opacity: .8;
+}
+.lightbox__nav:hover { color: var(--orange); opacity: 1; }
+.lightbox__prev { left: 8px; }
+.lightbox__next { right: 8px; }
+.lightbox__count {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--paper);
+  font: 600 14px var(--font);
+  letter-spacing: .08em;
+  opacity: .7;
+}
 
 /* ============ responsive ============ */
 @media (max-width: 1080px) {

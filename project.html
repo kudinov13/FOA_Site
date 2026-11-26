@@ -23,7 +23,7 @@
 <link rel="preload" href="fonts/anton-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-var-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=234">
+<link rel="stylesheet" href="styles.css?v=235">
 </head>
 <body>
 
@@ -75,7 +75,7 @@
 
 <script src="js/content.js?v=231" defer></script>
 <script src="js/store.js?v=226" defer></script>
-<script src="js/site.js?v=226" defer></script>
+<script src="js/site.js?v=227" defer></script>
 <script src="js/chat.js?v=226" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', async function () {
@@ -136,13 +136,15 @@ document.addEventListener('DOMContentLoaded', async function () {
     descHtml +
     '<div class="case__gallery">' + gallery + '</div>';
 
+  var allPhotos = p.photos.slice();
+  if (allPhotos.indexOf(p.cover) < 0) allPhotos.unshift(p.cover);
   body.addEventListener('click', function (e) {
     var btn = e.target.closest('.case__shot');
-    if (btn) FOAlightbox(btn.dataset.src);
+    if (btn) FOAgallery(allPhotos, Math.max(0, allPhotos.indexOf(btn.dataset.src)));
   });
   var cover = body.querySelector('.case__cover');
   cover.style.cursor = 'zoom-in';
-  cover.addEventListener('click', function () { FOAlightbox(p.cover); });
+  cover.addEventListener('click', function () { FOAgallery(allPhotos, Math.max(0, allPhotos.indexOf(p.cover))); });
 });
 </script>
 

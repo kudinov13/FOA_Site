@@ -1,23 +1,64 @@
 /* FOA — общая логика страниц: карточки, лайтбокс, скрытый вход в админку. */
 
 (function () {
-  /* ---------- лайтбокс ---------- */
+  /* ---------- лайтбокс с листанием: FOAgallery(photos, index) ---------- */
+  let _lbList = [], _lbIdx = 0;
+
+  function lbShow(i) {
+    const lb = document.getElementById('foa-lightbox');
+    _lbIdx = i;
+    lb.querySelector('img').src = _lbList[i];
+    const multi = _lbList.length > 1;
+    lb.querySelector('.lightbox__count').textContent = multi ? (i + 1) + ' / ' + _lbList.length : '';
+    lb.querySelector('.lightbox__prev').style.display = multi ? '' : 'none';
+    lb.querySelector('.lightbox__next').style.display = multi ? '' : 'none';
+  }
+
+  function lbStep(d) {
+    if (_lbList.length > 1) lbShow((_lbIdx + d + _lbList.length) % _lbList.length);
+  }
+
   function ensureLightbox() {
     if (document.getElementById('foa-lightbox')) return;
     const lb = document.createElement('div');
     lb.id = 'foa-lightbox';
     lb.className = 'lightbox';
-    lb.innerHTML = '<button class="lightbox__close" aria-label="Закрыть">×</button><img alt="">';
-    lb.addEventListener('click', e => { if (e.target === lb || e.target.closest('.lightbox__close')) lb.classList.remove('is-open'); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('is-open'); });
+    lb.innerHTML =
+      '<button class="lightbox__close" aria-label="Закрыть">×</button>' +
+      '<button class="lightbox__nav lightbox__prev" aria-label="Предыдущее фото">‹</button>' +
+      '<img alt="">' +
+      '<button class="lightbox__nav lightbox__next" aria-label="Следующее фото">›</button>' +
+      '<span class="lightbox__count"></span>';
+    const close = () => lb.classList.remove('is-open');
+    lb.addEventListener('click', e => {
+      if (e.target === lb || e.target.closest('.lightbox__close')) close();
+      else if (e.target.closest('.lightbox__prev')) lbStep(-1);
+      else if (e.target.closest('.lightbox__next')) lbStep(1);
+    });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('is-open')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') lbStep(-1);
+      else if (e.key === 'ArrowRight') lbStep(1);
+    });
+    let tx = null;
+    lb.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', e => {
+      if (tx === null) return;
+      const dx = e.changedTouches[0].clientX - tx;
+      tx = null;
+      if (Math.abs(dx) > 50) lbStep(dx < 0 ? 1 : -1);
+    });
     document.body.appendChild(lb);
   }
-  window.FOAlightbox = function (src) {
+
+  window.FOAgallery = function (photos, index) {
     ensureLightbox();
-    const lb = document.getElementById('foa-lightbox');
-    lb.querySelector('img').src = src;
-    lb.classList.add('is-open');
+    _lbList = photos;
+    lbShow(index || 0);
+    document.getElementById('foa-lightbox').classList.add('is-open');
   };
+  window.FOAlightbox = function (src) { window.FOAgallery([src], 0); };
 
   /* ---------- бургер-меню ---------- */
   const burger = document.querySelector('.burger');
