@@ -55,20 +55,47 @@
 
 <footer class="footer" id="contacts">
   <div class="footer__inner">
-    <div class="footer__brand">
-      <span class="footer__logo" data-admin-trigger>FOA</span>
-      <span class="footer__sub">FAMILY OF ARTISTS</span>
+    <div class="footer__cols">
+      <div>
+        <h3 class="footer__col-title">Контакты:</h3>
+        <a class="footer__link" href="mailto:familyofart@gmail.com" data-editable="footer_email" data-editable-href="mailto" data-label="Подвал — e-mail">familyofart@gmail.com</a>
+        <div class="footer__artist">
+          <span class="footer__artist-name" data-admin-trigger>Алина</span>
+          <div class="footer__artist-info">
+            <a class="footer__artist-tel" href="tel:+79965115890" data-editable="footer_tel_alina" data-editable-href="tel" data-label="Подвал — телефон Алины">+7 (996) 511-58-90</a>
+            <a class="footer__artist-tg" href="https://t.me/blue_vlvt" target="_blank" rel="noopener" data-editable="footer_tg_alina" data-editable-href="tg" data-label="Подвал — Telegram Алины (впишите @ник)">написать в тг</a>
+          </div>
+        </div>
+        <div class="footer__artist">
+          <span class="footer__artist-name">Виталий</span>
+          <div class="footer__artist-info">
+            <a class="footer__artist-tel" href="tel:+79965115890" data-editable="footer_tel_vitaliy" data-editable-href="tel" data-label="Подвал — телефон Виталия">+7 (996) 511-58-90</a>
+            <a class="footer__artist-tg" href="https://t.me/ramcy_graffiti" target="_blank" rel="noopener" data-editable="footer_tg_vitaliy" data-editable-href="tg" data-label="Подвал — Telegram Виталия (впишите @ник)">написать в тг</a>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="footer__col-title">медиа</h3>
+        <a class="footer__link" href="https://taplink.cc/graffitipro" target="_blank" rel="noopener">Taplink</a>
+      </div>
+      <div>
+        <h3 class="footer__col-title">Заявка</h3>
+        <form class="lead-form" id="leadForm">
+          <input type="text" name="website" class="lead-form__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input class="lead-form__input" type="text" name="name" placeholder="Имя — как к вам обращаться" required>
+          <input class="lead-form__input" type="tel" name="phone" placeholder="Телефон" required>
+          <input class="lead-form__input" type="text" name="tg" placeholder="Telegram @username (необязательно)">
+          <textarea class="lead-form__input" name="message" rows="3" placeholder="Пара слов о задаче (необязательно)"></textarea>
+          <button class="bar-btn" type="submit">Отправить</button>
+          <p class="lead-form__msg" id="leadMsg" role="status"></p>
+        </form>
+      </div>
     </div>
-    <div class="footer__links">
-      <a href="tel:+79965115890" data-editable="footer_tel_alina" data-editable-href="tel" data-label="Подвал — телефон Алины">+7 (996) 511-58-90</a>
-      <a href="mailto:familyofart@gmail.com" data-editable="footer_email" data-editable-href="mailto" data-label="Подвал — e-mail">familyofart@gmail.com</a>
-      <a href="https://t.me/blue_vlvt" target="_blank" rel="noopener" data-editable="footer_tg_alina" data-editable-href="tg" data-label="Подвал — Telegram Алины (впишите @ник)">TG — Алина</a>
-      <a href="https://t.me/ramcy_graffiti" target="_blank" rel="noopener" data-editable="footer_tg_vitaliy" data-editable-href="tg" data-label="Подвал — Telegram Виталия (впишите @ник)">TG — Виталий</a>
-      <a href="https://taplink.cc/graffitipro" target="_blank" rel="noopener">Taplink</a>
-    </div>
-    <div class="footer__geo">
-      <span class="footer__city">Москва <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="2"/></svg></span>
-      <span class="footer__geo-sub">работаем по всему миру</span>
+    <div class="footer__strip"><img loading="lazy" decoding="async" src="refs_tilda/fphoto1.svg" alt="FOA — Family of Artists"></div>
+    <div class="footer__legal">
+      <a href="#">Политика обработки персональных данных</a>
+      <span class="footer__seo" data-editable="footer_seo" data-label="Подвал — SEO-строка">Художественная роспись стен и фасадов в Москве и по всей России — от 3 500 ₽/м²</span>
+      <span data-admin-trigger>©family of artist, 2025</span>
     </div>
   </div>
 </footer>
