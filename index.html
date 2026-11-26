@@ -107,29 +107,7 @@
 <section class="projects" id="projects">
   <canvas class="shader-bg shader-bg--corner" data-shader data-theme="gray" aria-hidden="true"></canvas>
   <div class="section__inner">
-    <div class="projects__grid">
-      <a href="project.html?id=paragon" class="project-card">
-        <div class="project-card__img"><img loading="lazy" decoding="async" src="refs_tilda/tild6563-3237-4865-a133-376133633464_photo_2025-10-12_17-.webp" alt="Paragon Arena — роспись стены" width="750" height="1000"></div>
-        <div class="project-card__meta">
-          <span class="project-card__name">Paragon Arena</span>
-          <span class="project-card__index">Роспись стенки</span>
-        </div>
-      </a>
-      <a href="project.html?id=greeneva" class="project-card">
-        <div class="project-card__img"><img loading="lazy" decoding="async" src="refs_tilda/tild3230-6537-4263-b539-396637323134_noroot.webp" alt="GREEN EVA — роспись стены" width="791" height="1001"></div>
-        <div class="project-card__meta">
-          <span class="project-card__name">GREEN EVA</span>
-          <span class="project-card__index">Роспись стенки</span>
-        </div>
-      </a>
-      <a href="project.html?id=pusk" class="project-card">
-        <div class="project-card__img"><img loading="lazy" decoding="async" src="refs_tilda/tild3937-6535-4438-b065-626238373964_2021-03-17_14-03-25.webp" alt="IT Компания PUSK — надписи в корпоративном стиле" width="1280" height="1600"></div>
-        <div class="project-card__meta">
-          <span class="project-card__name">IT Компания PUSK</span>
-          <span class="project-card__index">Надписи в корпоративном стиле</span>
-        </div>
-      </a>
-    </div>
+    <div class="projects__grid" id="homeGrid"></div>
   </div>
 </section>
 
@@ -372,6 +350,25 @@
 <script src="js/store.js?v=226" defer></script>
 <script src="js/site.js?v=226" defer></script>
 <script src="js/chat.js?v=226" defer></script>
+<script>
+/* Лучшие проекты: отмеченные ★ в админке; если ни одного — первые 3 */
+document.addEventListener('DOMContentLoaded', async function () {
+  var grid = document.getElementById('homeGrid');
+  if (!grid) return;
+  var esc = function (s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
+  var ps = await FOAStore.all().catch(function () { return []; });
+  var feat = ps.filter(function (p) { return p.featured; });
+  var show = feat.length ? feat : ps.slice(0, 3);
+  grid.innerHTML = show.map(function (p) {
+    return '<a href="project.html?id=' + encodeURIComponent(p.id) + '" class="project-card">' +
+      '<div class="project-card__img"><img loading="lazy" decoding="async" src="' + p.cover + '" alt="' + esc(p.title) + ' — ' + esc(p.category) + '"></div>' +
+      '<div class="project-card__meta">' +
+        '<span class="project-card__name">' + esc(p.title) + '</span>' +
+        '<span class="project-card__index">' + esc(p.category) + '</span>' +
+      '</div></a>';
+  }).join('');
+});
+</script>
 
 </body>
 </html>

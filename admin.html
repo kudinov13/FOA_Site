@@ -45,6 +45,10 @@
   .admin__row-cat { font-size: 13px; color: var(--ink-60); }
   .admin__row-del, .admin__row-edit { margin-left: auto; background: none; border: 2px solid rgba(23,19,14,.55); padding: 6px 14px; font: 700 12px var(--grot); cursor: pointer; }
   .admin__row-del:hover, .admin__row-edit:hover { border-color: var(--orange); color: var(--orange); }
+  .admin__row-fav { margin-left: auto; background: none; border: 2px solid rgba(23,19,14,.55); padding: 5px 11px; font: 700 15px/1 var(--grot); cursor: pointer; color: rgba(23,19,14,.35); }
+  .admin__row-fav:hover { border-color: var(--orange); }
+  .admin__row-fav.is-fav { color: var(--orange); border-color: var(--orange); }
+  .admin__row-fav + .admin__row-edit { margin-left: 0; }
   .admin__row-edit { margin-left: auto; }
   .admin__row-edit + .admin__row-del { margin-left: 0; }
   .admin__tabs { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
@@ -138,6 +142,7 @@
 
   <div class="admin__list">
     <h2 class="admin__title" style="font-size:26px">Все проекты</h2>
+    <p class="admin__hint">★ — показывать проект в блоке «Проекты» на главной. Если ни одна звёздочка не отмечена, там покажутся первые 3 проекта из списка.</p>
     <div id="projList"></div>
   </div>
   </div>
@@ -367,12 +372,28 @@
         '<img src="' + p.cover + '" alt="">' +
         '<div><div class="admin__row-title">' + p.title + '</div>' +
         '<div class="admin__row-cat">' + p.category + ' · фото: ' + p.photos.length + '</div></div>' +
+        '<button class="admin__row-fav' + (p.featured ? ' is-fav' : '') + '" data-id="' + p.id + '" data-fav="' + (p.featured ? 1 : 0) + '" title="Показывать на главной">★</button>' +
         '<button class="admin__row-edit" data-id="' + p.id + '">Изменить</button>' +
         '<button class="admin__row-del" data-id="' + p.id + '">Удалить</button>';
       list.appendChild(row);
     });
   }
   document.getElementById('projList').addEventListener('click', async function (e) {
+    var fav = e.target.closest('.admin__row-fav');
+    if (fav) {
+      fav.disabled = true;
+      var on = fav.dataset.fav !== '1';
+      await fetch('/api/projects/' + fav.dataset.id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ featured: on })
+      });
+      fav.dataset.fav = on ? '1' : '0';
+      fav.classList.toggle('is-fav', on);
+      fav.disabled = false;
+      FOAStore.invalidate();
+      return;
+    }
     var edit = e.target.closest('.admin__row-edit');
     if (edit) {
       var p = (await FOAStore.all()).find(x => x.id === edit.dataset.id);
