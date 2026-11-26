@@ -98,6 +98,7 @@
   var fileInput = chat.querySelector('input[type=file]');
   var history = loadHistory();
   var busy = false;
+  var filesSent = 0;
 
   function addMsg(role, text, cls) {
     var el = document.createElement('div');
@@ -191,12 +192,20 @@
     fd.append('session_id', sessionId());
     fd.append('file', file);
     addMsg('user', 'Файл: ' + file.name, 'foa-msg--file');
+    filesSent++;
     fetch('/api/chat/file', { method: 'POST', body: fd })
       .then(function (r) { return r.json(); })
       .then(function (d) {
-        addMsg('bot', d.ok
-          ? 'Файл получен — приложу его к заявке.'
-          : (d.error || 'Не удалось загрузить файл.'));
+        var reply = d.ok
+          ? (filesSent === 1
+              ? 'Файл получен. Чтобы передать его художникам вместе с расчётом, мне нужно узнать ваше имя, город и удобный способ связи — Telegram, WhatsApp или телефон. Напишите эти данные, пожалуйста.'
+              : 'Файл получен — приложу его к заявке.')
+          : (d.error || 'Не удалось загрузить файл.');
+        addMsg('bot', reply);
+        if (d.ok) {
+          history.push({ role: 'assistant', content: reply });
+          saveHistory(history);
+        }
       })
       .catch(function () {
         addMsg('bot', 'Не удалось загрузить файл. Попробуйте ещё раз.');
