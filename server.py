@@ -110,6 +110,11 @@ def init_db():
         db.execute("ALTER TABLE projects ADD COLUMN works INTEGER DEFAULT 0")
     except sqlite3.OperationalError:
         pass
+    try:
+        db.execute("ALTER TABLE projects ADD COLUMN sort INTEGER DEFAULT 0")
+        db.execute("UPDATE projects SET sort = rowid")
+    except sqlite3.OperationalError:
+        pass
     db.commit()
     db.close()
 
@@ -226,7 +231,7 @@ def api_me():
 
 @app.get('/api/projects')
 def api_projects():
-    rows = get_db().execute('SELECT * FROM projects').fetchall()
+    rows = get_db().execute('SELECT * FROM projects ORDER BY sort, rowid').fetchall()
     return jsonify([row_to_project(r) for r in rows])
 
 
@@ -262,12 +267,38 @@ def api_create():
 
     cover_index = max(0, min(cover_index, len(photos) - 1))
     pid = 'p' + uuid.uuid4().hex[:12]
+    max_sort = get_db().execute('SELECT COALESCE(MAX(sort), 0) FROM projects').fetchone()[0]
     get_db().execute(
-        'INSERT INTO projects (id, title, category, description, cover, photos) VALUES (?,?,?,?,?,?)',
-        (pid, title, category, description, photos[cover_index], json.dumps(photos))
+        'INSERT INTO projects (id, title, category, description, cover, photos, sort) VALUES (?,?,?,?,?,?,?)',
+        (pid, title, category, description, photos[cover_index], json.dumps(photos), max_sort + 1)
     )
     get_db().commit()
     return jsonify({'ok': True, 'id': pid})
+
+
+@app.post('/api/projects/<pid>/move')
+@require_admin
+def api_move(pid):
+    data = request.get_json(force=True, silent=True) or {}
+    try:
+        d = int(data.get('dir', 0))
+    except (TypeError, ValueError):
+        d = 0
+    if d not in (-1, 1):
+        return jsonify({'error': 'bad dir'}), 400
+    db = get_db()
+    rows = db.execute('SELECT id FROM projects ORDER BY sort, rowid').fetchall()
+    ids = [r['id'] for r in rows]
+    if pid not in ids:
+        return jsonify({'error': 'not found'}), 404
+    i = ids.index(pid)
+    j = i + d
+    if 0 <= j < len(ids):
+        ids[i], ids[j] = ids[j], ids[i]
+        for idx, x in enumerate(ids):
+            db.execute('UPDATE projects SET sort = ? WHERE id = ?', (idx + 1, x))
+        db.commit()
+    return jsonify({'ok': True})
 
 
 @app.post('/api/projects/<pid>/cover')

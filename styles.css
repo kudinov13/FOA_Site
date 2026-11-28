@@ -604,6 +604,23 @@ a { color: inherit; text-decoration: none; }
 }
 .svc-card__btn:hover { background: var(--ink); color: var(--paper); }
 
+/* ============ точечные оранжевые свечения ============ */
+.glow {
+  position: absolute;
+  width: clamp(320px, 40vw, 620px);
+  height: clamp(320px, 40vw, 620px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240, 78, 35, .17) 0%, rgba(240, 78, 35, .06) 45%, transparent 70%);
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: 0;
+}
+.glow--statement { top: -18%; right: -6%; }
+.glow--principles { top: 50%; right: -8%; transform: translateY(-50%); }
+.glow--cta { bottom: -25%; left: -7%; }
+.statement .section__inner { position: relative; z-index: 1; }
+.principles .section__inner { z-index: 1; }
+
 /* ============ statement («пришлите») ============ */
 .statement { position: relative; overflow: hidden; border-bottom: 2px solid var(--line); }
 .statement__scribble {
@@ -668,7 +685,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--ink-60);
 }
 .works__more { margin-left: auto; }
-.works__bar { margin-bottom: clamp(28px, 3.5vw, 44px); }
+.works__bar { margin-top: clamp(28px, 3.5vw, 44px); }
 .works__list { display: flex; flex-direction: column; gap: clamp(28px, 3.5vw, 44px); }
 .work-panel {
   position: relative;
